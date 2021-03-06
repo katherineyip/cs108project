@@ -1,1 +1,1 @@
-# cs108project
+# CS108 Final Project - Bunny World
