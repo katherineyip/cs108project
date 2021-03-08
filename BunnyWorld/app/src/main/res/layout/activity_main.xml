@@ -16,8 +16,8 @@
         android:id="@+id/buttonCreateNewGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create a new game" />
-        //android:onClick="onCreateNewGame" />
+        android:text="Create a new game"
+        android:onClick="onCreateNewGame" />
 
     <Button
         android:id="@+id/buttonStartGame"

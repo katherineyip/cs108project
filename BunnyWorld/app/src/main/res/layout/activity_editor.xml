@@ -8,10 +8,10 @@
     android:orientation="vertical"
     tools:context=".EditorActivity">
 
-    <edu.stanford.cs108.PageView
-        android:id="@+id/pageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+<!--    <edu.stanford.cs108.PageView-->
+<!--        android:id="@+id/pageView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
 
     <LinearLayout
         android:layout_width="wrap_content"

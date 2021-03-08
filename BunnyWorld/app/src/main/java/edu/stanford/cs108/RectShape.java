@@ -7,7 +7,7 @@ public class RectShape extends Shape {
 
     public RectShape(int backgroundColor,
                      String shapeName,
-                     String page,
+                     Page page,
                      boolean isHidden,
                      boolean isMovable,
                      String shapeScript) {

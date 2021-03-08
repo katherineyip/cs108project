@@ -10,7 +10,7 @@ public class TextShape extends Shape {
     public TextShape(String text,
                      int fontSize,
                      String shapeName,
-                     String page,
+                     Page page,
                      boolean isHidden,
                      boolean isMovable,
                      String shapeScript) {
