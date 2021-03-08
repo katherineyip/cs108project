@@ -5,7 +5,7 @@ public class ImageShape extends Shape {
 
     public ImageShape(String imageName,
                       String shapeName,
-                      String page,
+                      Page page,
                       boolean isHidden,
                       boolean isMovable,
                       String shapeScript) {

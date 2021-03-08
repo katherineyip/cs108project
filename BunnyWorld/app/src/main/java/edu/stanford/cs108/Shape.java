@@ -1,30 +1,32 @@
 package edu.stanford.cs108;
 
 /*
-    This is a generic Shape class that define
+    This is a generic Shape class that define a shape.
+    There are three subclasses that extend Shape - ImageShape, TextShape, RectShape.
  */
 public class Shape {
     private String shapeName;
-    private String page; // change to Page Class later
+    private Page page; // change to Page Class later
     private boolean isHidden;
     private boolean isMovable;
     private String shapeScript;  // change to ShapeScript Class later
     private float left, right, top, bottom;
-    //show green box when selected
+    //private float width, height;
+    //show green box when dropping another thing on top
     //each shape should have on onClickListener
     //onMoveListener, and a listener when something drops of itself
 
     // Constructor
     public Shape(String shapeName,
-                 String page,
+                 Page page,
                  boolean isHidden,
                  boolean isMovable,
                  String shapeScript){
         this.shapeName = shapeName;
-        //this.page = page;
+        this.page = page;
         this.isHidden = isHidden;
         this.isMovable = isMovable;
-        //this.shapeScript = shapeScript;
+        this.shapeScript = shapeScript;
     }
 
     // Public getter methods
@@ -61,9 +63,9 @@ public class Shape {
         shapeName = newName;
     }
 
-    //public void setPage(Page destination) {
-    //    page = destination;
-    //}
+    public void setPage(Page destination) {
+        page = destination;
+    }
 
     public void setHiddenState(boolean hiddenState) {
         isHidden = hiddenState;
