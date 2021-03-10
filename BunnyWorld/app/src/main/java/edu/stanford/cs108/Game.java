@@ -10,11 +10,31 @@ public class Game {
 
     public Game(String name) {
         this.gameName = name;
-        this.pageList = new ArrayList<Page>();
+        this.pageList = new ArrayList<>();
+
+        // Each game must have a starter page
+        Page firstPage = new Page("page 1", true);
+        addPage(firstPage);
     }
 
-    public Game(String gameName, List<Page> pageList) {
-        this.gameName = gameName;
-        this.pageList = pageList;
+    public List<Page> getPageList() {
+        return pageList;
+    }
+
+    public Page getPage(String pageName) {
+        for (int i = 0; i < pageList.size(); i++) {
+            if (pageList.get(i).getPageName() == pageName) {
+                return pageList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void addPage(Page newPage) {
+        pageList.add(newPage);
+    }
+
+    public void removePage(Page page) {
+        //TODO
     }
 }

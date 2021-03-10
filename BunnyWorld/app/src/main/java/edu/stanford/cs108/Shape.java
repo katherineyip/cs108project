@@ -6,7 +6,7 @@ package edu.stanford.cs108;
  */
 public class Shape {
     private String shapeName;
-    private Page page; // change to Page Class later
+    //private Page page;
     private boolean isHidden;
     private boolean isMovable;
     private String shapeScript;  // change to ShapeScript Class later
@@ -18,12 +18,10 @@ public class Shape {
 
     // Constructor
     public Shape(String shapeName,
-                 Page page,
                  boolean isHidden,
                  boolean isMovable,
                  String shapeScript){
         this.shapeName = shapeName;
-        this.page = page;
         this.isHidden = isHidden;
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
@@ -34,10 +32,12 @@ public class Shape {
         return isHidden;
     }
 
+
     public boolean getMovableState() {
         return isMovable;
     }
 
+    // TODO: Missing script methods
     //public ShapeScript getShapeScript() {
     //    return shapeScript;
     //}
@@ -61,10 +61,6 @@ public class Shape {
     // Public setter methods
     public void setShapeName(String newName) {
         shapeName = newName;
-    }
-
-    public void setPage(Page destination) {
-        page = destination;
     }
 
     public void setHiddenState(boolean hiddenState) {
@@ -94,7 +90,4 @@ public class Shape {
     public void setBottom(float newBottom) {
         bottom = newBottom;
     }
-
-    // also need to remove the shape entirely
-
 }
