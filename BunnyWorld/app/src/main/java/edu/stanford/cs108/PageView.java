@@ -5,9 +5,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // An Editor View has 1:N pages, a couple buttons to add shapes
 public class PageView extends View {
     Canvas canvas;

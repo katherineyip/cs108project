@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
-
         });
 
         // TODO: finish setting this up
