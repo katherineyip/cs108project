@@ -6,32 +6,39 @@ package edu.stanford.cs108;
  */
 public class Shape {
     private String shapeName;
-    //private Page page;
     private boolean isHidden;
     private boolean isMovable;
+    boolean isInventory; // if not in inventory, this shape will be associated to a particular page
     private String shapeScript;  // change to ShapeScript Class later
-    private float left, right, top, bottom;
+    private float left, right, top, bottom; // TODO: get rid of bottom, top and add width height
     //private float width, height;
-    //show green box when dropping another thing on top
-    //each shape should have on onClickListener
+    // TODO: show green box when dropping another thing on top
+    // TODO: each shape should have on onClickListener
+    // TODO: add some method for a shape to draw itself??
+    // TODO: bitmap drawing
     //onMoveListener, and a listener when something drops of itself
 
     // Constructor
     public Shape(String shapeName,
                  boolean isHidden,
                  boolean isMovable,
+                 boolean isInventory,
                  String shapeScript){
         this.shapeName = shapeName;
         this.isHidden = isHidden;
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
+        this.isInventory = isInventory;
     }
 
     // Public getter methods
+    public String getShapeName() {
+        return shapeName;
+    }
+
     public boolean getHiddenState() {
         return isHidden;
     }
-
 
     public boolean getMovableState() {
         return isMovable;
@@ -69,6 +76,10 @@ public class Shape {
 
     public void setMovableState(boolean movableState) {
         isMovable = movableState;
+    }
+
+    public void setInventoryState(boolean inventoryState) {
+        isInventory = inventoryState;
     }
 
     //public void setShapeScript(ShapeScript newScript) {

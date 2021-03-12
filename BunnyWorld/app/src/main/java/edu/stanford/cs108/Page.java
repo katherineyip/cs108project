@@ -6,9 +6,10 @@ import java.util.List;
 public class Page {
     String pageName;
     boolean isStarterPage;
-    List<Shape> shapeList;
+    // TODO: Might need a ivar for page script here
+    // TODO: Add methods to draw shapes on Page Activity
+    List<Shape> shapeList; // This keeps track of shapes that are NOT in inventory within a page
 
-    // Page Constructor
     public Page(String pageName, boolean isStartPage) {
         this.pageName = pageName;
         this.isStarterPage = isStartPage;
@@ -23,35 +24,23 @@ public class Page {
         pageName = newPageNew;
     }
 
-    public int getNumShapesOnPage() {
-        return shapeList.size();
+    // TODO: add script to page
+
+    // use this list to draw shapes
+    public List<Shape> getShapeList() {
+        return shapeList;
     }
 
     public void addShape(Shape shape) {
         shapeList.add(shape);
     }
 
-    public void addImageShape(ImageShape newImageShape) {
-        shapeList.add(newImageShape);
-    }
-
-    public void addTextShape(TextShape newTextShape) {
-        shapeList.add(newTextShape);
-    }
-
-    public void addRectShape(RectShape newRectShape) {
-        shapeList.add(newRectShape);
-    }
-
     public void removeShape(Shape shape) {
         shapeList.remove(shape);
     }
 
-    // TODO: Remove? This should be done through Game Class
-    public Page getPageObject(String pageName) {
-        if (this.pageName == pageName) {
-            return this;
-        }
-        return null;
+    // DEBUGGING
+    public int getNumShapesOnPage() {
+        return shapeList.size();
     }
 }

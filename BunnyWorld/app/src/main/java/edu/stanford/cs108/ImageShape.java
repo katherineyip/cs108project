@@ -5,11 +5,11 @@ public class ImageShape extends Shape {
 
     public ImageShape(String imageName,
                       String shapeName,
-                      //Page page,
                       boolean isHidden,
                       boolean isMovable,
+                      boolean isInventory,
                       String shapeScript) {
-        super(shapeName, isHidden, isMovable, shapeScript);
+        super(shapeName, isHidden, isMovable, isInventory, shapeScript);
         this.imageName = imageName;
     }
 }
