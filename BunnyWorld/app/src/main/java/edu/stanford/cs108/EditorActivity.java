@@ -13,9 +13,8 @@ import java.util.List;
 public class EditorActivity extends AppCompatActivity {
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
-    Game game; // Current game
-    List<Page> pageList; // Just a reference to game.pageList
-    Page currentPage;
+    Game game = singletonData.getCurrentGame();
+    Page currentPage = singletonData.getCurrentGame().getCurrentPage();
 
     // UI
     PageView pageView; // which has a canvas
@@ -30,30 +29,11 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        /* TODO: Remove all these shit after setting up singleton
-        Intent intent = getIntent();
-        String imageNameString = intent.getStringExtra(ImageShapeActivity.IMAGE_NAME_EXTRA);
-        String shapeNameString = intent.getStringExtra(ImageShapeActivity.SHAPE_NAME_EXTRA);
-        String PageString = intent.getStringExtra(ImageShapeActivity.PAGE_EXTRA);
-        boolean isImageHidden = intent.getBooleanExtra(ImageShapeActivity.IS_HIDDEN_EXTRA, false);
-        boolean isImageMovable = intent.getBooleanExtra(ImageShapeActivity.IS_MOVABLE_EXTRA, false);
-        int imageLeft = intent.getIntExtra(ImageShapeActivity.IMAGE_LEFT_EXTRA, 0);
-        int imageRight = intent.getIntExtra(ImageShapeActivity.IMAGE_RIGHT_EXTRA, 0);
-        int imageTop = intent.getIntExtra(ImageShapeActivity.IMAGE_TOP_EXTRA, 0);
-        int imageBottom = intent.getIntExtra(ImageShapeActivity.IMAGE_BOTTOM_EXTRA, 0);
-        */
-
-        // Set up a new game
-        game = new Game("New Test Game"); // TODO: Add some ways to programmatically assign new name?
-        pageList = game.pageList;
-        currentPage = pageList.get(0);
-        singletonData.addGameToList(game);
-        singletonData.setCurrentGame(game);
-        System.out.println("Singleton Data to String: " + singletonData.toString());
-
         // Display current page & the content inside this page
         pageName = findViewById(R.id.pageName);
         pageName.setText(currentPage.getPageName());
+        //System.out.println("printing current game: " + singletonData.getCurrentGame());
+        //pageName.setText(singletonData.getCurrentGame().getCurrentPage().getPageName());
         // TODO: Render the canvas inside PageView
 
         // Set up onClick listener on button to add new Image shape
@@ -94,6 +74,14 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO: Remove later. This is for debugging purpose.
+        System.out.println("game list size: " + singletonData.getGameList().size());
+        System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
+        System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
+        System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+
+
     }
 
     /*
@@ -101,51 +89,22 @@ public class EditorActivity extends AppCompatActivity {
      Note here we are calling the addPage method in Game Class while modifying our Singleton.
      */
     public void addNewPage() {
-        int numPages = pageList.size() + 1;
+        int numPages = game.getPageList().size() + 1;
         Page newPage = new Page("page " + numPages, false);
         game.addPage(newPage);
-        // TODO: Prob doesn't have to call Singleton. all the time because the reference has already been established
-        // singletonData.getCurrentGame().addPage(newPage);
-
-        currentPage = newPage;
-        pageName.setText(currentPage.getPageName());
+        game.setCurrentPage(newPage);
+        pageName.setText(newPage.getPageName());
     }
 
 
     public void renamePage(Page page, String newPageName) {
-        if (!pageList.contains(newPageName)) {
+        if (!game.getPageList().contains(newPageName)) {
             page.setPageName(newPageName);
         }
         // TODO: Throw error if a page name already exist
     }
 
     public void removePage(Page page) {
-        pageList.remove(page); // TODO: Need to pass in an index instead of the page..?
-    }
-
-    public void addImageShape() {
-        int numShapes = currentPage.shapeList.size() + 1;
-        //ImageShape newImageShape = new ImageShape(); // TODO: need to pass in input from UI
-
-        /*
-        String imageName,
-        String shapeName,
-        Page page,
-        boolean isHidden,
-        boolean isMovable,
-        String shapeScript
-         */
-    }
-
-    public void addNewTextShape() {
-        //TextShape newTextShape = new TextShape(); // TODO: need to pass in input from UI
-    }
-
-    public void addNewRectShape() {
-        //RectShape newRectShape = new RectShape();
-    }
-
-    public void removeShape() {
-
+        game.getPageList().remove(page); // TODO: Need to pass in an index instead of the page..?
     }
 }

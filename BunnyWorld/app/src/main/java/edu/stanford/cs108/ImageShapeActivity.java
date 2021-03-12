@@ -12,6 +12,8 @@ import android.widget.Spinner;
 
 public class ImageShapeActivity extends AppCompatActivity {
     // Data
+    SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
+    Game game = singletonData.getCurrentGame();
 
     // UI
     Button buttonSetImage;
@@ -23,21 +25,25 @@ public class ImageShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_shape);
 
+        // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetImage = findViewById(R.id.buttonSetImage);
         buttonSetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onSubmit(view); // Create new imageShape
+                System.out.println("game's current page is " + game.currentPage.getPageName());
 
                 Intent intent = new Intent(ImageShapeActivity.this, EditorActivity.class);
                 startActivity(intent); // Direct user back to EditorActivity
             }
         });
 
+        // Set up onClickListener on "Cancel" to bring user back to EditorActivity
         buttonCancelSetImage = findViewById(R.id.buttonCancelSetImage);
         buttonCancelSetImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("game's current page is " + game.currentPage.getPageName());
                 Intent intent = new Intent(ImageShapeActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -52,6 +58,7 @@ public class ImageShapeActivity extends AppCompatActivity {
         //Spinner spinnerImagePage = findViewById(R.id.spinnerImagePage);
         CheckBox checkboxImageIsHidden = findViewById(R.id.checkboxImageIsHidden);
         CheckBox checkboxImageIsMovable = findViewById(R.id.checkboxImageIsMovable);
+        CheckBox checkboxImageIsInventory = findViewById(R.id.checkboxImageIsInventory);
         EditText editImageLeftPosition = findViewById(R.id.editImageLeftPosition);
         EditText editImageRightPosition = findViewById(R.id.editImageRightPosition);
         EditText editImageTopPosition = findViewById(R.id.editImageTopPosition);
@@ -62,16 +69,15 @@ public class ImageShapeActivity extends AppCompatActivity {
                 inputImageShapeName.getText().toString(),
                 checkboxImageIsHidden.isChecked(),
                 checkboxImageIsMovable.isChecked(),
+                checkboxImageIsInventory.isChecked(),
                 "shape script");
+        String destination = spinnerImagePage.getText().toString(); // TODO: Need to get Page instead of string
 
-        SingletonData singletonData = SingletonData.getInstance();
-        singletonData.getCurrentGame().getPage("page 1").addShape(newImage); //TODO: Need to pass in user's page selection
-        //singletonData.addImageShape(singletonData.getCurrentGame(),
-        //        "page 1", newImage);
-                //spinnerImagePage.getSelectedItem().toString(), newImage);
-
-        System.out.println("Singleton after adding image " + singletonData.toString());
-        System.out.println("Singleton after adding image " + singletonData.getCurrentGame().toString());
-        System.out.println("Singleton after adding image " + singletonData.getCurrentGame().getPage("page 1").getNumShapesOnPage());
+        if (checkboxImageIsInventory.isChecked()) {
+            game.addInventory(newImage);
+        } else {
+            game.getCurrentPage().addShape(newImage); //TODO: Need to pass in user's page selection
+        }
+        System.out.println("Singleton after adding image " + game.getCurrentPage().getNumShapesOnPage());
     }
 }

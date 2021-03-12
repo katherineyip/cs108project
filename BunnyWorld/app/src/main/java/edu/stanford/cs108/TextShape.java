@@ -10,11 +10,11 @@ public class TextShape extends Shape {
     public TextShape(String text,
                      int fontSize,
                      String shapeName,
-                     //Page page,
                      boolean isHidden,
                      boolean isMovable,
+                     boolean isInventory,
                      String shapeScript) {
-        super(shapeName, isHidden, isMovable, shapeScript);
+        super(shapeName, isHidden, isMovable, isInventory, shapeScript);
         this.text = text;
         this.fontSize = fontSize;
     }

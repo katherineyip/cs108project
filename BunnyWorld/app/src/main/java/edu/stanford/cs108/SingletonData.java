@@ -34,8 +34,18 @@ public class SingletonData {
         this.currentGame = currentGame;
     }
 
-    // TODO: Probaby shouldn't be here
-    public void addImageShape(Game game, String pageName, ImageShape newImage) {
-        game.getPage(pageName).addImageShape(newImage);
+    /*
+    public void setCurrentPage(Page currentPage) {
+        this.currentPage = currentPage;
     }
+
+    public Page getCurrentPage() {
+        return currentPage;
+    }
+
+
+    public void addImageShape(Game game, String pageName, ImageShape newImage) {
+        game.getPage(pageName).addShape(newImage);
+    }
+     */
 }

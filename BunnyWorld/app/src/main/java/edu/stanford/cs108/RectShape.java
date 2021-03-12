@@ -7,11 +7,11 @@ public class RectShape extends Shape {
 
     public RectShape(int backgroundColor,
                      String shapeName,
-                     //Page page,
                      boolean isHidden,
                      boolean isMovable,
+                     boolean isInventory,
                      String shapeScript) {
-        super(shapeName, isHidden, isMovable, shapeScript);
+        super(shapeName, isHidden, isMovable, isInventory, shapeScript);
         this.backgroundColor = Color.GRAY;
     }
 }
