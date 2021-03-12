@@ -19,10 +19,17 @@ public class MainActivity extends AppCompatActivity {
         buttonCreateNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Set up a new game
+                Game game = new Game("New Test Game"); // TODO: Add some ways to programmatically assign new name?
+
+                SingletonData singletonData = SingletonData.getInstance();
+                singletonData.addGameToList(game);
+                singletonData.setCurrentGame(game);
+                game.setCurrentPage(game.getPageList().get(0));
+
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
-
         });
 
         final Button buttonStartGame = findViewById(R.id.buttonStartGame);
@@ -32,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
             }
-
         });
     }
 }

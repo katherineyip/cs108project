@@ -9,18 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BunnyWorld">
-        <activity android:name=".GameActivity"
+        <activity android:name=".TextShapeActivity">
             android:screenOrientation="landscape"
-            ></activity>
-        <activity android:name=".EditorActivity"
+        </activity>
+        <activity android:name=".RectShapeActivity">
             android:screenOrientation="landscape"
-            />
-        <activity android:name=".MainActivity"
+        </activity>
+        <activity android:name=".ImageShapeActivity">
             android:screenOrientation="landscape"
-            >
+        </activity>
+        <activity android:name=".GameActivity">
+            android:screenOrientation="landscape"
+        </activity>
+        <activity android:name=".EditorActivity">
+            android:screenOrientation="landscape"
+        </activity>
+        <activity android:name=".MainActivity">
+            android:screenOrientation="landscape"
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

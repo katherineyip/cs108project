@@ -6,30 +6,36 @@ package edu.stanford.cs108;
  */
 public class Shape {
     private String shapeName;
-    private Page page; // change to Page Class later
     private boolean isHidden;
     private boolean isMovable;
+    boolean isInventory; // if not in inventory, this shape will be associated to a particular page
     private String shapeScript;  // change to ShapeScript Class later
-    private float left, right, top, bottom;
+    private float left, right, top, bottom; // TODO: get rid of bottom, top and add width height
     //private float width, height;
-    //show green box when dropping another thing on top
-    //each shape should have on onClickListener
+    // TODO: show green box when dropping another thing on top
+    // TODO: each shape should have on onClickListener
+    // TODO: add some method for a shape to draw itself??
+    // TODO: bitmap drawing
     //onMoveListener, and a listener when something drops of itself
 
     // Constructor
     public Shape(String shapeName,
-                 Page page,
                  boolean isHidden,
                  boolean isMovable,
+                 boolean isInventory,
                  String shapeScript){
         this.shapeName = shapeName;
-        this.page = page;
         this.isHidden = isHidden;
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
+        this.isInventory = isInventory;
     }
 
     // Public getter methods
+    public String getShapeName() {
+        return shapeName;
+    }
+
     public boolean getHiddenState() {
         return isHidden;
     }
@@ -38,6 +44,7 @@ public class Shape {
         return isMovable;
     }
 
+    // TODO: Missing script methods
     //public ShapeScript getShapeScript() {
     //    return shapeScript;
     //}
@@ -63,16 +70,16 @@ public class Shape {
         shapeName = newName;
     }
 
-    public void setPage(Page destination) {
-        page = destination;
-    }
-
     public void setHiddenState(boolean hiddenState) {
         isHidden = hiddenState;
     }
 
     public void setMovableState(boolean movableState) {
         isMovable = movableState;
+    }
+
+    public void setInventoryState(boolean inventoryState) {
+        isInventory = inventoryState;
     }
 
     //public void setShapeScript(ShapeScript newScript) {
@@ -94,7 +101,4 @@ public class Shape {
     public void setBottom(float newBottom) {
         bottom = newBottom;
     }
-
-    // also need to remove the shape entirely
-
 }
