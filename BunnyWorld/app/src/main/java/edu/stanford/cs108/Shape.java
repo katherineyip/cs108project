@@ -9,7 +9,8 @@ public class Shape {
     private boolean isHidden;
     private boolean isMovable;
     boolean isInventory; // if not in inventory, this shape will be associated to a particular page
-    private String shapeScript;  // change to ShapeScript Class later
+    public String shapeScript; //comes in from editor, used to make scriptMap
+    public Map<String, Script.actionPairs[]> scriptMap;
     private float left, right, top, bottom; // TODO: get rid of bottom, top and add width height
     //private float width, height;
     // TODO: show green box when dropping another thing on top
@@ -44,11 +45,6 @@ public class Shape {
         return isMovable;
     }
 
-    // TODO: Missing script methods
-    //public ShapeScript getShapeScript() {
-    //    return shapeScript;
-    //}
-
     public float getLeft() {
         return left;
     }
@@ -82,9 +78,10 @@ public class Shape {
         isInventory = inventoryState;
     }
 
-    //public void setShapeScript(ShapeScript newScript) {
-    //    shapeScript = newScript;
-    //}
+    public void setScript() {
+        Script.setShapeScript(this); 
+        // will need to check scriptMap.isEmpty() before using (if a shape doesn't have an associated script)
+    }
 
     public void setLeft(float newLeft) {
         left = newLeft;
