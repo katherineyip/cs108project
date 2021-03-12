@@ -1,5 +1,7 @@
 package edu.stanford.cs108;
 
+import java.util.Map;
+
 /*
     This is a generic Shape class that define a shape.
     There are three subclasses that extend Shape - ImageShape, TextShape, RectShape.
