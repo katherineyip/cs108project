@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Set up onClick listener on button to play a game
         final Button buttonStartGame = findViewById(R.id.buttonStartGame);
         buttonStartGame.setOnClickListener(new View.OnClickListener() {
             @Override
