@@ -16,6 +16,11 @@ public class SingletonData {
     private SingletonData() {
         gameList = new ArrayList<>();
         currentGame = null;
+
+        Game testGame1 = new Game("test game 1");
+        Game testGame2 = new Game("test game 2");
+        gameList.add(testGame1);
+        gameList.add(testGame2);
     }
 
     public List<Game> getGameList() {

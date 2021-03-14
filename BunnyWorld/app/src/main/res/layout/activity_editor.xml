@@ -41,8 +41,6 @@
             android:layout_height="wrap_content"
             android:text="Add text"
             android:layout_marginRight="10dp"/>
-
-    </LinearLayout>
     
     <LinearLayout
         android:layout_width="wrap_content"

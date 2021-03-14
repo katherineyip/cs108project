@@ -26,7 +26,12 @@ public class Page {
     public void setPageName(String newPageNew) {
         pageName = newPageNew;
     }
+  
+    public boolean isStarterPage() {
+        return isStarterPage;
+    }
 
+    // TODO: add script to page
     public void setScript() {
     	Script.setPageScript(this);
     	// will need to check scriptMap.isEmpty() before using (if a page doesn't have an associated script)
@@ -43,6 +48,11 @@ public class Page {
 
     public void removeShape(Shape shape) {
         shapeList.remove(shape);
+    }
+
+    @Override
+    public String toString() {
+        return pageName;
     }
 
     // DEBUGGING
