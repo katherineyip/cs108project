@@ -23,11 +23,6 @@
         android:layout_height="wrap_content"
         android:text="Play or edit an existing game:"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Enter game name"/>
-
     <Spinner
         android:id="@+id/spinnerGameNames"
         android:layout_width="wrap_content"

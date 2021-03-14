@@ -103,7 +103,7 @@
         android:gravity="center"
         android:layout_marginVertical="10dp"
         android:background="@color/teal_200"
-        android:text="Set Position" />
+        android:text="Set Placement" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -113,30 +113,32 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="X-Position"/>
+            android:text="Location"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="left"/>
+            android:text="X: "/>
 
         <EditText
-            android:id="@+id/editRectLeftPosition"
+            android:id="@+id/editRectXPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="left" />
+            android:hint="Enter x"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="right"/>
+            android:text="Y: "/>
 
         <EditText
-            android:id="@+id/editRectRightPosition"
+            android:id="@+id/editRectYPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="right" />
+            android:hint="Enter y"
+            android:inputType="number" />
 
     </LinearLayout>
 
@@ -148,30 +150,32 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Y-Position"/>
+            android:text="Size"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="top"/>
+            android:text="Height: "/>
 
         <EditText
-            android:id="@+id/editRectTopPosition"
+            android:id="@+id/editRectHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="top" />
+            android:hint="Enter height"
+            android:inputType="number" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="bottom"/>
+            android:text="Width: "/>
 
         <EditText
-            android:id="@+id/editRectBottomPosition"
+            android:id="@+id/editRectWidth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="bottom" />
+            android:hint="Enter Width"
+            android:inputType="number" />
     </LinearLayout>
 
 

@@ -17,7 +17,7 @@ public class Game {
         this.inventoryShapeList = new ArrayList<>();
 
         // Each game must have a starter page
-        Page firstPage = new Page("page 1", true);
+        Page firstPage = new Page("page 1", true, null);
         addPage(firstPage);
         currentPage = firstPage;
     }
@@ -53,7 +53,7 @@ public class Game {
     // User can only remove non-starter pages.
     public void removePage(Page page) {
         if (!page.isStarterPage) {
-            pageList.remove(page);
+            pageList.remove(page); // This should also remove the entire shapeList on this page
         }
     }
 

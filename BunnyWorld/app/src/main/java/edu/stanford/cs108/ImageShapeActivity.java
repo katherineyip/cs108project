@@ -59,10 +59,10 @@ public class ImageShapeActivity extends AppCompatActivity {
         CheckBox checkboxImageIsHidden = findViewById(R.id.checkboxImageIsHidden);
         CheckBox checkboxImageIsMovable = findViewById(R.id.checkboxImageIsMovable);
         CheckBox checkboxImageIsInventory = findViewById(R.id.checkboxImageIsInventory);
-        EditText editImageLeftPosition = findViewById(R.id.editImageLeftPosition);
-        EditText editImageRightPosition = findViewById(R.id.editImageRightPosition);
-        EditText editImageTopPosition = findViewById(R.id.editImageTopPosition);
-        EditText editImageBottomPosition = findViewById(R.id.editImageBottomPosition);
+        EditText editImageXPosition = findViewById(R.id.editImageXPosition);
+        EditText editImageYPosition = findViewById(R.id.editImageYPosition);
+        EditText editImageWidth = findViewById(R.id.editImageWidth);
+        EditText editImageHeight = findViewById(R.id.editImageHeight);
         //EditText shapeScript = findViewById(R.id.script);
 
         ImageShape newImage = new ImageShape("spinnerImageName.getSelectedItem().toString()",
