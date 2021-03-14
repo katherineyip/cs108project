@@ -101,4 +101,9 @@ public class Shape {
     public void setBottom(float newBottom) {
         bottom = newBottom;
     }
+
+    @Override
+    public String toString() {
+        return shapeName;
+    }
 }

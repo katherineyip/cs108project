@@ -24,6 +24,10 @@ public class Page {
         pageName = newPageNew;
     }
 
+    public boolean isStarterPage() {
+        return isStarterPage;
+    }
+
     // TODO: add script to page
 
     // use this list to draw shapes
@@ -37,6 +41,11 @@ public class Page {
 
     public void removeShape(Shape shape) {
         shapeList.remove(shape);
+    }
+
+    @Override
+    public String toString() {
+        return pageName;
     }
 
     // DEBUGGING

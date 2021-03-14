@@ -26,7 +26,7 @@ public class Game {
         return pageList;
     }
 
-    // Maybe removeable
+    // Maybe removable
     public Page getPage(String pageName) {
         for (int i = 0; i < pageList.size(); i++) {
             if (pageList.get(i).getPageName() == pageName) {
@@ -50,8 +50,11 @@ public class Game {
         System.out.println("***Added new page" + newPage.getPageName());
     }
 
+    // User can only remove non-starter pages.
     public void removePage(Page page) {
-        pageList.remove(page);
+        if (!page.isStarterPage) {
+            pageList.remove(page);
+        }
     }
 
     public List<Shape> getInventoryShapeList() {
@@ -60,5 +63,10 @@ public class Game {
 
     public void addInventory(Shape shape) {
         inventoryShapeList.add(shape);
+    }
+
+    @Override
+    public String toString() {
+        return gameName;
     }
 }

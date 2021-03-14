@@ -29,6 +29,8 @@ public class EditorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        System.out.println("Entered editorActivity. Game is " + game.toString());
+
         // Display current page & the content inside this page
         pageName = findViewById(R.id.pageName);
         pageName.setText(currentPage.getPageName());
@@ -84,7 +86,7 @@ public class EditorActivity extends AppCompatActivity {
 
     }
 
-    /*
+    /**
      Allow users to add a new page to a game within the Editor Mode.
      Note here we are calling the addPage method in Game Class while modifying our Singleton.
      */
