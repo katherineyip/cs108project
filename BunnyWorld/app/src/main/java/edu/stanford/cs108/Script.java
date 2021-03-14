@@ -13,7 +13,6 @@ public class Script {
 		public String target;
 	}
 
-
 	/* sets a Map of String : actionPair[] in which the actionPair is an action and its target, and the key
 	 * of the map is the trigger for the actions
 	 * ex. "on click play sound throw bottle; on drop carrot say hello" will generate
@@ -33,7 +32,6 @@ public class Script {
 		shape.scriptMap = setScript(script); //assigns the map to the shape
 		//showMap(shape.scriptMap);
 	}
-
 
 
 	public static Map<String, actionPairs[]> setScript(String script) {

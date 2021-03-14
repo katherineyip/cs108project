@@ -122,7 +122,7 @@
         android:textSize="20dp"
         android:gravity="center"
         android:layout_marginVertical="10dp"
-        android:text="Set Position" />
+        android:text="Set placement" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -132,31 +132,31 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="X-Position"/>
+            android:text="Location"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="left"/>
+            android:text="X: "/>
 
         <EditText
-            android:id="@+id/editImageLeftPosition"
+            android:id="@+id/editImageXPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="left"
+            android:hint="Enter x"
             android:inputType="number"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="right"/>
+            android:text="Y: "/>
 
         <EditText
-            android:id="@+id/editImageRightPosition"
+            android:id="@+id/editImageYPosition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="right"
+            android:hint="Enter y"
             android:inputType="number" />
 
     </LinearLayout>
@@ -169,31 +169,31 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Y-Position"/>
+            android:text="Size"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="top"/>
+            android:text="Height: "/>
 
         <EditText
-            android:id="@+id/editImageTopPosition"
+            android:id="@+id/editImageHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="top"
+            android:hint="Enter height"
             android:inputType="number" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="bottom"/>
+            android:text="Width"/>
 
         <EditText
-            android:id="@+id/editImageBottomPosition"
+            android:id="@+id/editImageWidth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="bottom"
+            android:hint="Enter width"
             android:inputType="number" />
     </LinearLayout>
 

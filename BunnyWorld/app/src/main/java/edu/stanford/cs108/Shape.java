@@ -2,9 +2,9 @@ package edu.stanford.cs108;
 
 import java.util.Map;
 
-/*
-    This is a generic Shape class that define a shape.
-    There are three subclasses that extend Shape - ImageShape, TextShape, RectShape.
+/**
+ * This is a generic Shape class that define a shape.
+ * There are three subclasses that extend Shape - ImageShape, TextShape, RectShape.
  */
 public class Shape {
     private String shapeName;
@@ -13,8 +13,8 @@ public class Shape {
     boolean isInventory; // if not in inventory, this shape will be associated to a particular page
     public String shapeScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
-    private float left, right, top, bottom; // TODO: get rid of bottom, top and add width height
-    //private float width, height;
+    private float x, y;
+    private float width, height;
     // TODO: show green box when dropping another thing on top
     // TODO: each shape should have on onClickListener
     // TODO: add some method for a shape to draw itself??
@@ -47,20 +47,20 @@ public class Shape {
         return isMovable;
     }
 
-    public float getLeft() {
-        return left;
+    public float getX() {
+        return x;
     }
 
-    public float getRight() {
-        return right;
+    public float getY() {
+        return y;
     }
 
-    public float getTop() {
-        return top;
+    public float getWidth() {
+        return width;
     }
 
-    public float getBottom() {
-        return bottom;
+    public float getHeight() {
+        return height;
     }
 
     // Public setter methods
@@ -85,20 +85,20 @@ public class Shape {
         // will need to check scriptMap.isEmpty() before using (if a shape doesn't have an associated script)
     }
 
-    public void setLeft(float newLeft) {
-        left = newLeft;
+    public void setX(float newX) {
+        x = newX;
     }
 
-    public void setRight(float newRight) {
-        right = newRight;
+    public void setY(float newY) {
+        y = newY;
     }
 
-    public void setTop(float newTop) {
-        top = newTop;
+    public void setHeight(float newHeight) {
+        height = newHeight;
     }
 
-    public void setBottom(float newBottom) {
-        bottom = newBottom;
+    public void setWidth(float newWidth) {
+        width = newWidth;
     }
 
     @Override

@@ -24,7 +24,6 @@ public class PageView extends View {
         super(context, attrs);
         paint = new Paint();
         paint.setColor(Color.rgb(140,21,21));
-
     }
 
     @Override
@@ -33,7 +32,6 @@ public class PageView extends View {
 
         canvas.drawRect(x-SQUARE_SIZE, y-SQUARE_SIZE,
                 x+SQUARE_SIZE, y+SQUARE_SIZE, paint);
-
     }
 
     @Override

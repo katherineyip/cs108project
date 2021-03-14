@@ -92,7 +92,7 @@ public class EditorActivity extends AppCompatActivity {
      */
     public void addNewPage() {
         int numPages = game.getPageList().size() + 1;
-        Page newPage = new Page("page " + numPages, false);
+        Page newPage = new Page("page " + numPages, false, null);
         game.addPage(newPage);
         game.setCurrentPage(newPage);
         pageName.setText(newPage.getPageName());

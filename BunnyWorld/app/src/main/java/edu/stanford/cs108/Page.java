@@ -23,8 +23,8 @@ public class Page {
         return pageName;
     }
 
-    public void setPageName(String newPageNew) {
-        pageName = newPageNew;
+    public void setPageName(String newPageName) {
+        pageName = newPageName;
     }
   
     public boolean isStarterPage() {

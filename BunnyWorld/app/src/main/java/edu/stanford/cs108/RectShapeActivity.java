@@ -54,10 +54,10 @@ public class RectShapeActivity extends AppCompatActivity {
         CheckBox checkboxRectIsHidden = findViewById(R.id.checkboxRectIsHidden);
         CheckBox checkboxRectIsMovable = findViewById(R.id.checkboxRectIsMovable);
         CheckBox checkboxRectIsInventory = findViewById(R.id.checkboxRectIsInventory);
-        EditText editRectLeftPosition = findViewById(R.id.editRectLeftPosition);
-        EditText editRectRightPosition = findViewById(R.id.editRectRightPosition);
-        EditText editRectTopPosition = findViewById(R.id.editRectTopPosition);
-        EditText editRectBottomPosition = findViewById(R.id.editRectBottomPosition);
+        EditText editRectXPosition = findViewById(R.id.editRectXPosition);
+        EditText editRectYPosition = findViewById(R.id.editRectYPosition);
+        EditText editRectWidth = findViewById(R.id.editRectWidth);
+        EditText editRectHeight = findViewById(R.id.editRectHeight);
 
         RectShape newRect = new RectShape(Color.GRAY,
                 inputRectShapeName.getText().toString(),
