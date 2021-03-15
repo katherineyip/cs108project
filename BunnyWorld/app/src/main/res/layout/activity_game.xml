@@ -8,21 +8,9 @@
     tools:context=".GameActivity">
 
     <edu.stanford.cs108.PageView
+        android:id="@+id/pageView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/black"
-        />
-
-    <edu.stanford.cs108.InventoryView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
+        android:layout_height="match_parent"
         />
 
 </LinearLayout>

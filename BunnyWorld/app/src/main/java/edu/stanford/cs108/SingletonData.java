@@ -39,18 +39,18 @@ public class SingletonData {
         this.currentGame = currentGame;
     }
 
-    /*
-    public void setCurrentPage(Page currentPage) {
-        this.currentPage = currentPage;
-    }
 
-    public Page getCurrentPage() {
-        return currentPage;
-    }
+//    public void setCurrentPage(Page currentPage) {
+//        this.currentPage = currentPage;
+//    }
+//
+//    public Page getCurrentPage() {
+//        return currentPage;
+//    }
+//
+//
+//    public void addImageShape(Game game, String pageName, ImageShape newImage) {
+//        game.getPage(pageName).addShape(newImage);
+//    }
 
-
-    public void addImageShape(Game game, String pageName, ImageShape newImage) {
-        game.getPage(pageName).addShape(newImage);
-    }
-     */
 }

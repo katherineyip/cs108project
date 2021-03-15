@@ -8,30 +8,48 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-// An Editor View has 1:N pages, a couple buttons to add shapes
+/**
+ * TODO: document your custom view class.
+ */
 public class PageView extends View {
-    Canvas canvas;
-    Page page;
+    SingletonData singletonData = SingletonData.getInstance();
+    final Paint linePaint;
+    float lineHeight;
 
-//    DELETE
+
+    //    DELETE
     float x, y;
-    Paint paint;
+    Paint shapePaint;
     float SQUARE_SIZE = 30.0f;
-//    DELETE
 
+    boolean inInventory;
+//    DELETE
 
     public PageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint = new Paint();
-        paint.setColor(Color.rgb(140,21,21));
+
+        this.linePaint = new Paint();
+        this.shapePaint = new Paint();
+        init();
+    }
+
+    private void init() {
+        linePaint.setColor(Color.BLACK);
+        linePaint.setStrokeWidth(5);
+
+        shapePaint.setColor(Color.rgb(140,21,21));
+        inInventory = false;
+        this.lineHeight = 0;
     }
 
     @Override
-    public void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        this.lineHeight = canvas.getHeight() * 4 / 5;
+        canvas.drawLine(0, this.lineHeight, canvas.getWidth(), this.lineHeight, linePaint);
 
         canvas.drawRect(x-SQUARE_SIZE, y-SQUARE_SIZE,
-                x+SQUARE_SIZE, y+SQUARE_SIZE, paint);
+                x+SQUARE_SIZE, y+SQUARE_SIZE, shapePaint);
     }
 
     @Override
@@ -40,8 +58,17 @@ public class PageView extends View {
             case MotionEvent.ACTION_MOVE:
                 x = event.getX();
                 y = event.getY();
-                invalidate();
+                break;
+            case MotionEvent.ACTION_UP:
+                // TODO: account for shape being on boundary line (move to available space)
+                this.inInventory = y > lineHeight;
+                break;
         }
+        invalidate();
+        System.out.println(this.inInventory);
         return true;
     }
+
+
+
 }
