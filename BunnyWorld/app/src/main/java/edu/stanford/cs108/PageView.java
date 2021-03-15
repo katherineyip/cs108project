@@ -104,7 +104,17 @@ public class PageView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                // TODO: account for shape being on boundary line (move to available space)
+                float shapeY = currentShape.getY();
+                float shapeHeight = currentShape.getHeight();
+                if (lineHeight >= shapeY && lineHeight <= shapeY + shapeHeight) { // shape on inventory line
+                    if (lineHeight >= shapeY + shapeHeight / 2) { // shape moreso in page
+                        currentShape.setY(lineHeight - shapeHeight - 5);
+                        // not in inventory
+                    } else { // moreso in inventory
+                        currentShape.setY(lineHeight + 5);
+                        // in inventory
+                    }
+                }
                 this.inInventory = y > lineHeight;
                 currentShape = null; // deselect the shape
                 break;
