@@ -63,13 +63,21 @@ public class TextShapeActivity extends AppCompatActivity {
         EditText editTextHeight = findViewById(R.id.editTextHeight);
         //EditText shapeScript = findViewById(R.id.script);
 
+        float x = Float.parseFloat(String.valueOf(editTextXPosition.getText()));
+        float y = Float.parseFloat(String.valueOf(editTextYPosition.getText()));
+        // TODO: if the user wants the item to be in Inventory, then we should throw an error if the (x,y) is invalid (i.e. not within the Inventory box)
+
+        float width = Float.parseFloat(String.valueOf(editTextWidth.getText()));
+        float height = Float.parseFloat(String.valueOf(editTextHeight.getText()));
+
         TextShape newText = new TextShape(inputText.getText().toString(),
                 Integer.parseInt(inputFontSize.getText().toString()),
                 inputTextShapeName.getText().toString(),
                 checkboxTextIsHidden.isChecked(),
                 checkboxTextIsMovable.isChecked(),
                 checkboxTextIsInventory.isChecked(),
-                "shape script");
+                "shape script",
+                x, y, width, height);
         //String destination = inputTextPage.getText().toString(); // TODO: Need to get Page instead of string
 
         if (checkboxTextIsInventory.isChecked()) {

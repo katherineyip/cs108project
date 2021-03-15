@@ -12,6 +12,7 @@ public class Page {
     public String pageScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
 
+
     public Page(String pageName, boolean isStartPage, String pageScript) {
         this.pageName = pageName;
         this.isStarterPage = isStartPage;

@@ -1,5 +1,7 @@
 package edu.stanford.cs108;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public class SingletonData {
         Game testGame2 = new Game("test game 2");
         gameList.add(testGame1);
         gameList.add(testGame2);
+
+        // DUMMY VARIABLES FOR TESTING PURPOSES; REMOVE LATER
+        testGame1.getPage("page 1").addShape(new RectShape(Color.BLACK, "test RectShape", false, false, false, "", 100 ,100, 200, 200));
+
     }
 
     public List<Game> getGameList() {
@@ -39,18 +45,18 @@ public class SingletonData {
         this.currentGame = currentGame;
     }
 
-    /*
-    public void setCurrentPage(Page currentPage) {
-        this.currentPage = currentPage;
-    }
 
-    public Page getCurrentPage() {
-        return currentPage;
-    }
+//    public void setCurrentPage(Page currentPage) {
+//        this.currentPage = currentPage;
+//    }
+//
+//    public Page getCurrentPage() {
+//        return currentPage;
+//    }
+//
+//
+//    public void addImageShape(Game game, String pageName, ImageShape newImage) {
+//        game.getPage(pageName).addShape(newImage);
+//    }
 
-
-    public void addImageShape(Game game, String pageName, ImageShape newImage) {
-        game.getPage(pageName).addShape(newImage);
-    }
-     */
 }

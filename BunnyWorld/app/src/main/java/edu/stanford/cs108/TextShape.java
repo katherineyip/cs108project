@@ -13,8 +13,10 @@ public class TextShape extends Shape {
                      boolean isHidden,
                      boolean isMovable,
                      boolean isInventory,
-                     String shapeScript) {
-        super(shapeName, isHidden, isMovable, isInventory, shapeScript);
+                     String shapeScript,
+                     float x, float y,
+                     float width, float height) {
+        super(shapeName, isHidden, isMovable, isInventory, shapeScript, x, y, width, height);
         this.text = text;
         this.fontSize = fontSize;
     }

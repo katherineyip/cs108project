@@ -26,12 +26,18 @@ public class Shape {
                  boolean isHidden,
                  boolean isMovable,
                  boolean isInventory,
-                 String shapeScript){
+                 String shapeScript,
+                 float x, float y,
+                 float width, float height){
         this.shapeName = shapeName;
         this.isHidden = isHidden;
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
         this.isInventory = isInventory;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
     // Public getter methods
@@ -99,6 +105,10 @@ public class Shape {
 
     public void setWidth(float newWidth) {
         width = newWidth;
+    }
+
+    public boolean isClicked(float clickX, float clickY) {
+        return (clickX >= x && clickX <= x+width && clickY >= y && clickY <= y+height);
     }
 
     @Override
