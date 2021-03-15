@@ -102,6 +102,7 @@ public class Shape {
     }
 
     @Override
+    // This allow spinners to display String shapeName rather than the object name
     public String toString() {
         return shapeName;
     }
