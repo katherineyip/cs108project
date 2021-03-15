@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
 
-                //Game game = //getGmae
+                //Game game = // TODO: get game
             }
         });
     }

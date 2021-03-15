@@ -20,6 +20,7 @@ public class EditorActivity extends AppCompatActivity {
     PageView pageView; // which has a canvas
     TextView pageName;
     Button buttonAddPage;
+    Button buttonEditPage;
     Button buttonAddImage; // controls to add shapes to a page
     Button buttonAddRect;
     Button buttonAddText;
@@ -38,12 +39,22 @@ public class EditorActivity extends AppCompatActivity {
         //pageName.setText(singletonData.getCurrentGame().getCurrentPage().getPageName());
         // TODO: Render the canvas inside PageView
 
-        // Set up onClick listener on button to add new Image shape
+        // Set up onClick listener on button to add new pages
         buttonAddPage = findViewById(R.id.buttonAddPage);
         buttonAddPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addNewPage();
+            }
+        });
+
+        // Set up onClick listener on button to edit the current page
+        buttonEditPage = findViewById(R.id.buttonEditPage);
+        buttonEditPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditorActivity.this, EditPageActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -97,7 +108,6 @@ public class EditorActivity extends AppCompatActivity {
         game.setCurrentPage(newPage);
         pageName.setText(newPage.getPageName());
     }
-
 
     public void renamePage(Page page, String newPageName) {
         if (!game.getPageList().contains(newPageName)) {

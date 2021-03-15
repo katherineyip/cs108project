@@ -81,6 +81,8 @@ public class ImageShapeActivity extends AppCompatActivity {
                 x, y, width, height);
         String destination = spinnerImagePage.getText().toString(); // TODO: Need to get Page instead of string
 
+        //TODO: Set image position
+
         if (checkboxImageIsInventory.isChecked()) {
             game.addInventory(newImage);
         } else {

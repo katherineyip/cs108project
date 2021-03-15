@@ -52,6 +52,7 @@ public class Page {
     }
 
     @Override
+    // This allow spinners to display String pageName rather than the object name
     public String toString() {
         return pageName;
     }
