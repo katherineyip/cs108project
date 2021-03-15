@@ -82,7 +82,7 @@ public class PageView extends View {
         }
     }
 
-    // these variables only used here
+    // these float variables are only used in this function
     float offsetX;
     float offsetY;
     @Override
