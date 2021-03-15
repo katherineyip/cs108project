@@ -24,8 +24,8 @@ public class SingletonData {
         gameList.add(testGame1);
         gameList.add(testGame2);
 
-        // DUMMY VARIABLES FOR TESTING PURPOSES; REMOVE LATER
-        testGame1.getPage("page 1").addShape(new RectShape(Color.BLACK, "test RectShape", false, false, false, "", 100 ,100, 200, 200));
+        // DUMMY VARS for testing purposes only (added by Sammy and Nikita); remove later
+        testGame1.getPage("page 1").addShape(new RectShape(Color.BLACK, "test RectShape", false, false, false, null, 100 ,100, 200, 200));
 
     }
 
