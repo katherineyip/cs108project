@@ -65,12 +65,20 @@ public class ImageShapeActivity extends AppCompatActivity {
         EditText editImageHeight = findViewById(R.id.editImageHeight);
         //EditText shapeScript = findViewById(R.id.script);
 
+        float x = Float.parseFloat(String.valueOf(editImageXPosition.getText()));
+        float y = Float.parseFloat(String.valueOf(editImageYPosition.getText()));
+        // TODO: if the user wants the item to be in Inventory, then we should throw an error if the (x,y) is invalid (i.e. not within the Inventory box)
+
+        float width = Float.parseFloat(String.valueOf(editImageWidth.getText()));
+        float height = Float.parseFloat(String.valueOf(editImageHeight.getText()));
+
         ImageShape newImage = new ImageShape("spinnerImageName.getSelectedItem().toString()",
                 inputImageShapeName.getText().toString(),
                 checkboxImageIsHidden.isChecked(),
                 checkboxImageIsMovable.isChecked(),
                 checkboxImageIsInventory.isChecked(),
-                "shape script");
+                "shape script",
+                x, y, width, height);
         String destination = spinnerImagePage.getText().toString(); // TODO: Need to get Page instead of string
 
         if (checkboxImageIsInventory.isChecked()) {

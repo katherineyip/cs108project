@@ -8,11 +8,20 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.List;
+
 /**
  * TODO: document your custom view class.
  */
 public class PageView extends View {
     SingletonData singletonData = SingletonData.getInstance();
+
+    Game currentGame = singletonData.getCurrentGame();
+    Page currentPage = currentGame.getCurrentPage();
+    List<Shape> shapeList = currentPage.getShapeList();
+    Shape currentShape = null;
+
+
     final Paint linePaint;
     float lineHeight;
 
@@ -50,18 +59,54 @@ public class PageView extends View {
 
         canvas.drawRect(x-SQUARE_SIZE, y-SQUARE_SIZE,
                 x+SQUARE_SIZE, y+SQUARE_SIZE, shapePaint);
+
+        // Sammy's edits
+
+        for (Shape shape : currentPage.getShapeList()) {
+            // print the shapes
+
+            // System.out.println(shape);
+
+            if (shape instanceof RectShape) {
+                // print the rectangle
+
+                // System.out.println("This shape is a RectShape");
+                // System.out.println(shape.getX());
+                // System.out.println(shape.getY());
+
+                Paint rectColor = new Paint(Color.BLACK); // TODO: change linePaint to receive color from RectShape
+                canvas.drawRect(shape.getX(), shape.getY(),
+                        shape.getX()+shape.getWidth(), shape.getY()+shape.getHeight(), rectColor);
+
+            }
+        }
     }
 
+    // these variables only used here
+    float offsetX;
+    float offsetY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (int i = shapeList.size() - 1; i >= 0; i--) {
+                    if (shapeList.get(i).isClicked(event.getX(), event.getY())) {
+                        currentShape = shapeList.get(i);
+                        offsetX = event.getX() - currentShape.getX();
+                        offsetY = event.getY() - currentShape.getY();
+                    }
+                }
+                break;
             case MotionEvent.ACTION_MOVE:
-                x = event.getX();
-                y = event.getY();
+                if (currentShape != null) {
+                    currentShape.setX(event.getX() - offsetX);
+                    currentShape.setY(event.getY() - offsetY);
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 // TODO: account for shape being on boundary line (move to available space)
                 this.inInventory = y > lineHeight;
+                currentShape = null; // deselect the shape
                 break;
         }
         invalidate();

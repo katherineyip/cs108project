@@ -59,12 +59,20 @@ public class RectShapeActivity extends AppCompatActivity {
         EditText editRectWidth = findViewById(R.id.editRectWidth);
         EditText editRectHeight = findViewById(R.id.editRectHeight);
 
+        float x = Float.parseFloat(String.valueOf(editRectXPosition.getText()));
+        float y = Float.parseFloat(String.valueOf(editRectYPosition.getText()));
+        // TODO: if the user wants the item to be in Inventory, then we should throw an error if the (x,y) is invalid (i.e. not within the Inventory box)
+
+        float width = Float.parseFloat(String.valueOf(editRectWidth.getText()));
+        float height = Float.parseFloat(String.valueOf(editRectHeight.getText()));
+
         RectShape newRect = new RectShape(Color.GRAY,
                 inputRectShapeName.getText().toString(),
                 checkboxRectIsHidden.isChecked(),
                 checkboxRectIsMovable.isChecked(),
                 checkboxRectIsInventory.isChecked(),
-                "shape script"); // TODO: Replace later
+                "shape script",
+                x, y, width, height); // TODO: Replace later
         String destination = inputRectPage.getText().toString(); // TODO: Need to get Page instead of string
 
         if (checkboxRectIsInventory.isChecked()) {
