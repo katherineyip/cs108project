@@ -18,6 +18,7 @@ public class Page {
         this.isStarterPage = isStartPage;
         this.shapeList = new ArrayList<>();
         this.pageScript = pageScript;
+        setScript();
     }
 
     public String getPageName() {
