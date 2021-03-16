@@ -19,6 +19,10 @@ public class Script {
 	 * <["on click" : [play, sound], [throw, bottle]], ["on drop" : [drop, carrot], [say, hello]]>
 	 * */
 
+
+
+
+
 	public static void setPageScript(Page page) {
 		String script = page.pageScript;
 		page.scriptMap = new HashMap<String, actionPairs[]>();

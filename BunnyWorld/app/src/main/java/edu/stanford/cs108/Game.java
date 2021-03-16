@@ -89,6 +89,16 @@ public class Game {
         starterPage = newStarterPage;
     }
 
+    // Get a count of all shapes for new shape's naming purpose
+    public int getNumShapesInGame() {
+        int numShapes = 0;
+        for (Page page : this.getPageList()) {
+            numShapes += page.getNumShapesOnPage();
+        }
+        System.out.println("get num shapes in game " + numShapes);
+        return numShapes;
+    }
+
     @Override
     // This allow spinners to display String gameName rather than the object name
     public String toString() {

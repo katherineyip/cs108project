@@ -36,8 +36,6 @@ public class PageView extends View {
     Paint rectColor = new Paint(Color.BLACK);
 
 
-
-
     public PageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -117,7 +115,4 @@ public class PageView extends View {
         System.out.println(this.inInventory);
         return true;
     }
-
-
-
 }

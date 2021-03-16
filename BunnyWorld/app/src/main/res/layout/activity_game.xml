@@ -10,7 +10,6 @@
     <edu.stanford.cs108.PageView
         android:id="@+id/pageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
