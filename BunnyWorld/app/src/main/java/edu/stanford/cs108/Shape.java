@@ -38,6 +38,7 @@ public class Shape {
         this.y = y;
         this.width = width;
         this.height = height;
+        setScript();
     }
 
     // Public getter methods
