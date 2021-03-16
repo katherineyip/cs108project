@@ -93,8 +93,6 @@ public class EditorActivity extends AppCompatActivity {
         System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
         System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
         System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
-
-
     }
 
     /**

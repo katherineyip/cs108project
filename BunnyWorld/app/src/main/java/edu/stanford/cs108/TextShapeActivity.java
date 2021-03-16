@@ -25,6 +25,11 @@ public class TextShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text_shape);
 
+        // By default set shape names as "shape 1", "shape 2", etc
+        EditText inputTextShapeName = findViewById(R.id.inputTextShapeName);
+        int numAllShapeCounts = game.getNumShapesInGame() + 1;
+        inputTextShapeName.setText("shape " + numAllShapeCounts);
+
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetText = findViewById(R.id.buttonSetText);
         buttonSetText.setOnClickListener(new View.OnClickListener() {

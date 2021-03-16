@@ -73,8 +73,6 @@ public class EditPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 removePage(currentPage);
-                Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
-                startActivity(intent);
             }
         });
     }
@@ -85,6 +83,11 @@ public class EditPageActivity extends AppCompatActivity {
         } else {
             game.removePage(page);
             currentPage = game.getStarterPage(); // Direct user back to the starter page
+            Toast.makeText(this,
+                    "Successfully removed " + page.toString(),
+                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -96,6 +99,9 @@ public class EditPageActivity extends AppCompatActivity {
         // If other page is a starter page, make the other page a non-starter page and make this page a starter page
         if (checkboxIsStarterPage.isChecked() && !currentPage.isStarterPage()) {
             game.setStarterPage(currentPage);
+            Toast.makeText(this,
+                    "Successfully assigned " + currentPage.toString() + " as starter page",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 }

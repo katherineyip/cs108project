@@ -25,6 +25,11 @@ public class ImageShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_shape);
 
+        // By default set shape names as "shape 1", "shape 2", etc
+        EditText inputImageShapeName = findViewById(R.id.inputImageShapeName);
+        int numAllShapeCounts = game.getNumShapesInGame() + 1;
+        inputImageShapeName.setText("shape " + numAllShapeCounts);
+
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetImage = findViewById(R.id.buttonSetImage);
         buttonSetImage.setOnClickListener(new View.OnClickListener() {

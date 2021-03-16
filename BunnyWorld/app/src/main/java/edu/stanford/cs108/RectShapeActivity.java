@@ -24,6 +24,11 @@ public class RectShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rect_shape);
 
+        // By default set shape names as "shape 1", "shape 2", etc
+        EditText inputRectShapeName = findViewById(R.id.inputRectShapeName);
+        int numAllShapeCounts = game.getNumShapesInGame() + 1;
+        inputRectShapeName.setText("shape " + numAllShapeCounts);
+
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetRect = findViewById(R.id.buttonSetRect);
         buttonSetRect.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +54,7 @@ public class RectShapeActivity extends AppCompatActivity {
     }
 
     public void onSubmit(View view) {
-        EditText inputRectShapeName = findViewById(R.id.inputImageShapeName);
+        EditText inputRectShapeName = findViewById(R.id.inputRectShapeName);
         EditText inputRectPage = findViewById(R.id.inputRectPage); //TODO: Change to dropdown later
         CheckBox checkboxRectIsHidden = findViewById(R.id.checkboxRectIsHidden);
         CheckBox checkboxRectIsMovable = findViewById(R.id.checkboxRectIsMovable);
