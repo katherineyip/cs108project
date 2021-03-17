@@ -1,5 +1,6 @@
 package edu.stanford.cs108;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ public class SingletonData {
     private List<Game> gameList;
     private Game currentGame;
 
+
     private SingletonData() {
         gameList = new ArrayList<>();
         currentGame = null;
 
+        /*
         Game testGame1 = new Game("test game 1");
         Game testGame2 = new Game("test game 2");
         gameList.add(testGame1);
@@ -30,7 +33,11 @@ public class SingletonData {
         testGame1.getPage("page 1").addShape(new Shape("", "Immovable text", 24, Color.BLUE, Color.GREEN, "text2", false, false, false, "", 100, 500, 150, 100));
         testGame1.getPage("page 1").addShape(new Shape("", "", 24, Color.BLACK, Color.BLACK, "box1", false, true, false, "", 100, 700, 150, 100));
         testGame1.getPage("page 1").addShape(new Shape("duck", "", 24, Color.BLACK, Color.BLACK, "ducky", false, true, false, "", 400, 800, 150, 100));
+    */
+    }
 
+    public void loadGameListFromDB(List<Game> gameList) {
+        this.gameList = gameList;
     }
 
     public List<Game> getGameList() {

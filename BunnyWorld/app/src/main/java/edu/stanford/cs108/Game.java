@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    String id;
     String gameName;
     List<Page> pageList;
     Page currentPage;
     Page starterPage;
 
     List<Shape> inventoryShapeList;
-    // TODO: keep track of count of all shapes for naming purpose
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
 
-    public Game(String name) {
+    public Game(String id, String name) {
+        this.id = id;
         this.gameName = name;
         this.pageList = new ArrayList<>();
         this.inventoryShapeList = new ArrayList<>();
@@ -28,16 +29,6 @@ public class Game {
 
     public List<Page> getPageList() {
         return pageList;
-    }
-
-    // TODO: Prob removable since we'll always have direct acccess to the page object with spinner
-    public Page getPage(String pageName) {
-        for (int i = 0; i < pageList.size(); i++) {
-            if (pageList.get(i).getPageName().equals(pageName)) {
-                return pageList.get(i);
-            }
-        }
-        return null;
     }
 
     public Page getCurrentPage() {
@@ -81,7 +72,6 @@ public class Game {
     public void removeInventory (Shape shape) {
         inventoryShapeList.remove(shape);
     }
-
 
     public void moveToInventory (Shape shape) {
         if (currentPage.getShapeList().contains(shape)) {
@@ -133,6 +123,14 @@ public class Game {
 
     public void setGameName(String newGameName) {
         this.gameName = newGameName;
+    }
+
+    public String getGameID() {
+        return id;
+    }
+
+    public String getGameName() {
+        return gameName;
     }
 
     @Override

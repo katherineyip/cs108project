@@ -125,6 +125,11 @@ public class EditPageActivity extends AppCompatActivity {
         if (name.equals("") || name == null) {
             return false;
         }
+
+        if (name.equals(currentPage.getPageName())) { // No change is acceptable
+            return true;
+        }
+
         for (Page page : game.getPageList()) {
             if (page.getPageName().equals(name)) {
                 return false;
