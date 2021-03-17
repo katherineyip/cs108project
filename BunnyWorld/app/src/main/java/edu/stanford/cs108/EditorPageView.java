@@ -1,19 +1,19 @@
 package edu.stanford.cs108;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.List;
 
-/**
- * TODO: document your custom view class.
- */
-public class PageView extends View {
+public class EditorPageView extends View {
     SingletonData singletonData = SingletonData.getInstance();
 
     Game currentGame = singletonData.getCurrentGame();
@@ -21,6 +21,8 @@ public class PageView extends View {
     List<Shape> shapeList = currentPage.getShapeList();
     Shape currentShape = null;
 
+    BitmapDrawable img;
+    Bitmap toDraw;
     boolean inInventory;
 
     // constants and variables related to the Inventory line
@@ -31,19 +33,22 @@ public class PageView extends View {
     static final float INVENTORY_LINE_POSITION_RATIO = (float)4 / 5;
     final Paint linePaint; // TODO: MEETING TOPIC: why is this "final"?
     float lineHeight;
+    Paint textPaint;
 
     // TODO: remove this line once we can automatically get rectColor from the RectShape object itself.
     Paint rectColor = new Paint(Color.BLACK);
 
-
-    public PageView(Context context, AttributeSet attrs) {
+    public EditorPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.linePaint = new Paint(); // TODO: (related to line 32) we can move this into init() if it's not final
+        this.textPaint = new Paint();
         init();
     }
 
     private void init() {
+        textPaint.setColor(Color.BLACK);
+
         linePaint.setColor(Color.BLACK);
         linePaint.setStrokeWidth(5);
 
@@ -59,13 +64,48 @@ public class PageView extends View {
 
         // Sammy's edits
 
+
         for (Shape shape : currentPage.getShapeList()) {
             // TODO: add if statements for all types of Shape. Alternatively,
             //  have a method in each of the classes so that they can draw themselves.
             //  This might be a better solution because it allows Editor to avoid duplicating code.
-            // TODO: change linePaint to receive color from RectShape
-            canvas.drawRect(shape.getX(), shape.getY(),
-                        shape.getX()+shape.getWidth(), shape.getY()+shape.getHeight(), rectColor);
+            if(validLocation(shape, canvas)) {
+
+                // TODO: Use different logic to draw shapes
+                /*
+                if (shape instanceof RectShape) {
+
+                    rectColor.setColor(((RectShape) shape).backgroundColor);
+                    canvas.drawRect(shape.getX(), shape.getY(),
+                            shape.getX() + shape.getWidth(), shape.getY() + shape.getHeight(), rectColor);
+                }
+                if (shape instanceof ImageShape) {
+
+                    if ((((ImageShape) shape).imageName.equals("carrot"))) {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.carrot);
+                    } else if ((((ImageShape) shape).imageName.equals("carrot2"))) {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.carrot2);
+                    } else if ((((ImageShape) shape).imageName.equals("death"))) {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.death);
+                    } else if ((((ImageShape) shape).imageName.equals("duck"))) {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.duck);
+                    } else if ((((ImageShape) shape).imageName.equals("fire"))) {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.fire);
+                    } else {
+                        img = (BitmapDrawable) getResources().getDrawable(R.drawable.mystic);
+                    }
+
+                    toDraw = img.getBitmap();
+                    canvas.drawBitmap(toDraw, null, new RectF(shape.getX(), shape.getY(),
+                            shape.getX() + shape.getWidth(), shape.getY() + shape.getHeight()), null);
+                }
+                if (shape instanceof TextShape) {
+                    textPaint.setTextSize(((TextShape) shape).fontSize);
+                    canvas.drawText(((TextShape) shape).text, shape.getX(), shape.getY(), textPaint);
+                }
+
+                 */
+            }
         }
     }
 
@@ -112,4 +152,24 @@ public class PageView extends View {
         System.out.println(this.inInventory);
         return true;
     }
+
+    public boolean validLocation(Shape s, Canvas canvas){
+        int width = canvas.getWidth();
+        int height = (int)(canvas.getHeight() * INVENTORY_LINE_POSITION_RATIO);
+
+        //check the bounds of the shape
+        if(s.getX() < 0 || s.getX() >= width || s.getY() < 0 ) return false;
+        if(s.getX() + s.getWidth() >= width ) return false;
+
+        //if the shape is below the inventory line check if inInventory
+        if(s.getY() + s.getHeight() >= height || s.getY() >= height){
+            if(s.isInventory){
+                if(s.getY() + s.getHeight() >= canvas.getHeight()) return false;
+                return true;
+            } else return false;
+        }
+
+        return true;
+    }
+
 }

@@ -10,13 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BunnyWorld">
         <activity android:name=".EditPageActivity"></activity>
-        <activity android:name=".TextShapeActivity">
-            android:screenOrientation="landscape"
-        </activity>
-        <activity android:name=".RectShapeActivity">
-            android:screenOrientation="landscape"
-        </activity>
-        <activity android:name=".ImageShapeActivity">
+        <activity android:name=".ShapeActivity">
             android:screenOrientation="landscape"
         </activity>
         <activity android:name=".GameActivity">

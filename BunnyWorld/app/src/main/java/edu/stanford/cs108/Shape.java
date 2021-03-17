@@ -7,6 +7,11 @@ import java.util.Map;
  * There are three subclasses that extend Shape - ImageShape, TextShape, RectShape.
  */
 public class Shape {
+    private String imageName;
+    private String text;
+    private int fontSize;
+    private int fontColor;
+    private int backgroundColor;
     private String shapeName;
     private boolean isHidden;
     private boolean isMovable;
@@ -22,7 +27,12 @@ public class Shape {
     //onMoveListener, and a listener when something drops of itself
 
     // Constructor
-    public Shape(String shapeName,
+    public Shape(String imageName, // use to create Image
+                 String text, // use to create Text
+                 int fontSize, // use to create Text
+                 int fontColor, // use to create Text
+                 int backgroundColor, // use to create Rect
+                 String shapeName,
                  boolean isHidden,
                  boolean isMovable,
                  boolean isInventory,
@@ -38,6 +48,11 @@ public class Shape {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.imageName = imageName;
+        this.text = text;
+        this.fontSize = fontSize;
+        this.fontColor = fontColor;
+        this.backgroundColor = backgroundColor; ////TODO: allow the user to select their color
     }
 
     // Public getter methods
@@ -109,6 +124,26 @@ public class Shape {
 
     public boolean isClicked(float clickX, float clickY) {
         return (clickX >= x && clickX <= x+width && clickY >= y && clickY <= y+height);
+    }
+
+    public void setImage(String newImageName) {
+        imageName = newImageName;
+    }
+
+    public void setText(String newText) {
+        text = newText;
+    }
+
+    public void setFontSize(int newFontSize) {
+        fontSize = newFontSize;
+    }
+
+    public void setFontColor(int newFontColor) {
+        fontColor = newFontColor;
+    }
+
+    public void setBackgroundColor(int newColor) {
+        backgroundColor = newColor;
     }
 
     @Override
