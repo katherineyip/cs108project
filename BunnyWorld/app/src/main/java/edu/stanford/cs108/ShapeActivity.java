@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,10 +16,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShapeActivity extends AppCompatActivity {
+public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     // Data
+    static final float INVENTORY_LINE_POSITION_RATIO = (float)4 / 5;
+
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
     Game game = singletonData.getCurrentGame();
+    Page selectedPage;
 
     // UI
     Button buttonSetShape;
@@ -30,7 +34,7 @@ public class ShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape);
 
-        // Populate our Spinners
+        //Populate our Spinners
         Spinner eventSpinner = findViewById(R.id.evSpin);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.events, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -47,14 +51,10 @@ public class ShapeActivity extends AppCompatActivity {
         imageSpinner.setAdapter(adapter3);
 
         //Populate Spinner from Page list
+
         Spinner pageSpinner = findViewById(R.id.spinnerShapePage);
         List<Page> pages = game.pageList;
-        ArrayList<String> pageNames = new ArrayList<String>();
-        pageNames.add("Pages");
-        for(Page p : pages){
-            pageNames.add(p.pageName);
-        }
-        ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pageNames);
+        ArrayAdapter<Page> adapter4 = new ArrayAdapter<Page>(this, android.R.layout.simple_spinner_item, pages);
         adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pageSpinner.setAdapter(adapter4);
 
@@ -117,6 +117,8 @@ public class ShapeActivity extends AppCompatActivity {
         float y = Float.parseFloat(String.valueOf(editShapeYPosition.getText()));
         // TODO: if the user wants the item to be in Inventory, then we should throw an error if the (x,y) is invalid (i.e. not within the Inventory box)
 
+
+
         float width = Float.parseFloat(String.valueOf(editShapeWidth.getText()));
         float height = Float.parseFloat(String.valueOf(editShapeHeight.getText()));
 
@@ -135,17 +137,30 @@ public class ShapeActivity extends AppCompatActivity {
                  float width, float height){
          */
 
+        int fZ = 0;
+        int fC = 0;
+        int bC = 0;
+
+        if(!inputFontSize.getText().toString().equals("")) {
+            fZ = Integer.parseInt(inputFontSize.getText().toString());
+        }
+        if(!inputFontColor.getText().toString().equals("")) {
+            fC = Integer.parseInt(inputFontColor.getText().toString());
+        }
+        if(!inputBackgroundColor.getText().toString().equals("")) {
+            bC = Integer.parseInt(inputBackgroundColor.getText().toString());
+        }
+
         Shape newShape = new Shape(spinnerImageName.getSelectedItem().toString(),
                 inputText.getText().toString(),
-                Integer.parseInt(inputFontSize.getText().toString()),
-                Integer.parseInt(inputFontColor.getText().toString()),
-                Integer.parseInt(inputBackgroundColor.getText().toString()),
+                fZ, fC, bC,
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(),
                 checkboxShapeIsInventory.isChecked(),
                 "shape script",
                 x, y, width, height);
+
         Page destination = (Page) spinnerShapePage.getSelectedItem();
 
         // TODO: rule to draw image vs text when both are available
@@ -154,7 +169,7 @@ public class ShapeActivity extends AppCompatActivity {
         if (checkboxShapeIsInventory.isChecked()) {
             game.addInventory(newShape);
         } else {
-            game.getCurrentPage().addShape(newShape); //TODO: Need to pass in user's page selection
+            selectedPage.addShape(newShape);
         }
         System.out.println("Singleton after adding image " + game.getCurrentPage().getNumShapesOnPage());
     }
@@ -181,4 +196,60 @@ public class ShapeActivity extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        //String gameName = parent.getItemAtPosition(position).toString();
+        selectedPage = (Page) parent.getItemAtPosition(position);
+        System.out.println("Selected a game: " + selectedPage);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public boolean validLocation(Shape s){
+        int width = game.getWidth();
+        int height = (int)(game.getHeight() * INVENTORY_LINE_POSITION_RATIO);
+
+        int x = s.getX();
+        int y = s.getY();
+
+        //check the bounds of the shape
+        if(x < 0 || x >= width || y < 0 ) {
+            Toast.makeText(this, "Invalid Coordinates", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(x + s.getWidth() >= width ){
+            Toast.makeText(this, "Invalid Coordinates", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        //if the shape is below the inventory line
+        if(y + s.getHeight() >= height){
+            //check if in inventory
+            if(game.getInventoryShapeList().contains(s)){
+                //check to make sure still half inside the canvas itself
+                if(y + (s.getHeight()/2) >= game.getHeight()) {
+                    Toast.makeText(this, "Invalid Coordinates", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return true;
+            } else {
+                Toast.makeText(this, "Invalid Coordinates", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+        //Is inventory but not inside inventory box
+        if(game.getInventoryShapeList().contains(s)) {
+            Toast.makeText(this, "Invalid Coordinates", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
 }
