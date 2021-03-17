@@ -93,7 +93,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent intentAddShape = new Intent(EditorActivity.this, ShapeActivity.class);
                 startActivity(intentAddShape);
                 return true;
-                // TODO: Add edit game name & save game
+            case R.id.menuEditGameDetails:
+                Intent intentEditGame = new Intent(EditorActivity.this, EditGameActivity.class);
+                startActivity(intentEditGame);
+                return true;
+                // TODO: Add save game
             default:
                 return super.onContextItemSelected(item);
         }

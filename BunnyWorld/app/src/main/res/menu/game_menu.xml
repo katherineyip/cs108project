@@ -13,8 +13,8 @@
     </group>
 
     <group android:id="@+id/grp3">
-        <item android:id="@+id/menuEditGameName"
-            android:title="Edit game name"/>
+        <item android:id="@+id/menuEditGameDetails"
+            android:title="Edit game details"/>
         <item android:id="@+id/menuSaveGame"
             android:title="Save game"/>
     </group>

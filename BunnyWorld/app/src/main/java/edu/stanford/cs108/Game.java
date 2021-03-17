@@ -131,6 +131,10 @@ public class Game {
         return numShapes;
     }
 
+    public void setGameName(String newGameName) {
+        this.gameName = newGameName;
+    }
+
     @Override
     // This allow spinners to display String gameName rather than the object name
     public String toString() {
