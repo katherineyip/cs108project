@@ -18,11 +18,14 @@ public class Shape {
     private String shapeName;
     private boolean isHidden;
     private boolean isMovable;
-    boolean isInventory; // if not in inventory, this shape will be associated to a particular page // TODO: delete this variable
+    boolean isInventory; // if not in inventory, this shape will be associated to a particular page // TODO: delete this variable.
     public String shapeScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
     private float x, y;
     private float width, height;
+
+    private Paint rectPaint;
+    private Paint textPaint;
     // TODO: show green box when dropping another thing on top
     // TODO: each shape should have on onClickListener
     // TODO: add some method for a shape to draw itself??
@@ -56,6 +59,9 @@ public class Shape {
         this.fontSize = fontSize;
         this.fontColor = fontColor;
         this.backgroundColor = backgroundColor; ////TODO: allow the user to select their color
+
+        this.rectPaint = new Paint();
+        this.textPaint = new Paint();
     }
 
     // Public getter methods
@@ -96,24 +102,27 @@ public class Shape {
         return height;
     }
 
+    public int getTextSize() {
+        return fontSize;
+    }
+
     public Paint getTextPaint() {
-        Paint textPaint = new Paint(fontColor);
         if (fontSize != 0) {
             textPaint.setTextSize(fontSize);
         } else {
             textPaint.setTextSize(10);
         }
-
+        textPaint.setColor(fontColor);
         return textPaint;
     }
 
     public Paint getRectPaint() {
-        Paint rectPaint;
-        if (backgroundColor != 0) {
-            rectPaint = new Paint(backgroundColor);
-        } else {
-            rectPaint = new Paint(Color.LTGRAY);
-        }
+        // TODO: ask Jacob whether it is possible to pass in a "null" value, in which case I need to uncomment the if block
+        // if (backgroundColor != 0) {
+            rectPaint.setColor(backgroundColor);
+        // } else {
+        //    rectPaint = new Paint(Color.LTGRAY);
+        //}
         return rectPaint;
     }
 
@@ -183,12 +192,12 @@ public class Shape {
 
 
     // custom functions for PageView and EditorPageView
-    public boolean isTextShape() {
-        return (this.text != null || !this.text.equals(""));
+    public boolean hasText() {
+        return (this.text != null && !this.text.equals(""));
     }
 
-    public boolean isImageShape() {
-        return (this.imageName != null || !this.text.equals(""));
+    public boolean hasImage() {
+        return (this.imageName != null && !this.imageName.equals(""));
     }
 
     @Override
