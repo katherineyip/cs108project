@@ -8,52 +8,20 @@
     android:orientation="vertical"
     tools:context=".EditorActivity">
 
+    <TextView
+        android:id="@+id/pageName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Page "/>
+
+    <Spinner
+        android:id="@+id/pageSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <edu.stanford.cs108.PageView
         android:id="@+id/pageView"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
-
-        <TextView
-            android:id="@+id/pageName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Current Page "/>
-
-        <Button
-            android:id="@+id/buttonAddPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Add page"/>
-
-        <Button
-            android:id="@+id/buttonEditPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Edit page"/>
-
-        <Button
-            android:id="@+id/buttonAddImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="Add image"/>
-
-        <Button
-            android:id="@+id/buttonAddRect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add rectangle"
-            android:layout_marginRight="10dp" />
-
-        <Button
-            android:id="@+id/buttonAddText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add text"
-            android:layout_marginRight="10dp"/>
-
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

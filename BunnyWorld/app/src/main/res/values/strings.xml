@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">BunnyWorld</string>
+    <string name="preference_file_key">preference_file</string>
+
+    <string-array name="events">
+        <item>Event</item>
+        <item>on click</item>
+        <item>on drop</item>
+        <item>on enter</item>
+    </string-array>
+
+    <string-array name="actions">
+        <item>Action</item>
+        <item>play</item>
+        <item>goto</item>
+        <item>hide</item>
+        <item>show</item>
+    </string-array>
+
+    <string-array name="images">
+        <item>Images</item>
+        <item>carrot</item>
+        <item>carrot2</item>
+        <item>death</item>
+        <item>duck</item>
+        <item>fire</item>
+        <item>mystic</item>
+    </string-array>
+
+    <string-array name="sounds">
+        <item>Sound</item>
+        <item>bottle</item>
+        <item>boing</item>
+    </string-array>
+
+    <string-array name="colors">
+        <item>BLACK</item>
+        <item>WHITE</item>
+        <item>BLUE</item>
+        <item>RED</item>
+        <item>GREEN</item>
+    </string-array>
 </resources>

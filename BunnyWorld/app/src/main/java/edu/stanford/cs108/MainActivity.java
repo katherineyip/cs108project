@@ -11,6 +11,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+// DB Stuff
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.widget.Toast;
+
 import java.util.List;
 
 //implements AdapterView
@@ -18,11 +23,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     // Data
     Game selectedGame;
     SingletonData singletonData = SingletonData.getInstance();
+    //SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //sharedPref = getSharedPreferences("GamePrefs", Context.MODE_PRIVATE);
 
         Spinner spinnerGameNames = findViewById(R.id.spinnerGameNames);
         spinnerGameNames.setOnItemSelectedListener(this);
@@ -35,6 +43,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View view) {
                 // Set up a new game
                 Game game = new Game("New Game"); // TODO: Add some ways to programmatically assign new name?
+
+                // TODO: Do I save to sharedPrefs here or do I do it in EditorActivity?
+                /*
+                SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+                sharedPrefEditor.putString("Game name", game.toString());
+                sharedPrefEditor.commit();
+                Toast.makeText(MainActivity.this, "New game saved.", Toast.LENGTH_SHORT);
+                 */
 
                 //SingletonData singletonData = SingletonData.getInstance();
                 singletonData.addGameToList(game);

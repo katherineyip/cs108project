@@ -4,9 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,34 +26,29 @@ public class EditorActivity extends AppCompatActivity {
     // UI
     PageView pageView; // which has a canvas
     TextView pageName;
-    Button buttonAddPage;
-    Button buttonEditPage;
-    Button buttonAddImage; // controls to add shapes to a page
-    Button buttonAddRect;
-    Button buttonAddText;
+    Spinner pageSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        //SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences("Game Prefs", Context.MODE_PRIVATE);
+        //String gameName = sharedPrefs.getString("game name", "");
+        // TODO: t1.setText(name);
+
         System.out.println("Entered editorActivity. Game is " + game.toString());
 
         // Display current page & the content inside this page
+        pageSpinner = findViewById(R.id.pageSpinner);
+        //pageSpinner.setOnItemSelectedListener(this); //TODO: somehow it doesn't like the this param
+        //loadSpinnerPagesData();
         pageName = findViewById(R.id.pageName);
         pageName.setText(currentPage.getPageName());
-        //System.out.println("printing current game: " + singletonData.getCurrentGame());
-        //pageName.setText(singletonData.getCurrentGame().getCurrentPage().getPageName());
+        System.out.println("printing current game: " + singletonData.getCurrentGame());
         // TODO: Render the canvas inside PageView
 
-        // Set up onClick listener on button to add new pages
-        buttonAddPage = findViewById(R.id.buttonAddPage);
-        buttonAddPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNewPage();
-            }
-        });
+        /*
 
         // Set up onClick listener on button to edit the current page
         buttonEditPage = findViewById(R.id.buttonEditPage);
@@ -57,42 +59,56 @@ public class EditorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // Set up onClick listener on button to add new Image shape
-        buttonAddImage = findViewById(R.id.buttonAddImage);
-        buttonAddImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditorActivity.this, ImageShapeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Set up onClick listener on button to add new Rect shape
-        buttonAddRect = findViewById(R.id.buttonAddRect);
-        buttonAddRect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditorActivity.this, RectShapeActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Set up onClick listener on button to add new Text shape
-        buttonAddText = findViewById(R.id.buttonAddText);
-        buttonAddText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(EditorActivity.this, TextShapeActivity.class);
-                startActivity(intent);
-            }
-        });
+         */
 
         // TODO: Remove later. This is for debugging purpose.
         System.out.println("game list size: " + singletonData.getGameList().size());
         System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
         System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
         System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+    }
+
+    //@Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        //String gameName = parent.getItemAtPosition(position).toString();
+        currentPage = (Page) parent.getItemAtPosition(position);
+        System.out.println("Selected a page: " + currentPage);
+    }
+
+    //@Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    /**
+     * Menu dropdown
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuAddPage:
+                addNewPage();
+                return true;
+            case R.id.menuEditPage:
+                Intent intentEditPage = new Intent(EditorActivity.this, EditPageActivity.class);
+                startActivity(intentEditPage);
+                return true;
+            case R.id.menuAddShape:
+                Intent intentAddShape = new Intent(EditorActivity.this, ShapeActivity.class);
+                startActivity(intentAddShape);
+                return true;
+                // TODO: Add edit gaem name & save game
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
     /**
@@ -104,7 +120,8 @@ public class EditorActivity extends AppCompatActivity {
         Page newPage = new Page("page " + numPages, false, null);
         game.addPage(newPage);
         game.setCurrentPage(newPage);
-        pageName.setText(newPage.getPageName());
+        pageName.setText(newPage.toString());
+        Toast.makeText(EditorActivity.this, "Successfully added " + newPage.getPageName() , Toast.LENGTH_SHORT);
     }
 
     public void renamePage(Page page, String newPageName) {
@@ -116,5 +133,13 @@ public class EditorActivity extends AppCompatActivity {
 
     public void removePage(Page page) {
         game.getPageList().remove(page); // TODO: Need to pass in an index instead of the page..?
+    }
+
+    public void loadSpinnerPagesData(){
+        List<Page> pageList = game.getPageList();
+
+        ArrayAdapter<Page> dataAdapter = new ArrayAdapter<Page>(this, android.R.layout.simple_spinner_item, pageList);
+        dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        pageSpinner.setAdapter(dataAdapter);
     }
 }
