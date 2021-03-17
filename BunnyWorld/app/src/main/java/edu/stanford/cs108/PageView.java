@@ -106,7 +106,7 @@ public class PageView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (currentShape != null && currentShape.isMovable()) {
+                if (currentShape != null && currentShape.isMovable()) { // TODO: when implementing EditorPageView, get rid of the isMovable requirement
                     currentShape.setX(event.getX() - offsetX);
                     currentShape.setY(event.getY() - offsetY);
 
