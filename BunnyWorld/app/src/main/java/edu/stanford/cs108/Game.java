@@ -33,7 +33,7 @@ public class Game {
     // TODO: Prob removable since we'll always have direct acccess to the page object with spinner
     public Page getPage(String pageName) {
         for (int i = 0; i < pageList.size(); i++) {
-            if (pageList.get(i).getPageName() == pageName) {
+            if (pageList.get(i).getPageName().equals(pageName)) {
                 return pageList.get(i);
             }
         }
@@ -66,8 +66,40 @@ public class Game {
         return inventoryShapeList;
     }
 
+    public boolean isInventory(Shape shape) {
+        return inventoryShapeList.contains(shape);
+    }
+
+    // note: Use only on the Editor side!!!
+    // TODO: check where this function is called, then delete when all is said and done
     public void addInventory(Shape shape) {
         inventoryShapeList.add(shape);
+    }
+
+    // note: you're probably looking for moveToCurrentPage(), which does inventory removal automatically
+    // TODO: delete this after it's safe to do so
+    public void removeInventory (Shape shape) {
+        inventoryShapeList.remove(shape);
+    }
+
+
+    public void moveToInventory (Shape shape) {
+        if (currentPage.getShapeList().contains(shape)) {
+            currentPage.removeShape(shape);
+        } else {
+            System.out.println("WARNING: moveToInventory() was called, but shape was not in current page. Where was it moved from??");
+        }
+        inventoryShapeList.add(shape);
+    }
+
+    public void moveToCurrentPage (Shape shape) {
+        currentPage.addShape(shape);
+
+        if (inventoryShapeList.contains(shape)) {
+            inventoryShapeList.remove(shape);
+        } else {
+            System.out.println("WARNING: moveToCurrentPage() was called, but shape was not in inventory. Where was it moved from??");
+        }
     }
 
     public Page getStarterPage() {
