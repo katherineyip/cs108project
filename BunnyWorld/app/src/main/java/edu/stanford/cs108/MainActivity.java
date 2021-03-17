@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
-        //String gameName = parent.getItemAtPosition(position).toString();
         selectedGame = (Game) parent.getItemAtPosition(position);
         System.out.println("Selected a game: " + selectedGame);
     }

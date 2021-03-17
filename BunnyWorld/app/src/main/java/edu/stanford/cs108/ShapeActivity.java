@@ -30,7 +30,7 @@ public class ShapeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape);
 
-        //Populate our Spinners
+        // Populate our Spinners
         Spinner eventSpinner = findViewById(R.id.evSpin);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.events, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

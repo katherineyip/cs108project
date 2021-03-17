@@ -44,16 +44,18 @@ public class EditPageActivity extends AppCompatActivity {
         buttonSavePageChanges.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //EditText inputPageName = findViewById(R.id.inputPageName);
-                //CheckBox checkboxIsStarterPage = findViewById(R.id.checkboxIsStarterPage);
-
-                setPageName();
-                setStarterPage();
+                // Ensure there is no duplicated page names
+                String newPageName = inputPageName.getText().toString();
+                if (isValidName(newPageName)) {
+                    setPageName(newPageName);
+                    setStarterPage();
+                    Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
+                    startActivity(intent);
+                } else {
+                    inputPageName.setError("This page name already exists.");
+                }
 
                 // TODO: currentPage.setScript();
-
-                Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -91,8 +93,22 @@ public class EditPageActivity extends AppCompatActivity {
         }
     }
 
+    /*
     public void setPageName() {
-        currentPage.setPageName(inputPageName.getText().toString());
+        String newPageName = inputPageName.getText().toString();
+        if (isValidName(newPageName)) {
+            currentPage.setPageName(inputPageName.getText().toString());
+            Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
+            startActivity(intent);
+        } else {
+            inputPageName.setError("This page name already exists.");
+        }
+    }
+
+     */
+
+    public void setPageName(String newName) {
+        currentPage.setPageName(newName);
     }
 
     public void setStarterPage() {
@@ -103,5 +119,17 @@ public class EditPageActivity extends AppCompatActivity {
                     "Successfully assigned " + currentPage.toString() + " as starter page",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private boolean isValidName(String name) {
+        if (name.equals("") || name == null) {
+            return false;
+        }
+        for (Page page : game.getPageList()) {
+            if (page.getPageName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
