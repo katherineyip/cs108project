@@ -1,5 +1,8 @@
 package edu.stanford.cs108;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.util.Map;
 
 /**
@@ -15,7 +18,7 @@ public class Shape {
     private String shapeName;
     private boolean isHidden;
     private boolean isMovable;
-    boolean isInventory; // if not in inventory, this shape will be associated to a particular page
+    boolean isInventory; // if not in inventory, this shape will be associated to a particular page // TODO: delete this variable
     public String shapeScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
     private float x, y;
@@ -56,15 +59,24 @@ public class Shape {
     }
 
     // Public getter methods
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public String getText() {
+        return text;
+    }
+
     public String getShapeName() {
         return shapeName;
     }
 
-    public boolean getHiddenState() {
+    public boolean isHidden() {
         return isHidden;
     }
 
-    public boolean getMovableState() {
+    public boolean isMovable() {
         return isMovable;
     }
 
@@ -84,6 +96,29 @@ public class Shape {
         return height;
     }
 
+    public Paint getTextPaint() {
+        Paint textPaint = new Paint(fontColor);
+        if (fontSize != 0) {
+            textPaint.setTextSize(fontSize);
+        } else {
+            textPaint.setTextSize(10);
+        }
+
+        return textPaint;
+    }
+
+    public Paint getRectPaint() {
+        Paint rectPaint;
+        if (backgroundColor != 0) {
+            rectPaint = new Paint(backgroundColor);
+        } else {
+            rectPaint = new Paint(Color.LTGRAY);
+        }
+        return rectPaint;
+    }
+
+
+
     // Public setter methods
     public void setShapeName(String newName) {
         shapeName = newName;
@@ -102,7 +137,7 @@ public class Shape {
     }
 
     public void setScript() {
-        Script.setShapeScript(this); 
+        Script.setShapeScript(this);
         // will need to check scriptMap.isEmpty() before using (if a shape doesn't have an associated script)
     }
 
@@ -144,6 +179,16 @@ public class Shape {
 
     public void setBackgroundColor(int newColor) {
         backgroundColor = newColor;
+    }
+
+
+    // custom functions for PageView and EditorPageView
+    public boolean isTextShape() {
+        return (this.text != null || !this.text.equals(""));
+    }
+
+    public boolean isImageShape() {
+        return (this.imageName != null || !this.text.equals(""));
     }
 
     @Override

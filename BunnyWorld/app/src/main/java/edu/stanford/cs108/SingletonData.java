@@ -25,8 +25,9 @@ public class SingletonData {
         gameList.add(testGame2);
 
         // DUMMY VARS for testing purposes only (added by Sammy and Nikita); remove later
-        //testGame1.getPage("page 1").addShape(new RectShape(Color.BLACK, "test RectShape", false, false, false, null, 100 ,100, 200, 200));
-
+        // TODO: test for different combos of shapes that are hidden, movable, in or out of inventory, etc
+        testGame1.getPage("page 1").addShape(new Shape("", "Text object", 24, Color.BLUE, Color.GREEN, "text1", false, true, false, "", 100, 100, 150, 300));
+        // testGame1.getPage("page 1").addShape(new TextShape("hello", 20, "immovableHello", false, false, false, null, 200, 400, 200, 400));
     }
 
     public List<Game> getGameList() {

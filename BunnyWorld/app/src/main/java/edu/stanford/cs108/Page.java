@@ -51,6 +51,11 @@ public class Page {
         shapeList.remove(shape);
     }
 
+    public void moveShapeToBack(Shape shape) {
+        shapeList.remove(shape);
+        shapeList.add(shape);
+    }
+
     @Override
     // This allow spinners to display String pageName rather than the object name
     public String toString() {
