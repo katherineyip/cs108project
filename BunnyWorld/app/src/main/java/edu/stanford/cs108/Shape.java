@@ -3,6 +3,8 @@ package edu.stanford.cs108;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.google.android.material.internal.Experimental;
+
 import java.util.Map;
 
 /**
@@ -192,6 +194,26 @@ public class Shape {
 
     public boolean hasImage() {
         return (this.imageName != null && !this.imageName.equals(""));
+    }
+
+
+    public boolean isOverlapping(Shape secondShape) {
+        float x1, x2, y1, y2, w1, w2, h1, h2;
+        x1 = this.x;
+        x2 = secondShape.getX();
+        y1 = this.y;
+        y2 = secondShape.getY();
+        w1 = this.width;
+        w2 = secondShape.getWidth();
+        h1 = this.height;
+        h2 = secondShape.getHeight();
+
+        if ((x2 > x1 && x2 < x1 + w1) || (x1 > x2 && x1 < x2 + w2)) {
+            if ((y2 > y1 && y2 < y1 + h1) || (y1 > y2 && y1 < y2 + h2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

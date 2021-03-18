@@ -28,6 +28,7 @@ public class PageView extends View {
     private List<Shape> pageShapeList = currentPage.getShapeList();
     private List<Shape> inventoryShapeList = currentGame.getInventoryShapeList();
     private Shape currentShape = null;
+    private List<Shape> dropTargets;
 
     private BitmapDrawable img;
     private Bitmap toDraw;
@@ -41,6 +42,7 @@ public class PageView extends View {
 
     private float lineHeight;
     private final Paint linePaint = new Paint();
+    private final Paint dropTargetPaint = new Paint();
 
 
     public PageView(Context context, AttributeSet attrs) {
@@ -51,6 +53,10 @@ public class PageView extends View {
     private void init() {
         linePaint.setColor(Color.BLACK);
         linePaint.setStrokeWidth(INVENTORY_LINE_STROKE_WIDTH);
+
+        dropTargetPaint.setColor(Color.GREEN);
+        dropTargetPaint.setStrokeWidth(20);
+        dropTargetPaint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
@@ -63,11 +69,20 @@ public class PageView extends View {
         canvas.drawLine(0, lineHeight, getWidth(), lineHeight, linePaint);
         drawVisibleShapes(canvas, pageShapeList);
         drawVisibleShapes(canvas, inventoryShapeList); // TODO: for an extension, replace this with a call to drawInventoryShapes() to implement ordered snapping
+
+        if (currentShape != null) {
+            // if there is currently a shape that is selected
+            drawHighlightBorders(canvas);
+        }
     }
 
     // these float variables are only used in this function
     private float offsetX;
     private float offsetY;
+    private float originalMouseX;
+    private float originalMouseY;
+    private float originalShapeX;
+    private float originalShapeY;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -78,38 +93,51 @@ public class PageView extends View {
                     // System.out.println("Shape " + shapeInQuestion.getShapeName() + ", from Page, is hidden: " + shapeInQuestion.isHidden());
                     // System.out.println("Shape " + shapeInQuestion.getShapeName() + ", from Page, is clicked: " + shapeInQuestion.isClicked(event.getX(), event.getY()));
 
-                    if (!shapeInQuestion.isHidden() && shapeInQuestion.isClicked(event.getX(), event.getY())) {
+                    if (shapeInQuestion != null && !shapeInQuestion.isHidden() && shapeInQuestion.isClicked(event.getX(), event.getY())) {
                         currentShape = shapeInQuestion;
-                        offsetX = event.getX() - currentShape.getX();
-                        offsetY = event.getY() - currentShape.getY();
+//                        offsetX = event.getX() - currentShape.getX();
+//                        offsetY = event.getY() - currentShape.getY();
+                        originalMouseX = event.getX();
+                        originalMouseY = event.getY();
+                        originalShapeX = currentShape.getX();
+                        originalShapeY = currentShape.getY();
+                        offsetX = originalMouseX - originalShapeX;
+                        offsetY = originalMouseY - originalShapeY;
 
-                        System.out.println("Shape " + currentShape.getShapeName() + ", from Page, clicked!");
+                        System.out.println("Shape " + currentShape.getShapeName() + ", from Page, now currentShape!");
 
-                        System.out.println("Moved " + currentShape.getShapeName() + " to back of page list!");
+                        // System.out.println("Moved " + currentShape.getShapeName() + " to back of page list!");
                         currentPage.moveShapeToBack(currentShape);
                         System.out.println("Page list is now " + pageShapeList + ".");
 
-                        // TODO: on press, call the On Click trigger
                     }
                 }
 
                 for (int i = inventoryShapeList.size() - 1; i >= 0; i--) {
                     Shape shapeInQuestion = inventoryShapeList.get(i);
-                    if (!shapeInQuestion.isHidden() && shapeInQuestion.isClicked(event.getX(), event.getY())) {
+                    if (shapeInQuestion != null && !shapeInQuestion.isHidden() && shapeInQuestion.isClicked(event.getX(), event.getY())) {
                         currentShape = shapeInQuestion;
-                        offsetX = event.getX() - currentShape.getX();
-                        offsetY = event.getY() - currentShape.getY();
 
-                        System.out.println("Shape " + currentShape.getShapeName() + ", from Inventory, clicked!");
-                        // TODO: do we process the trigger even if the item's just chillin in Inventory?
+                        originalMouseX = event.getX();
+                        originalMouseY = event.getY();
+                        originalShapeX = currentShape.getX();
+                        originalShapeY = currentShape.getY();
+                        offsetX = originalMouseX - originalShapeX;
+                        offsetY = originalMouseY - originalShapeY;
+
+                        System.out.println("Shape " + currentShape.getShapeName() + ", from Inventory, now currentShape!");
                     }
                 }
+
+                // get the list of drop targets.
+                // TODO: test this functionality by assigning dropTargets to various groups of shapes, instead of going thru this function
+                dropTargets = currentGame.validDropTargets(currentShape, pageShapeList);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (currentShape != null && currentShape.isMovable()) {
                     currentShape.setX(event.getX() - offsetX);
                     currentShape.setY(event.getY() - offsetY);
-
                     // System.out.println("Shape " + currentShape.getShapeName() + " is being moved");
                 }
                 break;
@@ -118,36 +146,68 @@ public class PageView extends View {
                     float shapeY = currentShape.getY();
                     float shapeHeight = currentShape.getHeight();
 
+                    boolean onPage;
+
                     // if shape is on inventory line, move it to off of the line
                     if (lineHeight >= shapeY && lineHeight <= shapeY + shapeHeight) {
                         if (lineHeight >= shapeY + shapeHeight / 2) { // shape moreso in page
                             currentShape.setY(lineHeight - shapeHeight - INVENTORY_LINE_BUFFER);
-                            // not in inventory
+                            onPage = true;
                         } else { // moreso in inventory
                             currentShape.setY(lineHeight + INVENTORY_LINE_BUFFER);
-                            // in inventory
+                            onPage = false;
+                        }
+                    } else {
+                        if (shapeY < lineHeight) {
+                            onPage = true;
+                        } else {
+                            onPage = false;
                         }
                     }
 
-                    // TODO: if (the current held shape is on top of another shape)
-                    //          if (this object completes a trigger)
-                    //              call the On Drop trigger (also look at the extension this is related to)
-                    //          else
-                    //              setX and setY the currentShape back to its original position (do this with originalXoriginalY vars),
-                    //              re-zero the orignalXY vars, null currentShape, and break;
 
+                    // TODO: this is the OnClick processor; double check to make sure it works
+                    //  note: this processes the OnClick trigger even if the Shape is in Inventory
+                    //  extension: I can easily add another condition to make this trigger also only operate when out of inventory
+                    // for onClick, process the trigger if action up is within 2px of original position
+                    if (Math.abs(event.getX() - originalMouseX) <= 1 && Math.abs(event.getY() - originalMouseY) <= 1) {
+                        System.out.println("Shape " + currentShape.getShapeName() + " will execute its onClick() trigger");
+                        currentGame.onClick(currentShape.scriptMap);
+                    } else { // it has been moved, not clicked
+                        if (onPage) {
+                            for (int i = pageShapeList.size() - 1; i >= 0; i--) {
+                                Shape potentialOverlappingShape = pageShapeList.get(i);
+                                if (potentialOverlappingShape != null && !potentialOverlappingShape.isHidden()
+                                        && currentShape.isOverlapping(potentialOverlappingShape)) {
+                                    // i.e. if the current shape was dropped on some other shape,
+                                    if (dropTargets.contains(potentialOverlappingShape)) {
+                                        // if that other shape is a receiving shape, call the onDrop trigger, and break out of the loop
+                                        System.out.println("onDrop() called!! Current shape: " + currentShape.getShapeName() +
+                                                ", Drop target shape: " + potentialOverlappingShape.getShapeName());
+                                        currentGame.onDrop(currentShape, potentialOverlappingShape.scriptMap);
+                                        break;
+                                    } else {
+                                        // the item was dropped on some random foreign shape; snap it back to its original position
+                                        currentShape.setX(originalShapeX);
+                                        currentShape.setY(originalShapeY);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
 
-                    // if shape has been freshly moved from Page to Inventory or vice versa,
-                    // update the Game and Page to reflect the changes
-                    if (currentShape.getY() > lineHeight && !currentGame.isInventory(currentShape)) { // if shape was moved into inventory
-                        currentGame.moveToInventory(currentShape);
-                        System.out.println("Moved " + currentShape.getShapeName() + " to Inventory!");
-                    } else if (currentShape.getY() < lineHeight && currentGame.isInventory(currentShape)) { // if shape was moved out of inventory
-                        System.out.println("Moved " + currentShape.getShapeName() + " out of Inventory!");
-                        currentGame.moveToCurrentPage(currentShape);
+                        if (onPage && currentGame.isInventory(currentShape)) { // if the shape has been moved to the page but originally was inventory,
+                            System.out.println("Moved " + currentShape.getShapeName() + " out of Inventory!");
+                            currentGame.moveToCurrentPage(currentShape);
+                        }
+                        if (!onPage && !currentGame.isInventory(currentShape)) {
+                            System.out.println("Moved " + currentShape.getShapeName() + " to Inventory!");
+                            currentGame.moveToInventory(currentShape);
+                        }
                     }
                 }
                 currentShape = null; // deselect the shape; if no shape was selected, does nothing
+                dropTargets = null; // empty dropTargets list
                 break;
         }
         invalidate();
@@ -156,14 +216,13 @@ public class PageView extends View {
 
     private void drawVisibleShapes(Canvas canvas, List<Shape> list) {
         for (Shape shape : list) {
-            if (!shape.isHidden()) {
-                // TODO: implement drawing green rectangle around items that can receive onDrop() trigger from currentShape
+            if (shape != null && !shape.isHidden()) {
                 if (shape.hasText()) { // if it has text, only draw the text as it has priority
                     // TODO: the drawRect line is for debugging purposes only; delete it afterwards... unless we wanna have it be a feature (discuss)
                     canvas.drawRect(shape.getX(), shape.getY(), shape.getX() + shape.getWidth(), shape.getY() + shape.getHeight(), shape.getRectPaint());
                     canvas.drawText(shape.getText(), shape.getX(), shape.getY() + shape.getTextSize(), shape.getTextPaint());
                 } else if (shape.hasImage()) { // if it has no text, but has an image, draw the image
-                    // TODO: redo this to pull from database
+                    // TODO: extension: redo this to pull from database
 
                     if (shape.getImageName().equals("carrot")) {
                         img = (BitmapDrawable) getResources().getDrawable(R.drawable.carrot);
@@ -190,8 +249,18 @@ public class PageView extends View {
         }
     }
 
+    private void drawHighlightBorders(Canvas canvas) {
+        for (Shape s : dropTargets) {
+            if (s != null) {
+                canvas.drawRect(s.getX(), s.getY(), s.getX() + s.getWidth(), s.getY() + s.getHeight(), dropTargetPaint);
+            }
+        }
+        // TODO: extension: different color boxes in different situations
+    }
+
     private void drawInventoryShapes(Canvas canvas) {
-        // TODO: extension: draw shapes from Inventory
+        // TODO: extension: draw shapes from Inventory in a neat, organized manner
+        //  Also, figure out if there is a way to shrink an item while it is in inventory
     }
 
 }

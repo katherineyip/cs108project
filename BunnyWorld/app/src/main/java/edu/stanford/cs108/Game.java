@@ -184,8 +184,15 @@ public class Game {
 
     private void goTo(String pageString) {
         Page page = getPageFromID(pageString);
+        Page oldPage = currentPage;
         if (page != null) {
             setCurrentPage(page);
+        }
+        if (oldPage != currentPage) {
+            onEnter(currentPage.scriptMap);
+            for (Shape shape : currentPage.shapeList) {
+                onEnter(shape.scriptMap);
+            }
         }
     }
 
