@@ -20,6 +20,9 @@
         <activity android:name=".EditorActivity">
             android:screenOrientation="landscape"
         </activity>
+        <activity android:name=".ShapeEditorActivity">
+            android:screenOrientation="landscape"
+        </activity>
         <activity android:name=".MainActivity">
             android:screenOrientation="landscape"
             <intent-filter>

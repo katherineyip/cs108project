@@ -77,6 +77,7 @@ public class EditorPageView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                boolean notFound = true;
                 for (int i = pageShapeList.size() - 1; i >= 0; i--) {
                     Shape shapeInQuestion = pageShapeList.get(i);
 
@@ -85,6 +86,8 @@ public class EditorPageView extends View {
 
                     if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
                         currentShape = shapeInQuestion;
+                        notFound = false;
+                        currentGame.setCurrentShape(currentShape);
                         offsetX = event.getX() - currentShape.getX();
                         offsetY = event.getY() - currentShape.getY();
 
@@ -95,7 +98,7 @@ public class EditorPageView extends View {
                         System.out.println("Page list is now " + pageShapeList + ".");
                     }
                 }
-
+                if(notFound) currentShape = null;
                 for (int i = inventoryShapeList.size() - 1; i >= 0; i--) {
                     Shape shapeInQuestion = inventoryShapeList.get(i);
                     if (shapeInQuestion.isClicked(event.getX(), event.getY())) {

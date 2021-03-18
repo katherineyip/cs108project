@@ -16,6 +16,7 @@ public class Game {
 
     Page currentPage;
     List<Shape> inventoryShapeList;
+    Shape currentShape = null;
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
 
@@ -33,6 +34,10 @@ public class Game {
         addPage(firstPage);
         currentPage = firstPage;
         starterPage = firstPage;
+    }
+
+    public void setCurrentShape(Shape shape){
+        this.currentShape = shape;
     }
 
     public List<Page> getPageList() {

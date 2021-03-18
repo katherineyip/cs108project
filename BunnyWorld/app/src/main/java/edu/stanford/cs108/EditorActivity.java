@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,6 +72,24 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
         System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
         System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        List<Shape> pageShapeList = currentPage.getShapeList();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (int i = pageShapeList.size() - 1; i >= 0; i--) {
+                    Shape shapeInQuestion = pageShapeList.get(i);
+
+                    if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
+                        game.setCurrentShape(shapeInQuestion);
+                        return true;
+                    }
+                }
+                return true;
+        }
+        return true;
     }
 
     @Override
@@ -180,5 +199,15 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         sharedPrefEditor.apply(); //prob don't use sharedPrefEditor.commit();
         Toast.makeText(EditorActivity.this, "Successfully saved " + game.gameName + ".", Toast.LENGTH_SHORT);
         System.out.println("Successfully saved game to sp. Game ID: " + game.getGameID() + ". Game Name: " + game.gameName);
+    }
+
+    public void editShape(View view) {
+        if(SingletonData.getInstance().getCurrentGame().currentShape == null) {
+            Toast.makeText(this, "Must Select Shape", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intentEditShape = new Intent(EditorActivity.this, ShapeEditorActivity.class);
+        startActivity(intentEditShape);
     }
 }
