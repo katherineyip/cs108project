@@ -2,7 +2,9 @@ package edu.stanford.cs108;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,14 +15,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
     Game game = singletonData.getCurrentGame();
-    Page currentPage = game.getCurrentPage();
-    List<Page> pageList = game.pageList;
+    List<Page> pageList;
+    Page currentPage;
+
+    // DB
+    SharedPreferences sharedPref;
+    static final String SHARED_PREF_FILE = "TempGamePrefs";
 
     // UI
     PageView EditorPageView; // which has a canvas
@@ -33,9 +42,18 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        //SharedPreferences sharedPrefs = getApplicationContext().getSharedPreferences("Game Prefs", Context.MODE_PRIVATE);
-        //String gameName = sharedPrefs.getString("game name", "");
-        // TODO: t1.setText(name);
+        // Set up current page
+        if (game.getCurrentPage() == null) {
+            currentPage = game.getStarterPage();
+        } else {
+            currentPage = game.getCurrentPage();
+        }
+
+        // Get Page List from game
+        pageList = game.pageList;
+
+        // Get sharedPref file
+        sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
 
         // Display current game name
         gameName = findViewById(R.id.gameName);
@@ -97,7 +115,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent intentEditGame = new Intent(EditorActivity.this, EditGameActivity.class);
                 startActivity(intentEditGame);
                 return true;
-                // TODO: Add save game
+            case R.id.menuSaveGame:
+                saveData();
+                Intent intentSaveGame = new Intent(EditorActivity.this, MainActivity.class);
+                startActivity(intentSaveGame);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
@@ -116,19 +138,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         pageSpinner.setSelection(game.pageList.indexOf(currentPage));
         Toast.makeText(EditorActivity.this, "Successfully added " + newPage.getPageName() , Toast.LENGTH_SHORT);
     }
-
-    /*
-    public void renamePage(Page page, String newPageName) {
-        if (!game.getPageList().contains(newPageName)) {
-            page.setPageName(newPageName);
-        }
-        // TODO: Throw error if a page name already exist
-    }
-     */
-
-   // public void removePage(Page page) {
-    //    game.getPageList().remove(page); // TODO: Need to pass in an index instead of the page..?
-   // }
 
     private void loadSpinnerPageListData() {
         //pageList = game.pageList; // TODO: Get game list from db later
@@ -151,5 +160,25 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void onResume() {
         super.onResume();
         loadSpinnerPageListData();
+    }
+
+    /**
+     * Save data to sharePrefs
+     */
+    private void saveData() {
+        //SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+
+        // Serialize game object
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(game);
+        System.out.println("LOG: Printing json  --- " + jsonString);
+
+        // Put serialized game object into sharedPrefs file
+        sharedPrefEditor.putString(game.getGameID(), jsonString);
+        //sharedPrefEditor.putString(game.gameName, jsonString);
+        sharedPrefEditor.apply(); //prob don't use sharedPrefEditor.commit();
+        Toast.makeText(EditorActivity.this, "Successfully saved " + game.gameName + ".", Toast.LENGTH_SHORT);
+        System.out.println("Successfully saved game to sp. Game ID: " + game.getGameID() + ". Game Name: " + game.gameName);
     }
 }

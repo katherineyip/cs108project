@@ -4,35 +4,45 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-
-// DB Stuff
-import android.content.Context;
+import com.google.gson.Gson;
 import android.content.SharedPreferences;
 import android.widget.Toast;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 //implements AdapterView
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
     Game selectedGame;
     SingletonData singletonData = SingletonData.getInstance();
-    //SharedPreferences sharedPref;
+
+    // DB
+    SharedPreferences sharedPref;
+    static final String SHARED_PREF_FILE = "TempGamePrefs";
+    List<Game> gameListFromDB;
+
+    // UI
+    Spinner spinnerGameNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //sharedPref = getSharedPreferences("GamePrefs", Context.MODE_PRIVATE);
+        // Get all games from sharedPref file
+        sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
+        gameListFromDB = new ArrayList<>();
+        loadGamesDataFromSharedPrefs();
 
-        Spinner spinnerGameNames = findViewById(R.id.spinnerGameNames);
+        // Load game options to game dropdown
+        spinnerGameNames = findViewById(R.id.spinnerGameNames);
         spinnerGameNames.setOnItemSelectedListener(this);
         loadSpinnerGameListData();
 
@@ -42,20 +52,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 // Set up a new game
-                Game game = new Game("New Game"); // TODO: Add some ways to programmatically assign new name?
+                int nextGameCount = getNumGames() + 1;
+                Game game = new Game("Game" + nextGameCount, "Game" + nextGameCount);
 
-                // TODO: Do I save to sharedPrefs here or do I do it in EditorActivity?
-                /*
-                SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
-                sharedPrefEditor.putString("Game name", game.toString());
-                sharedPrefEditor.commit();
-                Toast.makeText(MainActivity.this, "New game saved.", Toast.LENGTH_SHORT);
-                 */
-
-                //SingletonData singletonData = SingletonData.getInstance();
-                singletonData.addGameToList(game);
+                // Store this game in memory with Singleton
+                singletonData.addGameToList(game); // TODO: Not sure if I actually need this
                 singletonData.setCurrentGame(game);
-                game.setCurrentPage(game.getPageList().get(0));
+                game.setCurrentPage(game.getStarterPage());
 
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 singletonData.setCurrentGame(selectedGame);
+                // TODO: For starting a game, we need to make a clone, rather than playing the game template
                 Intent intent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(intent);
             }
@@ -76,11 +80,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         buttonEditGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Set selectedGame in Singleton according to user's dropdown choice
+                selectedGame = (Game) spinnerGameNames.getSelectedItem();
                 singletonData.setCurrentGame(selectedGame);
+                singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                Toast.makeText(MainActivity.this, "Current game is: " + selectedGame.toString(), Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
-
-                //Game game = // TODO: get game
             }
         });
     }
@@ -101,15 +108,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * Function to load the spinner data from Singleton / SQLite database
      **/
     private void loadSpinnerGameListData() {
-        SingletonData singletonData = SingletonData.getInstance();
-        List<Game> gameList = singletonData.getGameList();
-
-        // TODO: Get game list from db later
-        //DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-        //List<Game> gameList = db.getAllGames();
+        // TODO: Temp remove for testing
+        //SingletonData singletonData = SingletonData.getInstance();
+        //List<Game> gameList = singletonData.getGameList();
+        //List<Game> gameList = new ArrayList<>();
 
         // Creating adapter for spinner
-        ArrayAdapter<Game> dataAdapter = new ArrayAdapter<Game>(this, android.R.layout.simple_spinner_item, gameList);
+        ArrayAdapter<Game> dataAdapter = new ArrayAdapter<Game>(this, android.R.layout.simple_spinner_item, gameListFromDB);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -118,4 +123,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Spinner spinnerGameNames = findViewById(R.id.spinnerGameNames);
         spinnerGameNames.setAdapter(dataAdapter);
     }
+
+    // Get a count of all saved games for new game's naming purpose
+    public int getNumGames() {
+        return gameListFromDB.size();
+    }
+
+    private void loadGamesDataFromSharedPrefs() {
+        // Get all game templates from sharedPrefs
+        Map<String, ?> allGameEntries = sharedPref.getAll();
+        for (Map.Entry<String, ?> entry : allGameEntries.entrySet()) {
+            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
+
+            // Deserialize each game
+            Gson gson = new Gson();
+            String json = sharedPref.getString(entry.getKey(), null);
+            Game thisGame = gson.fromJson(json, Game.class);
+            gameListFromDB.add(thisGame);
+
+            System.out.println("printing stuff inside deserialization: ");
+            System.out.println("entry key: " + entry.getKey());
+            System.out.println("game object name" + thisGame.toString());
+        }
+
+        // Store gameList into Singleton
+        singletonData.loadGameListFromDB(gameListFromDB);
+    }
+
+
 }

@@ -18,7 +18,6 @@ public class Shape {
     private String shapeName;
     private boolean isHidden;
     private boolean isMovable;
-    boolean isInventory; // if not in inventory, this shape will be associated to a particular page // TODO: delete this variable.
     public String shapeScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
     private String shapeID;
@@ -52,7 +51,6 @@ public class Shape {
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
         setScript();
-        this.isInventory = isInventory;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -147,10 +145,6 @@ public class Shape {
 
     public void setMovableState(boolean movableState) {
         isMovable = movableState;
-    }
-
-    public void setInventoryState(boolean inventoryState) {
-        isInventory = inventoryState;
     }
 
     public void setScript() {

@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
+
 public class EditGameActivity extends AppCompatActivity {
     // Data
     SingletonData singletonData = SingletonData.getInstance();
@@ -30,11 +32,31 @@ public class EditGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 inputGameName = findViewById(R.id.inputGameName);
 
-                Game game = singletonData.getCurrentGame();
-                game.setGameName(inputGameName.getText().toString());
-                Intent intent = new Intent(EditGameActivity.this, EditorActivity.class);
-                startActivity(intent);
+                if (isValidGameName(inputGameName.getText().toString())) {
+                    Game game = singletonData.getCurrentGame();
+                    game.setGameName(inputGameName.getText().toString());
+                    Intent intent = new Intent(EditGameActivity.this, EditorActivity.class);
+                    startActivity(intent);
+                } else {
+                    inputGameName.setError("This game name already exists.");
+                }
             }
         });
+    }
+
+    // Check to ensure no games have duplicated names
+    private boolean isValidGameName(String gameName) {
+        if (gameName.equals(singletonData.getCurrentGame().gameName)) { // No change is acceptable
+            return true;
+        }
+
+        List<Game> gameList = singletonData.getGameList();
+
+        for (Game game : gameList) {
+            if (game.getGameName().equals(gameName)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
