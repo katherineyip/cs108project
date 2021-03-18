@@ -225,6 +225,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         return true;
     }
 
+    /*
     private boolean isUniqueName(String name) {
         for (Page page : game.getPageList()) {
             for (Shape shape : page.getShapeList()) {
@@ -235,6 +236,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         }
         return true;
     }
+     */
 
 
 
