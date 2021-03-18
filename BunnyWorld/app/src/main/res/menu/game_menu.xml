@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group  android:id="@+id/grp1">
-        <item android:id="@+id/menuAddShape"
-            android:title="Add shape" />
-    </group>
-
-    <group android:id="@+id/grp2">
-        <item android:id="@+id/menuAddPage"
-            android:title="Add page"/>
-        <item android:id="@+id/menuEditPage"
-            android:title="Edit page" />
-    </group>
-
-    <group android:id="@+id/grp3">
-        <item android:id="@+id/menuEditGameDetails"
-            android:title="Edit game details"/>
-        <item android:id="@+id/menuSaveGame"
-            android:title="Save game"/>
-    </group>
+    <item android:id="@+id/menuAddShape"
+        android:title="Add shape" />
+    <item android:id="@+id/menuAddPage"
+        android:title="Add page"/>
+    <item android:id="@+id/menuEditPage"
+        android:title="Edit page" />
+    <item android:id="@+id/menuEditGameDetails"
+        android:title="Edit game details"/>
+    <item android:id="@+id/menuSaveGame"
+        android:title="Save game"/>
+    <item android:id="@+id/menuDiscardAllEdits"
+        android:title="Discard all edits"/>
 </menu>

@@ -50,7 +50,7 @@ public class EditGameActivity extends AppCompatActivity {
             return true;
         }
 
-        List<Game> gameList = singletonData.getGameList();
+        List<Game> gameList = singletonData.getGameConfigList();
 
         for (Game game : gameList) {
             if (game.getGameName().equals(gameName)) {

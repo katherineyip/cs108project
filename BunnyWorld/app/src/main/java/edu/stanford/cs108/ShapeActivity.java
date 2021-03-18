@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -112,8 +109,6 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
             }
         });
     }
-
-
 
     public void onSubmit(View view) {
         // Use to create image
@@ -216,13 +211,33 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
         if(inputShapeName.getText().toString().equals("")){
-            Toast.makeText(this, "Must Give Shape Name", Toast.LENGTH_SHORT).show();
+            inputShapeName.setError("Must provide shape name");
             return false;
         }
 
+        // TODO: Ensure there is no duplicated shape names
+        //String newShapeName = inputShapeName.getText().toString();
+        //if (!isUniqueName(newShapeName)) {
+        //    inputShapeName.setError("This shape name already exists.");
+        //    return false;
+        //}
 
         return true;
     }
+
+    private boolean isUniqueName(String name) {
+        for (Page page : game.getPageList()) {
+            for (Shape shape : page.getShapeList()) {
+                if (shape.getShapeName().equals(name)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+
 
     public String getScript(){
         Spinner actionSpinner = findViewById(R.id.acSpin);
