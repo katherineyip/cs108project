@@ -86,6 +86,66 @@ public class Script {
 		return triggerMap;
 
 	}
+	
+	public static Map<String, actionPairs[]> updateScript(Map<String, actionPairs[]> scriptMap, String addedScript) {
+		
+		if (addedScript == null || addedScript == "") {
+			return scriptMap;
+		}
+		
+		String[] clauses = addedScript.split(";");
+
+		for (int i = 0; i < clauses.length; i++) {
+
+			String[] actionArr = clauses[i].trim().split(" ", 0);
+			String trigger = actionArr[0] + " " + actionArr[1];
+
+			int size = (actionArr.length / 2) - 1;
+			if (trigger.equalsIgnoreCase("on drop")) { //takes into account that on drop has its own target
+				size++;
+			}
+
+			actionPairs[] actionTarget = new actionPairs[size];
+
+			int start = 2;
+			if (trigger.equalsIgnoreCase("on drop")) {
+				trigger += " " + actionArr[2];
+				actionPairs dropTarget = new actionPairs(); // adds [drop, target] so that we know the target shape to drop
+				dropTarget.action = "drop";
+				dropTarget.target = actionArr[2];
+				actionTarget[0] = dropTarget;
+				start++;
+			}
+
+			while (start < actionArr.length - 1) {
+
+				actionPairs action = new actionPairs(); //adds each pair of action and target to the array
+				action.action = actionArr[start];
+				action.target = actionArr[start + 1];
+				actionTarget[(start - 1) / 2] = action;
+				start += 2;
+			}
+
+			
+			if (scriptMap.get(trigger) != null) {
+				actionPairs[] currentActions = scriptMap.get(trigger);
+				actionPairs[] newActions = new actionPairs[currentActions.length + actionTarget.length];
+				int currLen = currentActions.length;
+				for (int j = 0; j < currLen; j++) {
+					newActions[j] = currentActions[j];
+				}
+				for (int k = currLen; k < currLen + actionTarget.length; k++) {
+					newActions[k] = actionTarget[k - currLen];
+				}
+				scriptMap.put(trigger, newActions);
+			} else {
+				scriptMap.put(trigger, actionTarget);
+			}
+				
+		}
+		
+		return scriptMap;
+	}
 
 	//for debugging
 	/*private static void showMap(Map<String, actionPairs[]> scriptMap) { 
