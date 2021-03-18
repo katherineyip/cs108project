@@ -41,7 +41,6 @@ public class Shape {
                  String shapeName,
                  boolean isHidden,
                  boolean isMovable,
-                 boolean isInventory,
                  int shapeIDNum,// TODO:will need to add game.nextShapeID when creating shapes
                  String shapeScript,
                  float x, float y,

@@ -196,14 +196,6 @@ public class EditorPageView extends View {
         if(s.getX() < 0 || s.getX() >= width || s.getY() < 0 ) return false;
         if(s.getX() + s.getWidth() >= width ) return false;
 
-        //if the shape is below the inventory line check if inInventory
-        if(s.getY() + s.getHeight() >= height || s.getY() >= height){
-            if(s.isInventory){
-                if(s.getY() + s.getHeight() >= canvas.getHeight()) return false;
-                return true;
-            } else return false;
-        }
-
         return true;
     }
 }
