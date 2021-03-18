@@ -43,15 +43,6 @@ public class Page {
     	// will need to check scriptMap.isEmpty() before using (if a page doesn't have an associated script)
     }
 
-    public void updateScript(String additionalPageScript) {
-        Script.updateScript(scriptMap, additionalPageScript);
-    }
-
-    public void replaceScript(String newPageScript) {
-        this.pageScript = newPageScript;
-        setScript();
-    }
-
     // use this list to draw shapes
     public List<Shape> getShapeList() {
         return shapeList;
