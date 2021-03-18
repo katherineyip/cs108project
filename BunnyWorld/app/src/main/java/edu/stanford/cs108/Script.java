@@ -61,7 +61,8 @@ public class Script {
 			actionPairs[] actionTarget = new actionPairs[size];
 
 			int start = 2;
-			if (trigger.equalsIgnoreCase("on drop")) {
+			if (trigger.contains("on drop")) {
+				trigger += " " + actionArr[2];
 				actionPairs dropTarget = new actionPairs(); // adds [drop, target] so that we know the target shape to drop
 				dropTarget.action = "drop";
 				dropTarget.target = actionArr[2];
