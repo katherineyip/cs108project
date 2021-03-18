@@ -66,7 +66,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
 
             loadShapeData();
 
-
             // Set up onClickListener on "Submit" to bring user back to EditorActivity
             buttonSetShape = findViewById(R.id.buttonSetShape);
             buttonSetShape.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +103,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 }
             });
         }
-
-
 
         public void onSubmit(View view) {
             // Use to create image
@@ -158,7 +155,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             currentShape.setY(y);
             currentShape.setWidth(width);
             currentShape.setHeight(height);
-
         }
 
         public float getVal(EditText et, float def){
@@ -210,7 +206,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(this, "Must Give Shape Name", Toast.LENGTH_SHORT).show();
                 return false;
             }
-
 
             return true;
         }

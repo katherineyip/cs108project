@@ -14,12 +14,13 @@ public class SingletonData {
     }
 
     private List<Game> gameList;
+    private List<Game> gameProgressList;
     private Game currentGame;
 
     private SingletonData() {
         gameList = new ArrayList<>();
+        gameProgressList = new ArrayList<>();
         currentGame = null;
-
         
         // Game testGame1 = new Game("test game 1", "test game 1");
         //Game testGame2 = new Game("test game 2");
@@ -37,6 +38,11 @@ public class SingletonData {
     
     public void loadGameListFromDB(List<Game> gameList) {
         this.gameList = gameList;
+    }
+
+
+    public void loadGameProgressListFromDB(List<Game> gameProgressList) {
+        this.gameProgressList = gameProgressList;
     }
 
     public List<Game> getGameList() {
