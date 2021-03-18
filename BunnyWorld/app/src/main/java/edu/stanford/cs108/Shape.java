@@ -151,6 +151,15 @@ public class Shape {
         // will need to check scriptMap.isEmpty() before using (if a shape doesn't have an associated script)
     }
 
+    public void updateScript(String additionalShapeScript) {
+        Script.updateScript(scriptMap, additionalShapeScript);
+    }
+
+    public void replaceScript(String newShapeScript) {
+        this.shapeScript = newShapeScript;
+        setScript();
+    }
+
     public void setX(float newX) {
         x = newX;
     }
