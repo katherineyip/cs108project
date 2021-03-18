@@ -20,6 +20,7 @@ public class Shape {
     private boolean isMovable;
     public String shapeScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
+    private String shapeID;
     private float x, y;
     private float width, height;
 
@@ -40,6 +41,8 @@ public class Shape {
                  String shapeName,
                  boolean isHidden,
                  boolean isMovable,
+                 boolean isInventory,
+                 int shapeIDNum,// TODO:will need to add game.nextShapeID when creating shapes
                  String shapeScript,
                  float x, float y,
                  float width, float height){
@@ -47,6 +50,7 @@ public class Shape {
         this.isHidden = isHidden;
         this.isMovable = isMovable;
         this.shapeScript = shapeScript;
+        setScript();
         this.x = x;
         this.y = y;
         this.width = width;
@@ -56,6 +60,7 @@ public class Shape {
         this.fontSize = fontSize;
         this.fontColor = fontColor;
         this.backgroundColor = backgroundColor; ////TODO: allow the user to select their color
+        this.shapeID = "s" + Integer.toString(shapeIDNum);
 
         this.rectPaint = new Paint();
         this.textPaint = new Paint();
@@ -73,6 +78,10 @@ public class Shape {
 
     public String getShapeName() {
         return shapeName;
+    }
+
+    public String getShapeID() {
+        return shapeID;
     }
 
     public boolean isHidden() {
