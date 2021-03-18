@@ -104,22 +104,15 @@ public class Shape {
     }
 
     public Paint getTextPaint() {
-        if (fontSize != 0) {
-            textPaint.setTextSize(fontSize);
-        } else {
-            textPaint.setTextSize(10);
-        }
+        // defaults from ShapeActivity: fontSize = 40, fontColor = Color.BLACK
+        textPaint.setTextSize(fontSize);
         textPaint.setColor(fontColor);
         return textPaint;
     }
 
     public Paint getRectPaint() {
-        // TODO: ask Jacob whether it is possible to pass in a "null" value, in which case I need to uncomment the if block
-        // if (backgroundColor != 0) {
-            rectPaint.setColor(backgroundColor);
-        // } else {
-        //    rectPaint = new Paint(Color.LTGRAY);
-        //}
+        // default from ShapeActivity: bgColor = Color.GRAY
+        rectPaint.setColor(backgroundColor);
         return rectPaint;
     }
 
