@@ -2,7 +2,6 @@ package edu.stanford.cs108;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,8 +28,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     Page currentPage;
 
     // DB
-    SharedPreferences sharedPref;
-    static final String SHARED_PREF_FILE = "TempGamePrefs";
+    SharedPreferences gameConfigSharedPref;
+    static final String GAME_CONFIG_SHARED_PREF_FILE = "TempGamePrefs";
 
     // UI
     PageView EditorPageView; // which has a canvas
@@ -54,7 +53,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         pageList = game.pageList;
 
         // Get sharedPref file
-        sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
+        gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
 
         // Display current game name
         gameName = findViewById(R.id.gameName);
@@ -186,13 +185,13 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      */
     private void saveData() {
         //SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+        SharedPreferences.Editor sharedPrefEditor = gameConfigSharedPref.edit();
 
         // Serialize game object
         Gson gson = new Gson();
         String jsonString = gson.toJson(game);
         System.out.println("LOG: Printing json  --- " + jsonString);
-
+        sharedPrefEditor.clear();
         // Put serialized game object into sharedPrefs file
         sharedPrefEditor.putString(game.getGameID(), jsonString);
         //sharedPrefEditor.putString(game.gameName, jsonString);

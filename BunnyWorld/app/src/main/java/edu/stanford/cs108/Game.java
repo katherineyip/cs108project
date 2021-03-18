@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Game {
-    String id;
+public class Game implements Cloneable {
+    String id; // unique ID that is used in sharedPrefs as key
     String gameName;
     List<Page> pageList;
     Page starterPage;
@@ -172,7 +172,6 @@ public class Game {
         return null;
     }
 
-
     private void hide(String shapeString) {
         Shape shape = getShapeFromID(shapeString);
         if (shape != null) {
@@ -209,7 +208,6 @@ public class Game {
 
     }
 
-
     private void performActions(Script.actionPairs[] actions) {
         for (Script.actionPairs act : actions) {
             switch(act.action) {
@@ -229,8 +227,6 @@ public class Game {
         }
 
     }
-
-
 
     public void onClick(Map<String, Script.actionPairs[]> scriptMap) {
         if (scriptMap.isEmpty()) {
@@ -284,7 +280,10 @@ public class Game {
         return targetShapes;
     }
 
-
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
+    }
 
 
 }
