@@ -21,27 +21,11 @@
 
         <TextView
             android:id="@+id/gameName"
-            android:layout_width="145dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="1" />
-
-        <Button
-            android:onClick="editShape"
-            android:id="@+id/shapeEditor"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:text="Edit Shape" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,25 +39,39 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:gravity="right">
+
         <Spinner
             android:id="@+id/pageSpinner"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center"
-            android:gravity="right" />
+            android:layout_marginRight="10dp" />
 
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/buttonGoToPage"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_weight="1"
             android:text="Go to page"
-            android:layout_gravity="right" />
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:onClick="editShape"
+            android:id="@+id/shapeEditor"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Edit Shape" />
 
     </LinearLayout>
 
     <edu.stanford.cs108.EditorPageView
-        android:id="@+id/pageView"
+        android:id="@+id/editorPageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

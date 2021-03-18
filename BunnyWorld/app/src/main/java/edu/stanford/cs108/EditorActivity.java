@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +33,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     static final String GAME_CONFIG_SHARED_PREF_FILE = "TempGamePrefs";
 
     // UI
-    PageView EditorPageView; // which has a canvas
+    View editorPageView; // which has a canvas
     TextView gameName;
     TextView pageName;
     Spinner pageSpinner;
@@ -41,6 +42,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        // Get sharedPref file
+        gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
 
         // Set up current page
         if (game.getCurrentPage() == null) {
@@ -52,9 +56,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         // Get Page List from game
         pageList = game.pageList;
 
-        // Get sharedPref file
-        gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
-
         // Display current game name
         gameName = findViewById(R.id.gameName);
         gameName. setText(game.toString());
@@ -62,6 +63,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         // Display current page name
         pageName = findViewById(R.id.pageName);
         pageName.setText(currentPage.getPageName());
+
+        // Canvas
+        editorPageView = findViewById(R.id.editorPageView);
 
         // Populate Spinner from Page list
         loadSpinnerPageListData();
@@ -71,6 +75,24 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
         System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
         System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+
+        /**
+         * Set up onClick listener on "Go to page" button to allow user navigate between pages
+         */
+        final Button buttonGoToPage = findViewById(R.id.buttonGoToPage);
+        buttonGoToPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Set selectedGame in Singleton according to user's dropdown choice
+                currentPage = (Page) pageSpinner.getSelectedItem();
+                System.out.println("currentPage is: " + currentPage.getPageName());
+                game.setCurrentPage(currentPage);
+                Toast.makeText(EditorActivity.this, "You're now on: " + currentPage.toString(), Toast.LENGTH_SHORT).show();
+                editorPageView.invalidate();
+                //Intent intent = new Intent(EditorActivity.this, EditorActivity.class);
+                //startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -159,8 +181,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         int numPages = game.getPageList().size() + 1;
         Page newPage = new Page("page " + numPages, false, game.nextPageID, null);
         game.addPage(newPage);
-        game.setCurrentPage(newPage);
-        pageName.setText(newPage.toString());
         pageSpinner.setSelection(game.pageList.indexOf(currentPage));
         Toast.makeText(EditorActivity.this, "Successfully added " + newPage.getPageName() , Toast.LENGTH_SHORT);
     }
@@ -175,9 +195,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         // Attach data adapter to spinner
         pageSpinner = findViewById(R.id.pageSpinner);
         pageSpinner.setAdapter(dataAdapter);
-
-        // Always select the current page
-        //pageSpinner.setSelection(dataAdapter.getPosition(currentPage));
     }
 
     @Override

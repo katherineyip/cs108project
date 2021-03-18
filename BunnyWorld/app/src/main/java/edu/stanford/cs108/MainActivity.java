@@ -100,27 +100,50 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
                 Game selectedGameConfig = (Game) spinnerGameNames.getSelectedItem();
-                if (selectInProgressGame(selectedGameConfig) != null) {
+                if (gameProgressSharedPref.contains(selectedGameConfig.getGameID())) {
                     selectedGame = selectInProgressGame(selectedGameConfig);
-                    //singletonData.setCurrentGame(selectedGame);
-                    //singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                    singletonData.setCurrentGame(selectedGame);
+                    singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    startActivity(intent);
                 } else {
                     try {
+                        System.out.println("START::::: TRYING TO START GAME 2");
                         Game newProgressGame = (Game) selectedGameConfig.clone();
                         selectedGame = newProgressGame;
-                        //singletonData.setCurrentGame(selectedGame);
-                        //singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                        singletonData.setCurrentGame(newProgressGame);
+                        singletonData.getCurrentGame().setCurrentPage(newProgressGame.getStarterPage());
+                        System.out.println("END::::: TRYING TO START GAME 2");
+                        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                        startActivity(intent);
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                /*
+                if (selectInProgressGame(selectedGameConfig) != null) {
+                    selectedGame = selectInProgressGame(selectedGameConfig);
+                    singletonData.setCurrentGame(selectedGame);
+                    singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                } else {
+                    try {
+                        System.out.println("START::::: TRYING TO START GAME 2");
+                        Game newProgressGame = (Game) selectedGameConfig.clone();
+                        selectedGame = newProgressGame;
+                        singletonData.setCurrentGame(newProgressGame);
+                        singletonData.getCurrentGame().setCurrentPage(newProgressGame.getStarterPage());
+                        System.out.println("END::::: TRYING TO START GAME 2");
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
 
                 }
 
-                singletonData.setCurrentGame(selectedGame);
-                singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
+                 */
                 System.out.println("***GAME ID IS: " + singletonData.getCurrentGame().getGameID());
-                Intent intent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                //startActivity(intent);
             }
         });
 
@@ -190,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     /**
-     * Loads game configs (default games and other game "template" defined using the Editor).
+     * Loads game configs (default game "templates" defined using the Editor).
      */
     private void loadGameConfigsFromSharedPrefs() {
         // Get all game templates from sharedPrefs

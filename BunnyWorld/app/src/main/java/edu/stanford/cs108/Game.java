@@ -55,7 +55,7 @@ public class Game implements Cloneable {
     public void addPage(Page newPage) {
         nextPageID++;
         pageList.add(newPage);
-        currentPage = newPage;
+        //currentPage = newPage;
     }
 
     // User can only remove non-starter pages.
