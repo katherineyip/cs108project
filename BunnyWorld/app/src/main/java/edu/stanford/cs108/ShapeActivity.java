@@ -26,12 +26,17 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
     Page selectedPage;
     Button buttonSetShape;
     Button buttonCancelSetShape;
+    Button buttonNewScript;
+
+    String scriptToAdd;
     // TODO: Need UI element for setting scripts
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape);
+
+        scriptToAdd = "";
 
         // Populate our Spinners
         Spinner eventSpinner = findViewById(R.id.evSpin);
@@ -95,6 +100,17 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 startActivity(intent);
             }
         });
+
+        buttonNewScript = findViewById(R.id.newScriptButton);
+        buttonNewScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newScript = getScript();
+                if (!newScript.equals("")){
+                    //scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                }
+            }
+        });
     }
 
 
@@ -119,14 +135,15 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         // Shape page destination
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
-        String scrpt = getScript();
+        //String scrpt = getScript();
 
         //setting values
         float x = getVal(editShapeXPosition, 20.f);
         float y = getVal(editShapeYPosition, 20.f);
 
         float width = getVal(editShapeWidth, 100.f);
-        float height = getVal(editShapeHeight, 100.f);
+
+       float height = getVal(editShapeHeight, 100.f);
 
 
         int fZ = (int)getVal(inputFontSize, 40.f);
@@ -144,7 +161,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(), game.nextShapeID,
-                scrpt,
+                scriptToAdd,
                 x, y, width, height);
 
         Page destination = (Page) spinnerShapePage.getSelectedItem();
@@ -228,7 +245,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
             scrpt += ";";
 
         }
-        System.out.println("Script is: " + scrpt);
+        //System.out.println("Script is: " + scrpt);
         return scrpt;
     }
 }

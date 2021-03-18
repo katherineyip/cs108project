@@ -66,6 +66,7 @@ public class Shape {
     }
 
     // Public getter methods
+    public int getFontSize(){ return fontSize; }
 
     public String getImageName() {
         return imageName;
@@ -111,6 +112,10 @@ public class Shape {
         return fontSize;
     }
 
+    public String getScript() { return shapeScript; }
+
+
+
     public Paint getTextPaint() {
         if (fontSize != 0) {
             textPaint.setTextSize(fontSize);
@@ -134,6 +139,8 @@ public class Shape {
 
 
     // Public setter methods
+    public void setScript(String s){ shapeScript = s; }
+
     public void setShapeName(String newName) {
         shapeName = newName;
     }

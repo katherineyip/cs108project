@@ -310,6 +310,12 @@
             android:textSize="20dp"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/newScriptButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Script" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
