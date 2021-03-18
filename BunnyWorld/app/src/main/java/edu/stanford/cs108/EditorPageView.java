@@ -45,10 +45,6 @@ public class EditorPageView extends View {
 
     public EditorPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //currentGame = singletonData.getCurrentGame();
-        //currentPage = currentGame.getCurrentPage();
-        //pageShapeList = currentPage.getShapeList();
-        //inventoryShapeList = currentGame.getInventoryShapeList();
 
         init();
     }

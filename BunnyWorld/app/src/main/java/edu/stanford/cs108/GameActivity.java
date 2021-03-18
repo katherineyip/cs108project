@@ -8,6 +8,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -30,8 +34,11 @@ public class GameActivity extends AppCompatActivity {
     static final String GAME_CONFIG_SHARED_PREF_FILE = "TempGamePrefs";
 
     // UI
-    PageView pageView; // which has a canvas
+    View pageView; // which has a canvas
     InventoryView inventoryView;
+    TextView gameName;
+    TextView pageName;
+    Spinner pageSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,30 @@ public class GameActivity extends AppCompatActivity {
 
         // Get in-progress game from sharedPref file
         gameProgressSharedPref = getSharedPreferences(GAME_PROGRESS_SHARED_PREF_FILE, MODE_PRIVATE);
+
+        // Set up current page
+        if (currentGame.getCurrentPage() == null) {
+            currentPage = currentGame.getStarterPage();
+        } else {
+            currentPage = currentGame.getCurrentPage();
+        }
+
+        // Get Page List from game
+        pageList = currentGame.pageList;
+
+        // Display current game name
+        gameName = findViewById(R.id.gameName);
+        gameName. setText(currentGame.toString());
+
+        // Display current page name
+        pageName = findViewById(R.id.pageName);
+        pageName.setText(currentPage.getPageName());
+
+        // Canvas
+        pageView = findViewById(R.id.pageView);
+
+        // Populate Spinner from Page list
+        loadSpinnerPageListData();
     }
 
     /**
@@ -128,5 +159,17 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return null;
+    }
+
+    private void loadSpinnerPageListData() {
+        // Creating adapter for spinner
+        ArrayAdapter<Page> dataAdapter = new ArrayAdapter<Page>(this, android.R.layout.simple_spinner_item, pageList);
+
+        // Drop down layout style
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Attach data adapter to spinner
+        pageSpinner = findViewById(R.id.pageSpinner);
+        pageSpinner.setAdapter(dataAdapter);
     }
 }
