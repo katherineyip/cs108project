@@ -60,8 +60,8 @@ public class ShapeActivity extends AppCompatActivity {
 
         // By default set shape names as "shape 1", "shape 2", etc
         EditText inputShapeName = findViewById(R.id.inputShapeName);
-        int numAllShapeCounts = game.getNumShapesInGame() + 1;
-        inputShapeName.setText("shape " + numAllShapeCounts);
+        int nextShapeCount = game.getNumShapesInGame() + 1;
+        inputShapeName.setText("shape " + nextShapeCount);
 
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetShape = findViewById(R.id.buttonSetShape);
@@ -144,7 +144,7 @@ public class ShapeActivity extends AppCompatActivity {
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(),
                 checkboxShapeIsInventory.isChecked(),
-                "shape script",
+                "shape script", //TODO: Pass in shape script
                 x, y, width, height);
         Page destination = (Page) spinnerShapePage.getSelectedItem();
 

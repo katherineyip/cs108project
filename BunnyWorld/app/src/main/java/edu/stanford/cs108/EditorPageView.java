@@ -1,17 +1,17 @@
 package edu.stanford.cs108;
 
-        import android.content.Context;
-        import android.graphics.Bitmap;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.Paint;
-        import android.graphics.RectF;
-        import android.graphics.drawable.BitmapDrawable;
-        import android.util.AttributeSet;
-        import android.view.MotionEvent;
-        import android.view.View;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 
-        import java.util.List;
+import java.util.List;
 
 /**
  * TODO: document your custom view class.
@@ -19,14 +19,14 @@ package edu.stanford.cs108;
 public class EditorPageView extends View {
     private static final SingletonData singletonData = SingletonData.getInstance();
 
-    private Game currentGame = singletonData.getCurrentGame();
+    private Game currentGame;
 
     // TODO: test to ensure that we don't need to reassign currentPage and shapeList -
     //  my (Sammy's) current theory is that we don't, because every touch event calls invalidate(),
     //  after which everything will be redrawn from the (hopefully) current version of currentPage and shapeList.
-    private Page currentPage = currentGame.getCurrentPage();
-    private List<Shape> pageShapeList = currentPage.getShapeList();
-    private List<Shape> inventoryShapeList = currentGame.getInventoryShapeList();
+    private Page currentPage;
+    private List<Shape> pageShapeList;
+    private List<Shape> inventoryShapeList;
     private Shape currentShape = null;
 
     private BitmapDrawable img;
@@ -45,6 +45,11 @@ public class EditorPageView extends View {
 
     public EditorPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        currentGame = singletonData.getCurrentGame();
+        currentPage = currentGame.getCurrentPage();
+        pageShapeList = currentPage.getShapeList();
+        inventoryShapeList = currentGame.getInventoryShapeList();
+
         init();
     }
 

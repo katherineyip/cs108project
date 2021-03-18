@@ -93,20 +93,6 @@ public class EditPageActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    public void setPageName() {
-        String newPageName = inputPageName.getText().toString();
-        if (isValidName(newPageName)) {
-            currentPage.setPageName(inputPageName.getText().toString());
-            Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
-            startActivity(intent);
-        } else {
-            inputPageName.setError("This page name already exists.");
-        }
-    }
-
-     */
-
     public void setPageName(String newName) {
         currentPage.setPageName(newName);
     }
@@ -125,6 +111,11 @@ public class EditPageActivity extends AppCompatActivity {
         if (name.equals("") || name == null) {
             return false;
         }
+
+        if (name.equals(currentPage.getPageName())) { // No change is acceptable
+            return true;
+        }
+
         for (Page page : game.getPageList()) {
             if (page.getPageName().equals(name)) {
                 return false;
