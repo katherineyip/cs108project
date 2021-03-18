@@ -3,6 +3,8 @@ package edu.stanford.cs108;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.google.android.material.internal.Experimental;
+
 import java.util.Map;
 
 /**
@@ -117,22 +119,15 @@ public class Shape {
 
 
     public Paint getTextPaint() {
-        if (fontSize != 0) {
-            textPaint.setTextSize(fontSize);
-        } else {
-            textPaint.setTextSize(10);
-        }
+        // defaults from ShapeActivity: fontSize = 40, fontColor = Color.BLACK
+        textPaint.setTextSize(fontSize);
         textPaint.setColor(fontColor);
         return textPaint;
     }
 
     public Paint getRectPaint() {
-        // TODO: ask Jacob whether it is possible to pass in a "null" value, in which case I need to uncomment the if block
-        // if (backgroundColor != 0) {
-            rectPaint.setColor(backgroundColor);
-        // } else {
-        //    rectPaint = new Paint(Color.LTGRAY);
-        //}
+        // default from ShapeActivity: bgColor = Color.GRAY
+        rectPaint.setColor(backgroundColor);
         return rectPaint;
     }
 
@@ -206,6 +201,26 @@ public class Shape {
 
     public boolean hasImage() {
         return (this.imageName != null && !this.imageName.equals(""));
+    }
+
+
+    public boolean isOverlapping(Shape secondShape) {
+        float x1, x2, y1, y2, w1, w2, h1, h2;
+        x1 = this.x;
+        x2 = secondShape.getX();
+        y1 = this.y;
+        y2 = secondShape.getY();
+        w1 = this.width;
+        w2 = secondShape.getWidth();
+        h1 = this.height;
+        h2 = secondShape.getHeight();
+
+        if ((x2 > x1 && x2 < x1 + w1) || (x1 > x2 && x1 < x2 + w2)) {
+            if ((y2 > y1 && y2 < y1 + h1) || (y1 > y2 && y1 < y2 + h2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
