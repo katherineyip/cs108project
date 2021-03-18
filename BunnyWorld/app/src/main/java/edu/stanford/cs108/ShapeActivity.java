@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,12 +17,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShapeActivity extends AppCompatActivity {
+public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
     Game game = singletonData.getCurrentGame();
 
     // UI
+    Page selectedPage;
     Button buttonSetShape;
     Button buttonCancelSetShape;
     // TODO: Need UI element for setting scripts
@@ -58,14 +60,10 @@ public class ShapeActivity extends AppCompatActivity {
         //Populate Spinner from Page list
         Spinner pageSpinner = findViewById(R.id.spinnerShapePage);
         List<Page> pages = game.pageList;
-        ArrayList<String> pageNames = new ArrayList<String>();
-        pageNames.add("Pages");
-        for(Page p : pages){
-            pageNames.add(p.pageName);
-        }
-        ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, pageNames);
-        adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        pageSpinner.setAdapter(adapter4);
+        ArrayAdapter<Page>pageadapter = new ArrayAdapter<Page>(this, android.R.layout.simple_spinner_item, pages);
+        pageadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pageSpinner.setAdapter(pageadapter);
+
 
         // By default set shape names as "shape 1", "shape 2", etc
         EditText inputShapeName = findViewById(R.id.inputShapeName);
@@ -77,11 +75,13 @@ public class ShapeActivity extends AppCompatActivity {
         buttonSetShape.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSubmit(view); // Create new imageShape
-                System.out.println("game's current page is " + game.currentPage.getPageName());
+                if(inputCheck()) {
+                    onSubmit(view); // Create new imageShape
+                    System.out.println("game's current page is " + game.currentPage.getPageName());
 
-                Intent intent = new Intent(ShapeActivity.this, EditorActivity.class);
-                startActivity(intent); // Direct user back to EditorActivity
+                    Intent intent = new Intent(ShapeActivity.this, EditorActivity.class);
+                    startActivity(intent); // Direct user back to EditorActivity
+                }
             }
         });
 
@@ -101,15 +101,11 @@ public class ShapeActivity extends AppCompatActivity {
 
     public void onSubmit(View view) {
         // Use to create image
-        Spinner spinnerImageName = findViewById(R.id.spinnerImageName); // TODO: Remove the EditText placeholder and replace with Spinner later
+        Spinner spinnerImageName = findViewById(R.id.spinnerImageName);
 
         // Use to create text
         EditText inputText = findViewById(R.id.inputText);
         EditText inputFontSize = findViewById(R.id.inputFontSize);
-        //Spinner inputFontColor = findViewById(R.id.inputFontColor);
-
-        // User to create rect
-        //Spinner inputBackgroundColor = findViewById(R.id.inputBackgroundColor);
 
         // Shared property across all shapes
         EditText inputShapeName = findViewById(R.id.inputShapeName);
@@ -123,40 +119,48 @@ public class ShapeActivity extends AppCompatActivity {
         // Shape page destination
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
-        float x = Float.parseFloat(String.valueOf(editShapeXPosition.getText()));
-        float y = Float.parseFloat(String.valueOf(editShapeYPosition.getText()));
-        // TODO: if the user wants the item to be in Inventory, then we should throw an error if the (x,y) is invalid (i.e. not within the Inventory box)
+        String scrpt = getScript();
 
-        float width = Float.parseFloat(String.valueOf(editShapeWidth.getText()));
-        float height = Float.parseFloat(String.valueOf(editShapeHeight.getText()));
+        //setting values
+        float x = getVal(editShapeXPosition, 20.f);
+        float y = getVal(editShapeYPosition, 20.f);
+
+        float width = getVal(editShapeWidth, 100.f);
+        float height = getVal(editShapeHeight, 100.f);
 
 
-        int fZ = 40;
+        int fZ = (int)getVal(inputFontSize, 40.f);
         int fC = colorPick(R.id.inputFontColor);
         int bC = colorPick(R.id.inputBackgroundColor);
 
-        if(!inputFontSize.getText().toString().equals("")) {
-            fZ = Integer.parseInt(inputFontSize.getText().toString());
+        String  imageName = spinnerImageName.getSelectedItem().toString();
+        if(spinnerImageName.getSelectedItemPosition() == 0) {
+            imageName = "";
         }
 
-
-        Shape newShape = new Shape(spinnerImageName.getSelectedItem().toString(),
+        Shape newShape = new Shape(imageName,
                 inputText.getText().toString(),
                 fZ, fC, bC,
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(), game.nextShapeID,
-                "shape script",
+                scrpt,
                 x, y, width, height);
+
         Page destination = (Page) spinnerShapePage.getSelectedItem();
-
-        // TODO: rule to draw image vs text when both are available
-        //TODO: Set image position
-
-
-        game.getCurrentPage().addShape(newShape); //TODO: Need to pass in user's page selection
+        destination.addShape(newShape);
 
         System.out.println("Singleton after adding image " + game.getCurrentPage().getNumShapesOnPage());
+    }
+
+    public float getVal(EditText et, float def){
+        //if empty return default value
+        if(et.getText().toString().equals("")){
+            return def;
+        }
+
+        //if not empty return value of the editText View
+        return Float.parseFloat(String.valueOf(et.getText()));
     }
 
     public int colorPick(int id){
@@ -171,15 +175,27 @@ public class ShapeActivity extends AppCompatActivity {
         } else if(colorSpin.getSelectedItemPosition() == 4){
             return Color.GREEN;
         } else if(colorSpin.getSelectedItemPosition() == 5){
-            return Color.GRAY;
+            return Color.BLACK;
         }
 
-        return Color.BLACK;
+        return Color.GRAY;
     }
 
-    public boolean errorCheck(){
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // On selecting a spinner item
+        //String gameName = parent.getItemAtPosition(position).toString();
+        selectedPage = (Page) parent.getItemAtPosition(position);
+        System.out.println("Selected a game: " + selectedPage);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    public boolean inputCheck(){
         EditText inputShapeName = findViewById(R.id.inputShapeName);
-        Spinner spinnerImageName = findViewById(R.id.spinnerImageName); // TODO: Remove the EditText placeholder and replace with Spinner later
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
         if(inputShapeName.getText().toString().equals("")){
@@ -187,16 +203,32 @@ public class ShapeActivity extends AppCompatActivity {
             return false;
         }
 
-        if(spinnerImageName.getSelectedItemPosition() == 0){
-            Toast.makeText(this, "Must Select Image", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if(spinnerShapePage.getSelectedItemPosition() == 0){
-            Toast.makeText(this, "Must Select Page", Toast.LENGTH_SHORT).show();
-            return false;
-        }
 
         return true;
+    }
+
+    public String getScript(){
+        Spinner actionSpinner = findViewById(R.id.acSpin);
+        Spinner eventSpinner = findViewById(R.id.evSpin);
+        EditText scriptScript = findViewById(R.id.imgScript);
+        EditText scriptTarget = findViewById(R.id.imgTarget);
+
+        String scrpt = "";
+        if(eventSpinner.getSelectedItemPosition()!= 0){
+            scrpt = eventSpinner.getSelectedItem().toString();
+
+            if(scrpt.equals("on drop")){
+                scrpt += " ";
+                scrpt += scriptTarget.getText().toString();
+            }
+            scrpt += " ";
+            scrpt += actionSpinner.getSelectedItem().toString();
+            scrpt += " ";
+            scrpt += scriptScript.getText().toString();
+            scrpt += ";";
+
+        }
+        System.out.println("Script is: " + scrpt);
+        return scrpt;
     }
 }
