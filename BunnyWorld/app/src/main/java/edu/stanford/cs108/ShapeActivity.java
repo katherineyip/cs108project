@@ -145,7 +145,7 @@ public class ShapeActivity extends AppCompatActivity {
                 fZ, fC, bC,
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
-                checkboxShapeIsMovable.isChecked(),
+                checkboxShapeIsMovable.isChecked(), game.nextShapeID,
                 "shape script",
                 x, y, width, height);
         Page destination = (Page) spinnerShapePage.getSelectedItem();
