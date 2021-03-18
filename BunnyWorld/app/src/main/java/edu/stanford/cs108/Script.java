@@ -86,6 +86,74 @@ public class Script {
 		return triggerMap;
 
 	}
+	
+	static public String combineScripts(String s1, String s2) {
+		String result = "";
+		if (s2 == null || s2 == "") {
+			return s1;
+		}
+		
+		String[] clauses1 = s1.split(";");
+		String[] clauses2 = s2.split(";");
+		String[] parseClause2 = clauses2[0].trim().split(" ", 0);
+		String trigger2 = parseClause2[0] + " " + parseClause2[1];
+		int start2 = 2;
+		if (trigger2.equalsIgnoreCase("on drop")) {
+			trigger2 += " " + parseClause2[2];
+			start2++;
+		}
+		
+		if (s1 == null || s1 == "") {
+			result = clauses2[0];
+			String res2 = "";
+			for (int i = 1; i < clauses2.length; i++) {
+				res2 += clauses2[i] + ";";
+			}
+			return combineScripts(result, res2);
+		}
+		
+		for (int i = 0; i < clauses1.length; i++) {
+			String[] parseClause1 = clauses1[i].trim().split(" ", 0); 
+			String trigger1 = parseClause1[0] + " " + parseClause1[1];
+			if (trigger1.equalsIgnoreCase("on drop")) {
+				trigger1 += " " + parseClause1[2];
+			}
+			if (trigger2.equals(trigger1)) {
+				String[] resulting = new String[parseClause1.length + parseClause2.length - start2];
+				for (int j = 0; j < parseClause1.length; j++) {
+					resulting[j] = parseClause1[j];
+				}
+				for (int k = start2; k< parseClause2.length; k++) {
+					resulting[parseClause1.length - start2 + k] = parseClause2[k];
+				}
+				String newRes = "";
+				int l = 0;
+				while (l < resulting.length) {
+					newRes += resulting[l] + " ";
+					l++;
+				}
+				clauses1[i] = newRes;
+				for (int m = 0; m < clauses1.length; m++) {
+					result += clauses1[m];
+					if (m != clauses1.length - 1) {
+						result += ";";
+					}
+				}
+				break;
+			}
+			if (i == clauses1.length - 1) {
+				result = s1 + ";" + clauses2[0];
+			}
+		}
+		
+		String res2 = "";
+		for (int i = 1; i < clauses2.length; i++) {
+			res2 += clauses2[i] + ";";
+		}
+		
+		
+		return combineScripts(result, res2);
+	}
 
 	//for debugging
 	/*private static void showMap(Map<String, actionPairs[]> scriptMap) { 
