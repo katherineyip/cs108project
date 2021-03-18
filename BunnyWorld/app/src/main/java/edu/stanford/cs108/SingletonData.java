@@ -26,10 +26,10 @@ public class SingletonData {
 
         // DUMMY VARS for testing purposes only (added by Sammy and Nikita); remove later
         // TODO: test for different combos of shapes that are hidden, movable, in or out of inventory, etc
-        testGame1.getPage("page 1").addShape(new Shape("", "Movable text", 100, Color.BLUE, Color.GREEN, "text1", false, true, false, "", 100, 100, 150, 100));
-        testGame1.getPage("page 1").addShape(new Shape("", "Immovable text", 24, Color.BLUE, Color.GREEN, "text2", false, false, false, "", 100, 500, 150, 100));
-        testGame1.getPage("page 1").addShape(new Shape("", "", 24, Color.BLACK, Color.BLACK, "box1", false, true, false, "", 100, 700, 150, 100));
-        testGame1.getPage("page 1").addShape(new Shape("duck", "", 24, Color.BLACK, Color.BLACK, "ducky", false, true, false, "", 400, 800, 150, 100));
+        // testGame1.getPage("page 1").addShape(new Shape("", "Movable text", 100, Color.BLUE, Color.GREEN, "text1", false, true, false, "", 100, 100, 150, 100));
+        // testGame1.getPage("page 1").addShape(new Shape("", "Immovable text", 24, Color.BLUE, Color.GREEN, "text2", false, false, false, "", 100, 500, 150, 100));
+        // testGame1.getPage("page 1").addShape(new Shape("", "", 24, Color.BLACK, Color.BLACK, "box1", false, true, false, "", 100, 700, 150, 100));
+        // testGame1.getPage("page 1").addShape(new Shape("duck", "", 24, Color.BLACK, Color.BLACK, "ducky", false, true, false, "", 400, 800, 150, 100));
 
     }
 
