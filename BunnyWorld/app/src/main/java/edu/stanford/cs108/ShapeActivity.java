@@ -12,9 +12,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -26,12 +23,17 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
     Page selectedPage;
     Button buttonSetShape;
     Button buttonCancelSetShape;
+    Button buttonNewScript;
+
+    String scriptToAdd;
     // TODO: Need UI element for setting scripts
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape);
+
+        scriptToAdd = "";
 
         // Populate our Spinners
         Spinner eventSpinner = findViewById(R.id.evSpin);
@@ -95,9 +97,18 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 startActivity(intent);
             }
         });
+
+        buttonNewScript = findViewById(R.id.newScriptButton);
+        buttonNewScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newScript = getScript();
+                if (!newScript.equals("")){
+                    //scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                }
+            }
+        });
     }
-
-
 
     public void onSubmit(View view) {
         // Use to create image
@@ -119,14 +130,15 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         // Shape page destination
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
-        String scrpt = getScript();
+        //String scrpt = getScript();
 
         //setting values
         float x = getVal(editShapeXPosition, 20.f);
         float y = getVal(editShapeYPosition, 20.f);
 
         float width = getVal(editShapeWidth, 100.f);
-        float height = getVal(editShapeHeight, 100.f);
+
+       float height = getVal(editShapeHeight, 100.f);
 
 
         int fZ = (int)getVal(inputFontSize, 40.f);
@@ -144,7 +156,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(), game.nextShapeID,
-                scrpt,
+                scriptToAdd,
                 x, y, width, height);
 
         Page destination = (Page) spinnerShapePage.getSelectedItem();
@@ -199,13 +211,35 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
         if(inputShapeName.getText().toString().equals("")){
-            Toast.makeText(this, "Must Give Shape Name", Toast.LENGTH_SHORT).show();
+            inputShapeName.setError("Must provide shape name");
             return false;
         }
 
+        // TODO: Ensure there is no duplicated shape names
+        //String newShapeName = inputShapeName.getText().toString();
+        //if (!isUniqueName(newShapeName)) {
+        //    inputShapeName.setError("This shape name already exists.");
+        //    return false;
+        //}
 
         return true;
     }
+
+    /*
+    private boolean isUniqueName(String name) {
+        for (Page page : game.getPageList()) {
+            for (Shape shape : page.getShapeList()) {
+                if (shape.getShapeName().equals(name)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+     */
+
+
+
 
     public String getScript(){
         Spinner actionSpinner = findViewById(R.id.acSpin);
@@ -228,7 +262,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
             scrpt += ";";
 
         }
-        System.out.println("Script is: " + scrpt);
+        //System.out.println("Script is: " + scrpt);
         return scrpt;
     }
 }

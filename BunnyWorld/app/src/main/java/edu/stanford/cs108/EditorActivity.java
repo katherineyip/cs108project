@@ -2,13 +2,13 @@ package edu.stanford.cs108;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,8 +28,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     Page currentPage;
 
     // DB
-    SharedPreferences sharedPref;
-    static final String SHARED_PREF_FILE = "TempGamePrefs";
+    SharedPreferences gameConfigSharedPref;
+    static final String GAME_CONFIG_SHARED_PREF_FILE = "TempGamePrefs";
 
     // UI
     PageView EditorPageView; // which has a canvas
@@ -53,7 +53,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         pageList = game.pageList;
 
         // Get sharedPref file
-        sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
+        gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
 
         // Display current game name
         gameName = findViewById(R.id.gameName);
@@ -67,10 +67,28 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         loadSpinnerPageListData();
 
         // TODO: Remove later. This is for debugging purpose.
-        System.out.println("game list size: " + singletonData.getGameList().size());
+        System.out.println("game list size: " + singletonData.getGameConfigList().size());
         System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
         System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
         System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        List<Shape> pageShapeList = currentPage.getShapeList();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (int i = pageShapeList.size() - 1; i >= 0; i--) {
+                    Shape shapeInQuestion = pageShapeList.get(i);
+
+                    if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
+                        game.setCurrentShape(shapeInQuestion);
+                        return true;
+                    }
+                }
+                return true;
+        }
+        return true;
     }
 
     @Override
@@ -88,7 +106,11 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     /**
-     * Menu dropdown for add / edit controls
+     * Menu dropdown:
+     * - adding shapes / pages
+     * - editing pages/ game
+     * - saving game
+     * TODO: Consider adding discard edits
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,6 +142,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent intentSaveGame = new Intent(EditorActivity.this, MainActivity.class);
                 startActivity(intentSaveGame);
                 return true;
+            case R.id.menuDiscardAllEdits:
+                Intent intentDiscardAllEdits = new Intent(EditorActivity.this, MainActivity.class);
+                startActivity(intentDiscardAllEdits);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
@@ -140,8 +166,6 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     private void loadSpinnerPageListData() {
-        //pageList = game.pageList; // TODO: Get game list from db later
-
         // Creating adapter for spinner
         ArrayAdapter<Page> dataAdapter = new ArrayAdapter<Page>(this, android.R.layout.simple_spinner_item, pageList);
 
@@ -167,7 +191,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      */
     private void saveData() {
         //SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
+        SharedPreferences.Editor sharedPrefEditor = gameConfigSharedPref.edit();
 
         // Serialize game object
         Gson gson = new Gson();
@@ -176,9 +200,18 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
 
         // Put serialized game object into sharedPrefs file
         sharedPrefEditor.putString(game.getGameID(), jsonString);
-        //sharedPrefEditor.putString(game.gameName, jsonString);
         sharedPrefEditor.apply(); //prob don't use sharedPrefEditor.commit();
         Toast.makeText(EditorActivity.this, "Successfully saved " + game.gameName + ".", Toast.LENGTH_SHORT);
         System.out.println("Successfully saved game to sp. Game ID: " + game.getGameID() + ". Game Name: " + game.gameName);
+    }
+
+    public void editShape(View view) {
+        if(SingletonData.getInstance().getCurrentGame().currentShape == null) {
+            Toast.makeText(this, "Must Select Shape", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intentEditShape = new Intent(EditorActivity.this, ShapeEditorActivity.class);
+        startActivity(intentEditShape);
     }
 }
