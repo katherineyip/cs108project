@@ -15,10 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -26,8 +24,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
     Game game = singletonData.getCurrentGame();
-    Page currentPage = game.getCurrentPage();
-    List<Page> pageList = game.pageList;
+    List<Page> pageList;
+    Page currentPage;
 
     // DB
     SharedPreferences sharedPref;
@@ -43,6 +41,16 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        // Set up current page
+        if (game.getCurrentPage() == null) {
+            currentPage = game.getStarterPage();
+        } else {
+            currentPage = game.getCurrentPage();
+        }
+
+        // Get Page List from game
+        pageList = game.pageList;
 
         // Get sharedPref file
         sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);

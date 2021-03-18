@@ -93,20 +93,6 @@ public class EditPageActivity extends AppCompatActivity {
         }
     }
 
-    /*
-    public void setPageName() {
-        String newPageName = inputPageName.getText().toString();
-        if (isValidName(newPageName)) {
-            currentPage.setPageName(inputPageName.getText().toString());
-            Intent intent = new Intent(EditPageActivity.this, EditorActivity.class);
-            startActivity(intent);
-        } else {
-            inputPageName.setError("This page name already exists.");
-        }
-    }
-
-     */
-
     public void setPageName(String newName) {
         currentPage.setPageName(newName);
     }

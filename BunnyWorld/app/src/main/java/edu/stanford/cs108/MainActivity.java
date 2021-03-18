@@ -11,15 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import android.widget.SpinnerAdapter;
-
-// DB Stuff
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,13 +36,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get sharedPref file
+        // Get all games from sharedPref file
         sharedPref = getSharedPreferences(SHARED_PREF_FILE, MODE_PRIVATE);
         gameListFromDB = new ArrayList<>();
+        loadGamesDataFromSharedPrefs();
 
+        // Load game options to game dropdown
         spinnerGameNames = findViewById(R.id.spinnerGameNames);
         spinnerGameNames.setOnItemSelectedListener(this);
-        loadGamesDataFromSharedPrefs();
         loadSpinnerGameListData();
 
        // Set up onClick listener on button to create new game using editor
@@ -61,10 +55,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 int nextGameCount = getNumGames() + 1;
                 Game game = new Game("Game" + nextGameCount, "Game" + nextGameCount);
 
-                //SingletonData singletonData = SingletonData.getInstance();
-                singletonData.addGameToList(game);
+                // Store this game in memory with Singleton
+                singletonData.addGameToList(game); // TODO: Not sure if I actually need this
                 singletonData.setCurrentGame(game);
-                game.setCurrentPage(game.getPageList().get(0));
+                game.setCurrentPage(game.getStarterPage());
 
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
@@ -89,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 // Set selectedGame in Singleton according to user's dropdown choice
                 selectedGame = (Game) spinnerGameNames.getSelectedItem();
                 singletonData.setCurrentGame(selectedGame);
+                singletonData.getCurrentGame().setCurrentPage(selectedGame.getStarterPage());
                 Toast.makeText(MainActivity.this, "Current game is: " + selectedGame.toString(), Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);

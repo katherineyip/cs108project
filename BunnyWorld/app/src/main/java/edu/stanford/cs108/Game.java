@@ -7,9 +7,9 @@ public class Game {
     String id;
     String gameName;
     List<Page> pageList;
-    Page currentPage;
     Page starterPage;
 
+    Page currentPage;
     List<Shape> inventoryShapeList;
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
