@@ -37,10 +37,25 @@ public class Page {
         return isStarterPage;
     }
 
+    public void setScript(String s){ 
+        pageScript = s; 
+        setScript();
+    }
+    
     // TODO: add script to page
     public void setScript() {
     	Script.setPageScript(this);
     	// will need to check scriptMap.isEmpty() before using (if a page doesn't have an associated script)
+    }
+    
+    public void updateScript(String additionalPageScript) {
+        this.pageScript = Script.combineScripts(pageScript, additionalPageScript);
+        setScript();
+    }
+
+    public void replaceScript(String newPageScript) {
+        this.pageScript = newPageScript;
+        setScript();
     }
 
     // use this list to draw shapes
