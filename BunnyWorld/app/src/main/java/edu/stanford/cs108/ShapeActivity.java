@@ -3,6 +3,7 @@ package edu.stanford.cs108;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -46,6 +47,14 @@ public class ShapeActivity extends AppCompatActivity {
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         imageSpinner.setAdapter(adapter3);
 
+        Spinner fColorSpin = findViewById(R.id.inputFontColor);
+        ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this, R.array.colors, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fColorSpin.setAdapter(adapter5);
+
+        Spinner bGColorSpin = findViewById(R.id.inputBackgroundColor);
+        bGColorSpin.setAdapter(adapter5);
+
         //Populate Spinner from Page list
         Spinner pageSpinner = findViewById(R.id.spinnerShapePage);
         List<Page> pages = game.pageList;
@@ -60,8 +69,8 @@ public class ShapeActivity extends AppCompatActivity {
 
         // By default set shape names as "shape 1", "shape 2", etc
         EditText inputShapeName = findViewById(R.id.inputShapeName);
-        int nextShapeCount = game.getNumShapesInGame() + 1;
-        inputShapeName.setText("shape " + nextShapeCount);
+        int numAllShapeCounts = game.getNumShapesInGame() + 1;
+        inputShapeName.setText("shape " + numAllShapeCounts);
 
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetShape = findViewById(R.id.buttonSetShape);
@@ -88,6 +97,8 @@ public class ShapeActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void onSubmit(View view) {
         // Use to create image
         Spinner spinnerImageName = findViewById(R.id.spinnerImageName); // TODO: Remove the EditText placeholder and replace with Spinner later
@@ -95,16 +106,15 @@ public class ShapeActivity extends AppCompatActivity {
         // Use to create text
         EditText inputText = findViewById(R.id.inputText);
         EditText inputFontSize = findViewById(R.id.inputFontSize);
-        EditText inputFontColor = findViewById(R.id.inputFontColor);
+        //Spinner inputFontColor = findViewById(R.id.inputFontColor);
 
         // User to create rect
-        EditText inputBackgroundColor = findViewById(R.id.inputBackgroundColor);
+        //Spinner inputBackgroundColor = findViewById(R.id.inputBackgroundColor);
 
         // Shared property across all shapes
         EditText inputShapeName = findViewById(R.id.inputShapeName);
         CheckBox checkboxShapeIsHidden = findViewById(R.id.checkboxShapeIsHidden);
         CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable);
-        CheckBox checkboxShapeIsInventory = findViewById(R.id.checkboxShapeIsInventory);
         EditText editShapeXPosition = findViewById(R.id.editShapeXPosition);
         EditText editShapeYPosition = findViewById(R.id.editShapeYPosition);
         EditText editShapeWidth = findViewById(R.id.editShapeWidth);
@@ -120,43 +130,51 @@ public class ShapeActivity extends AppCompatActivity {
         float width = Float.parseFloat(String.valueOf(editShapeWidth.getText()));
         float height = Float.parseFloat(String.valueOf(editShapeHeight.getText()));
 
-        /*
-            public Shape(String imageName, // use to create Image
-                 String text, // use to create Text
-                 int fontSize, // use to create Text
-                 int fontColor, // use to create Text
-                 int backgroundColor, // use to create Rect
-                 String shapeName,
-                 boolean isHidden,
-                 boolean isMovable,
-                 boolean isInventory,
-                 String shapeScript,
-                 float x, float y,
-                 float width, float height){
-         */
+
+        int fZ = 40;
+        int fC = colorPick(R.id.inputFontColor);
+        int bC = colorPick(R.id.inputBackgroundColor);
+
+        if(!inputFontSize.getText().toString().equals("")) {
+            fZ = Integer.parseInt(inputFontSize.getText().toString());
+        }
+
 
         Shape newShape = new Shape(spinnerImageName.getSelectedItem().toString(),
                 inputText.getText().toString(),
-                Integer.parseInt(inputFontSize.getText().toString()),
-                Integer.parseInt(inputFontColor.getText().toString()),
-                Integer.parseInt(inputBackgroundColor.getText().toString()),
+                fZ, fC, bC,
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
                 checkboxShapeIsMovable.isChecked(),
-                checkboxShapeIsInventory.isChecked(),
-                "shape script", //TODO: Pass in shape script
+                "shape script",
                 x, y, width, height);
         Page destination = (Page) spinnerShapePage.getSelectedItem();
 
         // TODO: rule to draw image vs text when both are available
         //TODO: Set image position
 
-        if (checkboxShapeIsInventory.isChecked()) {
-            game.addInventory(newShape);
-        } else {
-            game.getCurrentPage().addShape(newShape); //TODO: Need to pass in user's page selection
-        }
+
+        game.getCurrentPage().addShape(newShape); //TODO: Need to pass in user's page selection
+
         System.out.println("Singleton after adding image " + game.getCurrentPage().getNumShapesOnPage());
+    }
+
+    public int colorPick(int id){
+        Spinner colorSpin = findViewById(id);
+
+        if(colorSpin.getSelectedItemPosition() == 1){
+            return Color.WHITE;
+        } else if(colorSpin.getSelectedItemPosition() == 2){
+            return Color.BLUE;
+        } else if(colorSpin.getSelectedItemPosition() == 3){
+            return Color.RED;
+        } else if(colorSpin.getSelectedItemPosition() == 4){
+            return Color.GREEN;
+        } else if(colorSpin.getSelectedItemPosition() == 5){
+            return Color.GRAY;
+        }
+
+        return Color.BLACK;
     }
 
     public boolean errorCheck(){
