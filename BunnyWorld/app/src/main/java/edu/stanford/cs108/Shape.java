@@ -134,7 +134,10 @@ public class Shape {
 
 
     // Public setter methods
-    public void setScript(String s){ shapeScript = s; }
+    public void setScript(String s){ 
+        shapeScript = s;
+        setScript();
+    }
 
     public void setShapeName(String newName) {
         shapeName = newName;
@@ -151,6 +154,17 @@ public class Shape {
     public void setScript() {
         Script.setShapeScript(this);
         // will need to check scriptMap.isEmpty() before using (if a shape doesn't have an associated script)
+    }
+    
+    public void updateScript(String additionalScript) {
+    	shapeScript = Script.combineScripts(shapeScript, additionalScript);
+    	setScript();
+    	
+    }
+
+    public void replaceScript(String newShapeScript) {
+        this.shapeScript = newShapeScript;
+        setScript();
     }
 
     public void setX(float newX) {
