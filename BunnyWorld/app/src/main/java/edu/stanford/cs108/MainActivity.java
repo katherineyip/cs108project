@@ -23,12 +23,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Game selectedGame;
     SingletonData singletonData = SingletonData.getInstance();
 
-    // DB
+    // DB - Game Config Files
     SharedPreferences gameConfigSharedPref;
-    SharedPreferences gameProgressSharedPref;
     static final String GAME_CONFIG_SHARED_PREF_FILE = "TempGamePrefs";
-    static final String GAME_PROGRESS_SHARED_PREF_FILE = "TempGameProgressPrefs";
     List<Game> gameConfigListFromDB;
+
+    // DB - Game Progress Files
+    SharedPreferences gameProgressSharedPref;
+    static final String GAME_PROGRESS_SHARED_PREF_FILE = "TempGameProgressPrefs";
     List<Game> gameProgressListFromDB;
 
     // UI
@@ -41,11 +43,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         // Get all games from sharedPref file
         gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
+        // for clearing test data
+        //SharedPreferences.Editor sharedPrefEditor = gameConfigSharedPref.edit();
+        //sharedPrefEditor.clear();
+        //sharedPrefEditor.apply();;
         gameConfigListFromDB = new ArrayList<>();
         loadGameConfigsFromSharedPrefs();
 
         // Get all game progress from Game Progress sharedPref file
         gameProgressSharedPref = getSharedPreferences(GAME_PROGRESS_SHARED_PREF_FILE, MODE_PRIVATE);
+        // for clearing test data
+        //SharedPreferences.Editor sharedPrefEditor2 = gameProgressSharedPref.edit();
+        //sharedPrefEditor2.clear();
+        //sharedPrefEditor2.apply();;
         gameProgressListFromDB = new ArrayList<>();
         loadGameProgressFromSharedPrefs();
 
@@ -69,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 Game game = new Game("Game" + nextGameCount, "Game" + nextGameCount);
 
                 // Store this game in memory with Singleton
-                singletonData.addGameToList(game); // TODO: Not sure if I actually need this
+                //singletonData.addGameToList(game); // TODO: Not sure if I actually need this
                 singletonData.setCurrentGame(game);
                 game.setCurrentPage(game.getStarterPage());
 
@@ -199,8 +209,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             //System.out.println("game object name" + thisGame.toString());
         }
 
-        // Store gameList into Singleton
-        singletonData.loadGameListFromDB(gameConfigListFromDB);
+        // Store game configs into Singleton
+        singletonData.loadGameConfigsFromDB(gameConfigListFromDB);
     }
 
     /**
@@ -218,9 +228,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             Game thisGame = gson.fromJson(json, Game.class);
             gameProgressListFromDB.add(thisGame);
 
-            System.out.println("printing played games  inside deserialization: ");
-            System.out.println("entry key: " + entry.getKey());
-            System.out.println("played game object name" + thisGame.toString());
+            //System.out.println("printing played games  inside deserialization: ");
+            //System.out.println("entry key: " + entry.getKey());
+            //System.out.println("played game object name" + thisGame.toString());
         }
 
         // Store gameProgressList into Singleton
