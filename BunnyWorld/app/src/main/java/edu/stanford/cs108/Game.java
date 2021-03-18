@@ -1,26 +1,35 @@
 package edu.stanford.cs108;
 
+import android.media.MediaPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Game {
+    String id;
     String gameName;
     List<Page> pageList;
-    Page currentPage;
     Page starterPage;
+    int nextShapeID; //does not subtract for shapes removed so as to avoid duplicates
+    int nextPageID; //same^
 
+    Page currentPage;
     List<Shape> inventoryShapeList;
-    // TODO: keep track of count of all shapes for naming purpose
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
 
-    public Game(String name) {
+    public Game(String id, String name) {
+        this.id = id;
         this.gameName = name;
         this.pageList = new ArrayList<>();
         this.inventoryShapeList = new ArrayList<>();
 
+        this.nextShapeID = 1;
+        this.nextPageID = 1;
+
         // Each game must have a starter page
-        Page firstPage = new Page("page 1", true, null);
+        Page firstPage = new Page("page 1", true, nextPageID, null);
         addPage(firstPage);
         currentPage = firstPage;
         starterPage = firstPage;
@@ -28,16 +37,6 @@ public class Game {
 
     public List<Page> getPageList() {
         return pageList;
-    }
-
-    // TODO: Prob removable since we'll always have direct acccess to the page object with spinner
-    public Page getPage(String pageName) {
-        for (int i = 0; i < pageList.size(); i++) {
-            if (pageList.get(i).getPageName().equals(pageName)) {
-                return pageList.get(i);
-            }
-        }
-        return null;
     }
 
     public Page getCurrentPage() {
@@ -49,6 +48,7 @@ public class Game {
     }
 
     public void addPage(Page newPage) {
+        nextPageID++;
         pageList.add(newPage);
         currentPage = newPage;
     }
@@ -81,7 +81,6 @@ public class Game {
     public void removeInventory (Shape shape) {
         inventoryShapeList.remove(shape);
     }
-
 
     public void moveToInventory (Shape shape) {
         if (currentPage.getShapeList().contains(shape)) {
@@ -122,6 +121,7 @@ public class Game {
     }
 
     // Get a count of all shapes for new shape's naming purpose
+    // Will have shapes with same name if one in the middle is deleted
     public int getNumShapesInGame() {
         int numShapes = 0;
         for (Page page : this.getPageList()) {
@@ -131,9 +131,148 @@ public class Game {
         return numShapes;
     }
 
+    public void setGameName(String newGameName) {
+        this.gameName = newGameName;
+    }
+
+    public String getGameID() {
+        return id;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
     @Override
     // This allow spinners to display String gameName rather than the object name
     public String toString() {
         return gameName;
     }
+
+    private Shape getShapeFromID(String shapeIDString) {
+        for (Shape shape : getCurrentPage().shapeList) {
+            if (shape.getShapeID().contentEquals(shapeIDString)) {
+                return shape;
+            }
+        }
+        return null;
+    }
+
+    private Page getPageFromID(String pageIDString) {
+        for (Page page : pageList) {
+            if (page.getPageID().contentEquals(pageIDString)) {
+                return page;
+            }
+        }
+        return null;
+    }
+
+
+    private void hide(String shapeString) {
+        Shape shape = getShapeFromID(shapeString);
+        if (shape != null) {
+            shape.setHiddenState(true);
+        }
+    }
+
+    private void show(String shapeString) {
+        Shape shape = getShapeFromID(shapeString);
+        if (shape != null) {
+            shape.setHiddenState(false);
+        }
+    }
+
+    private void goTo(String pageString) {
+        Page page = getPageFromID(pageString);
+        if (page != null) {
+            setCurrentPage(page);
+        }
+    }
+
+    private void play(String sound) { // TODO: make sure sounds are in raw
+        String noise = "R.raw.";
+        noise += sound;
+		//MediaPlayer mp = MediaPlayer.create(getContext(), noise); //TODO: getContext() for mediaplayer
+		//mp.start();
+
+    }
+
+
+    private void performActions(Script.actionPairs[] actions) {
+        for (Script.actionPairs act : actions) {
+            switch(act.action) {
+                case "goto":
+                    goTo(act.target);
+                    break;
+                case "hide":
+                    hide(act.target);
+                    break;
+                case "play":
+                    play(act.target);
+                    break;
+                case "show":
+                    show(act.target);
+                    break;
+            }
+        }
+
+    }
+
+
+
+    public void onClick(Map<String, Script.actionPairs[]> scriptMap) {
+        if (scriptMap.isEmpty()) {
+            return;
+        }
+        for (String key : scriptMap.keySet()) {
+            if (key.contentEquals("on click")) {
+                performActions(scriptMap.get(key));
+            }
+        }
+    }
+
+
+    public void onEnter(Map<String, Script.actionPairs[]> scriptMap) {
+        if (scriptMap.isEmpty()) {
+            return;
+        }
+        for (String key : scriptMap.keySet()) {
+            if (key.contentEquals("on enter")) {
+                performActions(scriptMap.get(key));
+            }
+        }
+    }
+
+    public void onDrop(Shape dropped, Map<String, Script.actionPairs[]> scriptMap) {
+        if (scriptMap.isEmpty()) {
+            return;
+        }
+        for (String key : scriptMap.keySet()) {
+            if (key.contains("on drop") && scriptMap.get(key)[0].target.equals(dropped.getShapeID())) {
+                performActions(scriptMap.get(key));
+            }
+        }
+    }
+
+    public List<Shape> validDropTargets(Shape currentShape, List<Shape> potentialTargetShapes) {
+        List<Shape> targetShapes = new ArrayList<Shape>(potentialTargetShapes.size());
+        for (Shape s : potentialTargetShapes) {
+            if (s.scriptMap.isEmpty()) {
+                continue;
+            }
+            for (String key : s.scriptMap.keySet()) {
+                if (key.contains("on drop")) {
+                    String targetShapeID = s.scriptMap.get(key)[0].target;
+                    if (currentShape.getShapeID().equals(targetShapeID)) {
+                        targetShapes.add(s);
+                    }
+                }
+            }
+        }
+        return targetShapes;
+    }
+
+
+
+
 }

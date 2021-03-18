@@ -11,18 +11,23 @@ public class Page {
     List<Shape> shapeList; // This keeps track of shapes that are NOT in inventory within a page
     public String pageScript; //comes in from editor, used to make scriptMap
     public Map<String, Script.actionPairs[]> scriptMap;
+    private String pageID;
 
 
-    public Page(String pageName, boolean isStartPage, String pageScript) {
+    public Page(String pageName, boolean isStartPage, int pageIDNum, String pageScript) {
         this.pageName = pageName;
         this.isStarterPage = isStartPage;
         this.shapeList = new ArrayList<>();
         this.pageScript = pageScript;
+        setScript();
+        this.pageID = "p" + Integer.toString(pageIDNum);
     }
 
     public String getPageName() {
         return pageName;
     }
+
+    public String getPageID() { return pageID; }
 
     public void setPageName(String newPageName) {
         pageName = newPageName;

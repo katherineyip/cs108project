@@ -39,5 +39,6 @@
         <item>BLUE</item>
         <item>RED</item>
         <item>GREEN</item>
+        <item>GRAY</item>
     </string-array>
 </resources>

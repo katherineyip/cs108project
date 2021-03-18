@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShapeActivity"
-    android:orientation="vertical">
+    tools:context=".ShapeActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -94,14 +98,13 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Font color"/>
+            android:text="Font color"
+            android:layout_gravity="center"/>
 
-        <EditText
+        <Spinner
             android:id="@+id/inputFontColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter font color"
-            android:inputType="number"/>
+            android:layout_width="140dp"
+            android:layout_height="30dp" />
 
     </LinearLayout>
 
@@ -113,14 +116,13 @@
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Background color"/>
+            android:text="Background color"
+            android:layout_gravity="center"/>
 
-        <EditText
+        <Spinner
             android:id="@+id/inputBackgroundColor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter background color"
-            android:inputType="number"/>
+            android:layout_width="140dp"
+            android:layout_height="30dp"/>
 
     </LinearLayout>
 
@@ -172,21 +174,6 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:text="Place in inventory?"/>
-
-        <CheckBox
-            android:id="@+id/checkboxShapeIsInventory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -343,4 +330,6 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
