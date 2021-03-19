@@ -100,14 +100,16 @@ public class EditorPageView extends View {
                         System.out.println("Page list is now " + pageShapeList + ".");
                     }
                 }
-                if(notFound) currentShape = null;
+                //if(notFound) currentShape = null;
                 for (int i = inventoryShapeList.size() - 1; i >= 0; i--) {
                     Shape shapeInQuestion = inventoryShapeList.get(i);
                     if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
                         currentShape = shapeInQuestion;
+                        currentGame.setCurrentShape(currentShape);
                         offsetX = event.getX() - currentShape.getX();
                         offsetY = event.getY() - currentShape.getY();
 
+                        System.out.println("here");
                         System.out.println("Shape " + currentShape.getShapeName() + ", from Inventory, clicked!");
                     }
                 }
