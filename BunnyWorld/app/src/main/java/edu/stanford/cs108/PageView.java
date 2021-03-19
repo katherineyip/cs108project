@@ -63,6 +63,12 @@ public class PageView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        currentGame = singletonData.getCurrentGame();
+        currentPage = currentGame.getCurrentPage();
+        pageShapeList = currentPage.getShapeList();
+        inventoryShapeList = currentGame.getInventoryShapeList();
+        System.out.println("---LOG FROM PageView--- current page is: " + currentPage.getPageName());
+
         // unfortunately this has to be called here because we need access to the canvas to call getHeight()
         lineHeight = getHeight() * INVENTORY_LINE_POSITION_RATIO;
 

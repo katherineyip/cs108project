@@ -116,8 +116,6 @@ public class Shape {
 
     public String getScript() { return shapeScript; }
 
-
-
     public Paint getTextPaint() {
         // defaults from ShapeActivity: fontSize = 40, fontColor = Color.BLACK
         textPaint.setTextSize(fontSize);

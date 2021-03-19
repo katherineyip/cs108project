@@ -138,14 +138,13 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         float width = getVal(editShapeWidth, 100.f);
 
-       float height = getVal(editShapeHeight, 100.f);
-
+        float height = getVal(editShapeHeight, 100.f);
 
         int fZ = (int)getVal(inputFontSize, 40.f);
         int fC = colorPick(R.id.inputFontColor);
         int bC = colorPick(R.id.inputBackgroundColor);
 
-        String  imageName = spinnerImageName.getSelectedItem().toString();
+        String imageName = spinnerImageName.getSelectedItem().toString();
         if(spinnerImageName.getSelectedItemPosition() == 0) {
             imageName = "";
         }
