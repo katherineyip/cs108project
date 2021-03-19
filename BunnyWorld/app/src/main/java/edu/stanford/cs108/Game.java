@@ -21,7 +21,7 @@ public class Game implements Cloneable {
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
 
-    Context context;
+    transient Context context;
 
     public Game(String id, String name) {
         this.id = id;
