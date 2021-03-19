@@ -9,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,7 +20,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
     Game currentGame = singletonData.getCurrentGame();
@@ -74,6 +76,26 @@ public class GameActivity extends AppCompatActivity {
 
         // Populate Spinner from Page list
         loadSpinnerPageListData();
+
+        /**
+         * Set up onClick listener on "Go to page" button to allow user navigate between pages
+         */
+        final Button buttonGoToPage = findViewById(R.id.buttonGoToPage);
+        buttonGoToPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Set selectedGame in Singleton according to user's dropdown choice
+                currentPage = (Page) pageSpinner.getSelectedItem();
+                currentGame.setCurrentPage(currentPage);
+                pageName.setText(currentPage.toString());
+                System.out.println("---LOG FROM GameActivity--- current page from singleton: " + singletonData.getCurrentGame().getCurrentPage());
+                System.out.println("---LOG FROM GameActivity--- current page from currentPage: " + currentPage);
+                Toast.makeText(GameActivity.this, "You're now on: " + currentPage.toString(), Toast.LENGTH_SHORT).show();
+
+                //TODO: call pageView to redraw shapes on the new page
+                pageView.invalidate();
+            }
+        });
     }
 
     /**
@@ -139,14 +161,12 @@ public class GameActivity extends AppCompatActivity {
             singletonData.getCurrentGame().setCurrentPage(newGame.getStarterPage());
 
             System.out.println("***RESTARTED GAME ID IS: " + singletonData.getCurrentGame().getGameID());
-            //finish();
-            //overridePendingTransition(0, 0);
-            //startActivity(getIntent());
-            //overridePendingTransition(0, 0);
-            Intent intent = getIntent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             finish();
-            startActivity(intent);
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+
+            Toast.makeText(GameActivity.this, "Restarted game: " + currentGame.toString(), Toast.LENGTH_SHORT).show();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
@@ -171,5 +191,15 @@ public class GameActivity extends AppCompatActivity {
         // Attach data adapter to spinner
         pageSpinner = findViewById(R.id.pageSpinner);
         pageSpinner.setAdapter(dataAdapter);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
