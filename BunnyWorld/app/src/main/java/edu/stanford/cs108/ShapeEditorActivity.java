@@ -96,10 +96,22 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             buttonNewScript.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Spinner actionSpinner = findViewById(R.id.acSpin);
+                    Spinner eventSpinner = findViewById(R.id.evSpin);
+                    EditText scriptScript = findViewById(R.id.imgScript);
+                    EditText scriptTarget = findViewById(R.id.imgTarget);
+
                     String newScript = getScript();
                     if (!newScript.equals("")){
-                        //scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                        scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+
                     }
+
+                    //reset the values of the Script spinners
+                    actionSpinner.setSelection(0);
+                    eventSpinner.setSelection(0);
+                    scriptScript.setText("");
+                    scriptTarget.setText("");
                 }
             });
         }
@@ -246,6 +258,8 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             EditText editShapeWidth = findViewById(R.id.editShapeWidth);
             EditText editShapeHeight = findViewById(R.id.editShapeHeight);
 
+            Spinner imgSpin = findViewById(R.id.spinnerImageName);
+
             Spinner bColorSpin = findViewById(R.id.inputBackgroundColor);
             Spinner fColorSpin = findViewById(R.id.inputFontColor);
 
@@ -277,6 +291,8 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             }
 
 
+
+
             color = currentShape.getTextPaint().getColor();
 
             if (color == Color.BLACK) {
@@ -289,6 +305,22 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 fColorSpin.setSelection(2);
             }else if (color == Color.WHITE) {
                 fColorSpin.setSelection(1);
+            }
+
+            String imageName = currentShape.getImageName();
+
+            if(imageName.equals("carrot")){
+                imgSpin.setSelection(1);
+            } else if(imageName.equals("carrot2")){
+                imgSpin.setSelection(2);
+            }else if(imageName.equals("death")) {
+                imgSpin.setSelection(3);
+            }else if(imageName.equals("duck")) {
+                imgSpin.setSelection(4);
+            }else if(imageName.equals("fire")) {
+                imgSpin.setSelection(5);
+            }else if(imageName.equals("mystic")) {
+                imgSpin.setSelection(6);
             }
         }
     }
