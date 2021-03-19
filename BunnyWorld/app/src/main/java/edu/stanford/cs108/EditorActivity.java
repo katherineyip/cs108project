@@ -43,6 +43,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        //TODO: REMOVE DEBUG
+        System.out.println("---LOG FROM EditorActivity--- Enter onCreate in EditorActivity ");
+
         // Get sharedPref file
         gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
 
@@ -71,10 +74,9 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         loadSpinnerPageListData();
 
         // TODO: Remove later. This is for debugging purpose.
-        System.out.println("game list size: " + singletonData.getGameConfigList().size());
-        System.out.println("page list size: " + singletonData.getCurrentGame().getPageList().size());
-        System.out.println("inventory list size: " + singletonData.getCurrentGame().getInventoryShapeList().size());
-        System.out.println("shape list size on this page: " + game.getCurrentPage().getShapeList().size());
+        System.out.println("---LOG FROM EditorActivity--- Editing game from singleton.getCurrentGame: " + singletonData.getCurrentGame());
+        System.out.println("---LOG FROM EditorActivity--- Editing game from game: " + game);
+        System.out.println("---LOG FROM EditorActivity--- # of game config is: " + singletonData.getGameConfigList().size());
 
         /**
          * Set up onClick listener on "Go to page" button to allow user navigate between pages
@@ -85,8 +87,10 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
             public void onClick(View view) {
                 // Set selectedGame in Singleton according to user's dropdown choice
                 currentPage = (Page) pageSpinner.getSelectedItem();
-                System.out.println("currentPage is: " + currentPage.getPageName());
                 game.setCurrentPage(currentPage);
+                pageName.setText(currentPage.toString());
+                System.out.println("---LOG FROM EditorActivity--- current page from singleton: " + singletonData.getCurrentGame().getCurrentPage());
+                System.out.println("---LOG FROM EditorActivity--- current page from currentPage: " + currentPage);
                 Toast.makeText(EditorActivity.this, "You're now on: " + currentPage.toString(), Toast.LENGTH_SHORT).show();
                 editorPageView.invalidate();
                 //Intent intent = new Intent(EditorActivity.this, EditorActivity.class);
@@ -117,9 +121,8 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
         currentPage = (Page) parent.getItemAtPosition(position);
-
         pageName.setText(currentPage.getPageName());
-        System.out.println("Selected a new page: " + currentPage);
+        System.out.println("---LOG FROM EditorActivity--- current selected page from singleton: " + singletonData.getCurrentGame().getCurrentPage());
     }
 
     @Override
@@ -132,7 +135,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      * - adding shapes / pages
      * - editing pages/ game
      * - saving game
-     * TODO: Consider adding discard edits
+     * - discard edits
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
