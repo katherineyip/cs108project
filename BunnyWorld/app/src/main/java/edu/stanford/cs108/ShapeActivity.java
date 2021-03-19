@@ -33,6 +33,9 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape);
 
+        CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable);
+        checkboxShapeIsMovable.setChecked(true);
+
         scriptToAdd = "";
 
         // Populate our Spinners
@@ -104,7 +107,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
             public void onClick(View view) {
                 String newScript = getScript();
                 if (!newScript.equals("")){
-                    //scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                    scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
                 }
             }
         });
@@ -154,7 +157,8 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 fZ, fC, bC,
                 inputShapeName.getText().toString(),
                 checkboxShapeIsHidden.isChecked(),
-                checkboxShapeIsMovable.isChecked(), game.nextShapeID,
+                checkboxShapeIsMovable.isChecked(),
+                game.nextShapeID,
                 scriptToAdd,
                 x, y, width, height);
 
