@@ -179,7 +179,7 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
      */
     public void addNewPage() {
         int numPages = game.getPageList().size() + 1;
-        Page newPage = new Page("page " + numPages, false, game.nextPageID, null);
+        Page newPage = new Page("page " + game.nextPageID, false, game.nextPageID, null);
         game.addPage(newPage);
         pageSpinner.setSelection(game.pageList.indexOf(currentPage));
         Toast.makeText(EditorActivity.this, "Successfully added " + newPage.getPageName() , Toast.LENGTH_SHORT);
