@@ -141,6 +141,7 @@ public class PageView extends View {
 
                 break;
             case MotionEvent.ACTION_MOVE:
+                // System.out.println("Shape " + currentShape.getShapeName() + "'s movability status: " + currentShape.isMovable());
                 if (currentShape != null && currentShape.isMovable()) {
                     currentShape.setX(event.getX() - offsetX);
                     currentShape.setY(event.getY() - offsetY);
