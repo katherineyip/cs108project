@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import java.util.List;
 
 public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -102,10 +104,22 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         buttonNewScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Spinner actionSpinner = findViewById(R.id.acSpin);
+                Spinner eventSpinner = findViewById(R.id.evSpin);
+                EditText scriptScript = findViewById(R.id.imgScript);
+                EditText scriptTarget = findViewById(R.id.imgTarget);
+
                 String newScript = getScript();
                 if (!newScript.equals("")){
-                    //scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                    scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
                 }
+
+                actionSpinner.setSelection(0);
+                eventSpinner.setSelection(0);
+                scriptScript.setText("");
+                scriptTarget.setText("");
+
+                Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
             }
         });
     }
