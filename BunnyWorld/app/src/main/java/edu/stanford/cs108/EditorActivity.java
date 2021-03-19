@@ -99,23 +99,23 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event){
-        List<Shape> pageShapeList = currentPage.getShapeList();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                for (int i = pageShapeList.size() - 1; i >= 0; i--) {
-                    Shape shapeInQuestion = pageShapeList.get(i);
-
-                    if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
-                        game.setCurrentShape(shapeInQuestion);
-                        return true;
-                    }
-                }
-                return true;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event){
+//        List<Shape> pageShapeList = currentPage.getShapeList();
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                for (int i = pageShapeList.size() - 1; i >= 0; i--) {
+//                    Shape shapeInQuestion = pageShapeList.get(i);
+//
+//                    if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
+//                        game.setCurrentShape(shapeInQuestion);
+//                        return true;
+//                    }
+//                }
+//                return true;
+//        }
+//        return true;
+//    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
