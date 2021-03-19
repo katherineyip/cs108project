@@ -91,6 +91,26 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 }
             });
 
+            Button buttonRemove = findViewById(R.id.buttonDeleteShape);
+            buttonRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<Shape> sL = game.getCurrentPage().getShapeList();
+                    List<Shape> iL = game.inventoryShapeList;
+
+                    if(sL.contains(currentShape)){
+                        game.getCurrentPage().removeShape(currentShape);
+                    } else if(iL.contains(currentShape)) {
+                        iL.remove(currentShape);
+                    }
+
+                    game.setCurrentShape(null);
+                    Intent intent = new Intent(edu.stanford.cs108.ShapeEditorActivity.this, EditorActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
             buttonNewScript = findViewById(R.id.newScriptButton1);
             buttonNewScript.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,7 +125,7 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
 //                     if (!newScript.equals("")){
 //                         scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
 //                         System.out.println("Combined: " + scriptToAdd);
-                    if (checkScript()) {
+                    if (checkScripts()) {
                         String newScript = getScript();
                             if (!newScript.equals("")){
                                 scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
