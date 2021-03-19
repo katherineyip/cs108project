@@ -44,18 +44,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // Get all games from sharedPref file
         gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
         // for clearing test data
-        //SharedPreferences.Editor sharedPrefEditor = gameConfigSharedPref.edit();
-        //sharedPrefEditor.clear();
-        //sharedPrefEditor.apply();;
+//         SharedPreferences.Editor sharedPrefEditor = gameConfigSharedPref.edit();
+//         sharedPrefEditor.clear();
+//         sharedPrefEditor.apply();
         gameConfigListFromDB = new ArrayList<>();
         loadGameConfigsFromSharedPrefs();
 
         // Get all game progress from Game Progress sharedPref file
         gameProgressSharedPref = getSharedPreferences(GAME_PROGRESS_SHARED_PREF_FILE, MODE_PRIVATE);
         // for clearing test data
-        //SharedPreferences.Editor sharedPrefEditor2 = gameProgressSharedPref.edit();
-        //sharedPrefEditor2.clear();
-        //sharedPrefEditor2.apply();;
+//         SharedPreferences.Editor sharedPrefEditor2 = gameProgressSharedPref.edit();
+//         sharedPrefEditor2.clear();
+//         sharedPrefEditor2.apply();
         gameProgressListFromDB = new ArrayList<>();
         loadGameProgressFromSharedPrefs();
 

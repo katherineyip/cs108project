@@ -105,7 +105,7 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
 //                     if (!newScript.equals("")){
 //                         scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
 //                         System.out.println("Combined: " + scriptToAdd);
-                    if (checkScript()) {
+                    if (checkScripts()) {
                         String newScript = getScript();
                             if (!newScript.equals("")){
                                 scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
