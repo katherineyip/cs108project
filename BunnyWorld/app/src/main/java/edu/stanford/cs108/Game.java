@@ -211,10 +211,11 @@ public class Game implements Cloneable {
 
     private void goTo(String pageString) {
         Page page = getPageFromID(pageString);
-        Page oldPage = currentPage;
-        if (page != null) {
-            setCurrentPage(page);
+        if (page == null) {
+            return;
         }
+        Page oldPage = currentPage;
+        setCurrentPage(page);
         if (oldPage != currentPage) {
             onEnter(currentPage.scriptMap);
             for (Shape shape : currentPage.shapeList) {
@@ -223,11 +224,43 @@ public class Game implements Cloneable {
         }
     }
 
-    private void play(String sound) { // TODO: make sure sounds are in raw
-        String noise = "R.raw.";
-        noise += sound;
-		//MediaPlayer mp = MediaPlayer.create(getContext(), noise); //TODO: getContext() for mediaplayer
-		//mp.start();
+    private void play(String sound) {
+        int resID = 0;
+        boolean isValid = false;
+        switch(sound) {
+            case "carrotcarrotcarrot":
+                resID = R.raw.carrotcarrotcarrot;
+                isValid = true;
+                break;
+            case "evillaugh":
+                resID = R.raw.evillaugh;
+                isValid = true;
+                break;
+            case "fire":
+                resID = R.raw.fire;
+                isValid = true;
+                break;
+            case "hooray":
+                resID = R.raw.hooray;
+                isValid = true;
+                break;
+            case "munch":
+                resID = R.raw.munch;
+                isValid = true;
+                break;
+            case "munching":
+                resID = R.raw.munching;
+                isValid = true;
+                break;
+            case "woof":
+                resID = R.raw.woof;
+                isValid = true;
+                break;
+        }
+        if (isValid) {
+            MediaPlayer mp = MediaPlayer.create(context, resID);
+            mp.start();
+        }
 
     }
 
