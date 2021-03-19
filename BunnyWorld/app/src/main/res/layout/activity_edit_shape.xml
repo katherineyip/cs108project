@@ -313,6 +313,13 @@
                 android:id="@+id/buttonEditShape"/>
 
             <Button
+                android:id="@+id/buttonDeleteShape"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="Delete"/>
+
+            <Button
                 android:id="@+id/buttonCancelShape"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
