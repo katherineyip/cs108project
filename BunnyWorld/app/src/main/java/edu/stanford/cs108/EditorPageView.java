@@ -105,6 +105,7 @@ public class EditorPageView extends View {
                     Shape shapeInQuestion = inventoryShapeList.get(i);
                     if (shapeInQuestion.isClicked(event.getX(), event.getY())) {
                         currentShape = shapeInQuestion;
+                        currentGame.setCurrentShape(currentShape);
                         offsetX = event.getX() - currentShape.getX();
                         offsetY = event.getY() - currentShape.getY();
 
