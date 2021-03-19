@@ -74,8 +74,8 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
 
         // By default set shape names as "shape 1", "shape 2", etc
         EditText inputShapeName = findViewById(R.id.inputShapeName);
-        int numAllShapeCounts = game.getNumShapesInGame() + 1;
-        inputShapeName.setText("shape " + numAllShapeCounts);
+        //int numAllShapeCounts = game.getNumShapesInGame() + 1;
+        inputShapeName.setText("shape " + game.nextShapeID);
 
         // Set up onClickListener on "Submit" to bring user back to EditorActivity
         buttonSetShape = findViewById(R.id.buttonSetShape);
