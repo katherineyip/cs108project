@@ -163,6 +163,26 @@ public class Game implements Cloneable {
         return null;
     }
 
+    public String getShapeIDFromName(String shapeName) {
+        for (Page page : pageList) {
+            for (Shape shape : page.shapeList) {
+                if (shape.getShapeName().equals(shapeName)) {
+                    return shape.getShapeID();
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getPageIDFromName(String pageName) {
+        for (Page page : pageList) {
+            if (page.getPageName().equals(pageName)) {
+                return page.getPageID();
+            }
+        }
+        return null;
+    }
+
     private Page getPageFromID(String pageIDString) {
         for (Page page : pageList) {
             if (page.getPageID().contentEquals(pageIDString)) {
@@ -240,7 +260,7 @@ public class Game implements Cloneable {
     }
 
 
-    public void onEnter(Map<String, Script.actionPairs[]> scriptMap) {
+    private void onEnter(Map<String, Script.actionPairs[]> scriptMap) {
         if (scriptMap.isEmpty()) {
             return;
         }
