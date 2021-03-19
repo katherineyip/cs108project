@@ -112,17 +112,19 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 EditText scriptScript = findViewById(R.id.imgScript);
                 EditText scriptTarget = findViewById(R.id.imgTarget);
 
-                String newScript = getScript();
-                if (!newScript.equals("")){
-                    scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                if (checkScripts()) {
+                    String newScript = getScript();
+                    if (!newScript.equals("")){
+                        scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                    }
+
+                    actionSpinner.setSelection(0);
+                    eventSpinner.setSelection(0);
+                    scriptScript.setText("");
+                    scriptTarget.setText("");
+
+                    Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
                 }
-
-                actionSpinner.setSelection(0);
-                eventSpinner.setSelection(0);
-                scriptScript.setText("");
-                scriptTarget.setText("");
-
-                Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -275,11 +277,103 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
             scrpt += " ";
             scrpt += actionSpinner.getSelectedItem().toString();
             scrpt += " ";
-            scrpt += scriptScript.getText().toString();
+            if (actionSpinner.getSelectedItem().toString().equals("goto")) {
+                scrpt += game.getPageIDFromName(scriptScript.getText().toString());
+            } else if (actionSpinner.getSelectedItem().toString().equals("hide") || actionSpinner.getSelectedItem().toString().equals("show")) {
+                scrpt += game.getShapeIDFromName(scriptScript.getText().toString());
+            } else if (actionSpinner.getSelectedItem().toString().equals("play")) {
+                scrpt += scriptScript.getText().toString();
+            }
             scrpt += ";";
 
         }
         //System.out.println("Script is: " + scrpt);
         return scrpt;
+    }
+    
+    private boolean checkScripts() {
+        Spinner eventSpinner = findViewById(R.id.evSpin);
+        if (eventSpinner.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Must enter script", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        Spinner actionSpinner = findViewById(R.id.acSpin);
+        EditText scriptScript = findViewById(R.id.imgScript);
+        String objName = scriptScript.getText().toString();
+        String[] sounds = new String[7];
+        sounds[0] = "carrotcarrotcarrot";
+        sounds[1] = "evillaugh";
+        sounds[2] = "fire";
+        sounds[3] = "hooray";
+        sounds[4] = "munch";
+        sounds[5] = "munching";
+        sounds[6] = "woof";
+
+        if (eventSpinner.getSelectedItem().toString().equals("on drop")) {
+            EditText dropTarget = findViewById(R.id.imgTarget);
+            String shapeName = dropTarget.getText().toString();
+            String shapeID = game.getShapeIDFromName(shapeName);
+            if (shapeID == null || shapeID == "") {
+                Toast.makeText(this, "Must enter Shape with on drop", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+
+        switch(actionSpinner.getSelectedItem().toString()) {
+            case "goto":
+                boolean goTo = false;
+                for (Page page : game.pageList) {
+                    if (page.getPageName().equals(objName)) {
+                        goTo = true;
+                    }
+                }
+                if (!goTo) {
+                    Toast.makeText(this, "Must enter Page with goto", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                break;
+            case "hide":
+                boolean hide = false;
+                for (Page page : game.pageList) {
+                    for (Shape shape : page.shapeList)
+                        if (shape.getShapeName().equals(objName)) {
+                            hide = true;
+                        }
+                }
+                if (!hide) {
+                    Toast.makeText(this, "Must enter Shape with hide", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                break;
+            case "show":
+                boolean show = false;
+                for (Page page : game.pageList) {
+                    for (Shape shape : page.shapeList)
+                        if (shape.getShapeName().equals(objName)) {
+                            show = true;
+                        }
+                }
+                if (!show) {
+                    Toast.makeText(this, "Must enter Shape with show", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                break;
+            case "play":
+                boolean play = false;
+                for (String sound : sounds) {
+                    if (sound.equals(objName)) {
+                        play = true;
+                    }
+                }
+                if (!play) {
+                    Toast.makeText(this, "Must enter Sound with play", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                break;
+        }
+
+        return true;
     }
 }
