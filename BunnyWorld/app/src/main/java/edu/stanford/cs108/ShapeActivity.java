@@ -111,7 +111,14 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 Spinner eventSpinner = findViewById(R.id.evSpin);
                 EditText scriptScript = findViewById(R.id.imgScript);
                 EditText scriptTarget = findViewById(R.id.imgTarget);
+              
+//                 String newScript = getScript();
+//                 System.out.println("Script to Add: " + newScript);
+//                 if (!newScript.equals("")){
+//                     scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+//                     System.out.println("Combined: " + scriptToAdd);
 
+//                 }
                 if (checkScripts()) {
                     String newScript = getScript();
                     if (!newScript.equals("")){
