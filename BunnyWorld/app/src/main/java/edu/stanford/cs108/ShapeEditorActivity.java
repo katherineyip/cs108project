@@ -36,38 +36,37 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_shape);
+            setContentView(R.layout.activity_edit_shape);
 
-            scriptToAdd = "";
 
             // Populate our Spinners
-            Spinner eventSpinner = findViewById(R.id.evSpin);
+            Spinner eventSpinner = findViewById(R.id.evSpin1);
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.events, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             eventSpinner.setAdapter(adapter);
 
-            Spinner actionSpinner = findViewById(R.id.acSpin);
+            Spinner actionSpinner = findViewById(R.id.acSpin1);
             ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.actions, android.R.layout.simple_spinner_item);
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             actionSpinner.setAdapter(adapter2);
 
-            Spinner imageSpinner = findViewById(R.id.spinnerImageName);
+            Spinner imageSpinner = findViewById(R.id.spinnerImageName1);
             ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(this, R.array.images, android.R.layout.simple_spinner_item);
             adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             imageSpinner.setAdapter(adapter3);
 
-            Spinner fColorSpin = findViewById(R.id.inputFontColor);
+            Spinner fColorSpin = findViewById(R.id.inputFontColor1);
             ArrayAdapter<CharSequence> adapter5 = ArrayAdapter.createFromResource(this, R.array.colors, android.R.layout.simple_spinner_item);
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             fColorSpin.setAdapter(adapter5);
 
-            Spinner bGColorSpin = findViewById(R.id.inputBackgroundColor);
+            Spinner bGColorSpin = findViewById(R.id.inputBackgroundColor1);
             bGColorSpin.setAdapter(adapter5);
 
             loadShapeData();
 
             // Set up onClickListener on "Submit" to bring user back to EditorActivity
-            buttonSetShape = findViewById(R.id.buttonSetShape);
+            buttonSetShape = findViewById(R.id.buttonEditShape);
             buttonSetShape.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -82,7 +81,7 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             });
 
             // Set up onClickListener on "Cancel" to bring user back to EditorActivity
-            buttonCancelSetShape = findViewById(R.id.buttonCancelSetShape);
+            buttonCancelSetShape = findViewById(R.id.buttonCancelShape);
             buttonCancelSetShape.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -92,18 +91,20 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 }
             });
 
-            buttonNewScript = findViewById(R.id.newScriptButton);
+            buttonNewScript = findViewById(R.id.newScriptButton1);
             buttonNewScript.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Spinner actionSpinner = findViewById(R.id.acSpin);
-                    Spinner eventSpinner = findViewById(R.id.evSpin);
-                    EditText scriptScript = findViewById(R.id.imgScript);
-                    EditText scriptTarget = findViewById(R.id.imgTarget);
+                    Spinner actionSpinner = findViewById(R.id.acSpin1);
+                    Spinner eventSpinner = findViewById(R.id.evSpin1);
+                    EditText scriptScript = findViewById(R.id.imgScript1);
+                    EditText scriptTarget = findViewById(R.id.imgTarget1);
 
                     String newScript = getScript();
+                    System.out.println("Script to Add: " + newScript);
                     if (!newScript.equals("")){
                         scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                        System.out.println("Combined: " + scriptToAdd);
 
                     }
 
@@ -112,26 +113,28 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                     eventSpinner.setSelection(0);
                     scriptScript.setText("");
                     scriptTarget.setText("");
+
+                    Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
         public void onSubmit(View view) {
             // Use to create image
-            Spinner spinnerImageName = findViewById(R.id.spinnerImageName);
+            Spinner spinnerImageName = findViewById(R.id.spinnerImageName1);
 
             // Use to create text
-            EditText inputText = findViewById(R.id.inputText);
-            EditText inputFontSize = findViewById(R.id.inputFontSize);
+            EditText inputText = findViewById(R.id.inputText1);
+            EditText inputFontSize = findViewById(R.id.inputFontSize1);
 
             // Shared property across all shapes
-            EditText inputShapeName = findViewById(R.id.inputShapeName);
-            CheckBox checkboxShapeIsHidden = findViewById(R.id.checkboxShapeIsHidden);
-            CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable);
-            EditText editShapeXPosition = findViewById(R.id.editShapeXPosition);
-            EditText editShapeYPosition = findViewById(R.id.editShapeYPosition);
-            EditText editShapeWidth = findViewById(R.id.editShapeWidth);
-            EditText editShapeHeight = findViewById(R.id.editShapeHeight);
+            EditText inputShapeName = findViewById(R.id.inputShapeName1);
+            CheckBox checkboxShapeIsHidden = findViewById(R.id.checkboxShapeIsHidden1);
+            CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable1);
+            EditText editShapeXPosition = findViewById(R.id.editShapeXPosition1);
+            EditText editShapeYPosition = findViewById(R.id.editShapeYPosition1);
+            EditText editShapeWidth = findViewById(R.id.editShapeWidth1);
+            EditText editShapeHeight = findViewById(R.id.editShapeHeight1);
 
 
             //String scrpt = getScript();
@@ -146,8 +149,8 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
 
 
             int fZ = (int)getVal(inputFontSize, 40.f);
-            int fC = colorPick(R.id.inputFontColor);
-            int bC = colorPick(R.id.inputBackgroundColor);
+            int fC = colorPick(R.id.inputFontColor1);
+            int bC = colorPick(R.id.inputBackgroundColor1);
 
             String  imageName = spinnerImageName.getSelectedItem().toString();
             if(spinnerImageName.getSelectedItemPosition() == 0) {
@@ -211,8 +214,8 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         }
 
         public boolean inputCheck(){
-            EditText inputShapeName = findViewById(R.id.inputShapeName);
-            Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
+            EditText inputShapeName = findViewById(R.id.inputShapeName1);
+            //Spinner spinnerShapePage = findViewById(R.id.spinnerShapePage);
 
             if(inputShapeName.getText().toString().equals("")){
                 Toast.makeText(this, "Must Give Shape Name", Toast.LENGTH_SHORT).show();
@@ -223,10 +226,10 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         }
 
         public String getScript(){
-            Spinner actionSpinner = findViewById(R.id.acSpin);
-            Spinner eventSpinner = findViewById(R.id.evSpin);
-            EditText scriptScript = findViewById(R.id.imgScript);
-            EditText scriptTarget = findViewById(R.id.imgTarget);
+            Spinner actionSpinner = findViewById(R.id.acSpin1);
+            Spinner eventSpinner = findViewById(R.id.evSpin1);
+            EditText scriptScript = findViewById(R.id.imgScript1);
+            EditText scriptTarget = findViewById(R.id.imgTarget1);
 
             String scrpt = "";
             if(eventSpinner.getSelectedItemPosition()!= 0){
@@ -248,20 +251,20 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         }
 
         public void loadShapeData(){
-            EditText inputText = findViewById(R.id.inputText);
-            EditText inputFontSize = findViewById(R.id.inputFontSize);
-            EditText inputShapeName = findViewById(R.id.inputShapeName);
-            CheckBox checkboxShapeIsHidden = findViewById(R.id.checkboxShapeIsHidden);
-            CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable);
-            EditText editShapeXPosition = findViewById(R.id.editShapeXPosition);
-            EditText editShapeYPosition = findViewById(R.id.editShapeYPosition);
-            EditText editShapeWidth = findViewById(R.id.editShapeWidth);
-            EditText editShapeHeight = findViewById(R.id.editShapeHeight);
+            EditText inputText = findViewById(R.id.inputText1);
+            EditText inputFontSize = findViewById(R.id.inputFontSize1);
+            EditText inputShapeName = findViewById(R.id.inputShapeName1);
+            CheckBox checkboxShapeIsHidden = findViewById(R.id.checkboxShapeIsHidden1);
+            CheckBox checkboxShapeIsMovable = findViewById(R.id.checkboxShapeIsMovable1);
+            EditText editShapeXPosition = findViewById(R.id.editShapeXPosition1);
+            EditText editShapeYPosition = findViewById(R.id.editShapeYPosition1);
+            EditText editShapeWidth = findViewById(R.id.editShapeWidth1);
+            EditText editShapeHeight = findViewById(R.id.editShapeHeight1);
 
-            Spinner imgSpin = findViewById(R.id.spinnerImageName);
+            Spinner imgSpin = findViewById(R.id.spinnerImageName1);
 
-            Spinner bColorSpin = findViewById(R.id.inputBackgroundColor);
-            Spinner fColorSpin = findViewById(R.id.inputFontColor);
+            Spinner bColorSpin = findViewById(R.id.inputBackgroundColor1);
+            Spinner fColorSpin = findViewById(R.id.inputFontColor1);
 
             inputText.setText(currentShape.getText());
             inputFontSize.setText(String.valueOf(currentShape.getFontSize()));

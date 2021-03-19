@@ -110,8 +110,11 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
                 EditText scriptTarget = findViewById(R.id.imgTarget);
 
                 String newScript = getScript();
+                System.out.println("Script to Add: " + newScript);
                 if (!newScript.equals("")){
                     scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
+                    System.out.println("Combined: " + scriptToAdd);
+
                 }
 
                 actionSpinner.setSelection(0);
