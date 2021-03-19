@@ -1,5 +1,6 @@
 package edu.stanford.cs108;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Game implements Cloneable {
     Shape currentShape = null;
     //boolean isFinished?? // TODO: Determine whether a new game should be created
     //TODO: maybe a game state
+
+    Context context;
 
     public Game(String id, String name) {
         this.id = id;

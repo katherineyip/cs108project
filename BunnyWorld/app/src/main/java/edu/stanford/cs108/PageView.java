@@ -47,6 +47,7 @@ public class PageView extends View {
 
     public PageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        currentGame.context = context;
         init();
     }
 
