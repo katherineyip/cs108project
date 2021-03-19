@@ -243,16 +243,16 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         }
 
         // TODO: Ensure there is no duplicated shape names
-        //String newShapeName = inputShapeName.getText().toString();
-        //if (!isUniqueName(newShapeName)) {
-        //    inputShapeName.setError("This shape name already exists.");
-        //    return false;
-        //}
+        String newShapeName = inputShapeName.getText().toString();
+        if (!isUniqueName(newShapeName)) {
+            inputShapeName.setError("This shape name already exists.");
+            return false;
+        }
 
         return true;
     }
 
-    /*
+
     private boolean isUniqueName(String name) {
         for (Page page : game.getPageList()) {
             for (Shape shape : page.getShapeList()) {
@@ -263,7 +263,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         }
         return true;
     }
-     */
+
 
 
 
