@@ -252,7 +252,27 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                 Toast.makeText(this, "Must Give Shape Name", Toast.LENGTH_SHORT).show();
                 return false;
             }
+                
+            String newShapeName = inputShapeName.getText().toString();
+            if (!isUniqueName(newShapeName)) {
+                inputShapeName.setError("This shape name already exists.");
+                return false;
+            }
 
+            return true;
+        }
+        
+        private boolean isUniqueName(String name) {
+            if (name.equals(currentShape.getShapeName())) {
+                return true;
+            }
+            for (Page page : game.getPageList()) {
+                for (Shape shape : page.getShapeList()) {
+                    if (shape.getShapeName().equals(name)) {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 
