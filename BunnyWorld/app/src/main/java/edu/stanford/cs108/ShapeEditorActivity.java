@@ -129,19 +129,12 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                                 scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
 
                             }
-
-                    //reset the values of the Script spinners
-//                     actionSpinner.setSelection(0);
-//                     eventSpinner.setSelection(0);
-//                     scriptScript.setText("");
-//                     scriptTarget.setText("");
-
-//                     Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
+                            
+                            //reset the values of the Script spinners
                             actionSpinner.setSelection(0);
                             eventSpinner.setSelection(0);
-                            scriptScript.setText(scriptScript.getText().toString());
-                            scriptTarget.setText(scriptTarget.getText().toString());
-                            System.out.println("DONE SETTING SCRIPT");
+                            scriptScript.setText("");
+                            scriptTarget.setText("");
                             Toast.makeText(view.getContext(), "Script Added!", Toast.LENGTH_SHORT).show();
                     }
                 }
