@@ -19,15 +19,15 @@ import java.util.List;
 public class EditorPageView extends View {
     private static final SingletonData singletonData = SingletonData.getInstance();
 
-    private Game currentGame = singletonData.getCurrentGame();
+    private Game currentGame;
 
     // TODO: test to ensure that we don't need to reassign currentPage and shapeList -
     //  my (Sammy's) current theory is that we don't, because every touch event calls invalidate(),
     //  after which everything will be redrawn from the (hopefully) current version of currentPage and shapeList.
-    private Page currentPage = currentGame.getCurrentPage();
-    private List<Shape> pageShapeList = currentPage.getShapeList();
-    private List<Shape> inventoryShapeList = currentGame.getInventoryShapeList();
-    private Shape currentShape = null;
+    private Page currentPage;
+    private List<Shape> pageShapeList;
+    private List<Shape> inventoryShapeList;
+    private Shape currentShape;
 
     private BitmapDrawable img;
     private Bitmap toDraw;
@@ -45,6 +45,12 @@ public class EditorPageView extends View {
 
     public EditorPageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        System.out.println(singletonData.getCurrentGame());
+        //currentGame = singletonData.getCurrentGame();
+        //currentPage = currentGame.getCurrentPage();
+        //pageShapeList = currentPage.getShapeList();
+        //inventoryShapeList = currentGame.getInventoryShapeList();
+        //currentShape = null;
 
         init();
     }

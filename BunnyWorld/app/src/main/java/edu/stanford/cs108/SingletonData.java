@@ -17,10 +17,7 @@ public class SingletonData {
     private SingletonData() {
         gameConfigList = new ArrayList<>();
         gameProgressList = new ArrayList<>();
-        currentGame = null;
-        
-        // Game testGame1 = new Game("test game 1", "test game 1");
-        //Game testGame2 = new Game("test game 2");
+        //currentGame = null;
 
         // gameList.add(testGame1);
         //gameList.add(testGame2);
@@ -54,6 +51,7 @@ public class SingletonData {
     }
 
     public void setCurrentGame(Game currentGame) {
+        System.out.println("LOG --- SET A NEW CURRENT GAME: " + currentGame.toString());
         this.currentGame = currentGame;
     }
 }

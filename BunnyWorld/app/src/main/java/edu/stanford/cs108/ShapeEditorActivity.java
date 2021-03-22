@@ -20,7 +20,6 @@ import java.util.List;
 
 public class ShapeEditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-
         SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
         Game game = singletonData.getCurrentGame();
         Shape currentShape = game.currentShape;
@@ -37,7 +36,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_edit_shape);
-
 
             // Populate our Spinners
             Spinner eventSpinner = findViewById(R.id.evSpin1);
@@ -131,19 +129,12 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
                                 scriptToAdd = Script.combineScripts(scriptToAdd, newScript);
 
                             }
-
-                    //reset the values of the Script spinners
-//                     actionSpinner.setSelection(0);
-//                     eventSpinner.setSelection(0);
-//                     scriptScript.setText("");
-//                     scriptTarget.setText("");
-
-//                     Toast.makeText(view.getContext(), "Script Added", Toast.LENGTH_SHORT).show();
+                            
+                            //reset the values of the Script spinners
                             actionSpinner.setSelection(0);
                             eventSpinner.setSelection(0);
                             scriptScript.setText("");
                             scriptTarget.setText("");
-                            
                             Toast.makeText(view.getContext(), "Script Added!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -166,7 +157,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             EditText editShapeYPosition = findViewById(R.id.editShapeYPosition1);
             EditText editShapeWidth = findViewById(R.id.editShapeWidth1);
             EditText editShapeHeight = findViewById(R.id.editShapeHeight1);
-
 
             //String scrpt = getScript();
 
@@ -351,8 +341,6 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
             }
 
 
-
-
             color = currentShape.getTextPaint().getColor();
 
             if (color == Color.BLACK) {
@@ -385,14 +373,14 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         }
         
         private boolean checkScripts() {
-        Spinner eventSpinner = findViewById(R.id.evSpin);
-        if (eventSpinner.getSelectedItemPosition() == 0) {
-            Toast.makeText(this, "Must enter script", Toast.LENGTH_SHORT).show();
-            return false;
+            Spinner eventSpinner = findViewById(R.id.evSpin1);
+            if (eventSpinner.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Must enter script", Toast.LENGTH_SHORT).show();
+                return false;
         }
 
-        Spinner actionSpinner = findViewById(R.id.acSpin);
-        EditText scriptScript = findViewById(R.id.imgScript);
+        Spinner actionSpinner = findViewById(R.id.acSpin1);
+        EditText scriptScript = findViewById(R.id.imgScript1);
         String objName = scriptScript.getText().toString();
         String[] sounds = new String[7];
         sounds[0] = "carrotcarrotcarrot";
@@ -404,7 +392,7 @@ public class ShapeEditorActivity extends AppCompatActivity implements AdapterVie
         sounds[6] = "woof";
 
         if (eventSpinner.getSelectedItem().toString().equals("on drop")) {
-            EditText dropTarget = findViewById(R.id.imgTarget);
+            EditText dropTarget = findViewById(R.id.imgTarget1);
             String shapeName = dropTarget.getText().toString();
             String shapeID = game.getShapeIDFromName(shapeName);
             if (shapeID == null || shapeID == "") {

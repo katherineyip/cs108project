@@ -19,7 +19,7 @@ import java.util.List;
 public class ShapeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
     SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
-    Game game = singletonData.getCurrentGame();
+    Game game;
 
     // UI
     Page selectedPage;
@@ -39,6 +39,7 @@ public class ShapeActivity extends AppCompatActivity implements AdapterView.OnIt
         checkboxShapeIsMovable.setChecked(true);
 
         scriptToAdd = "";
+        game = singletonData.getCurrentGame();
 
         // Populate our Spinners
         Spinner eventSpinner = findViewById(R.id.evSpin);
