@@ -23,8 +23,8 @@ import java.util.List;
 
 public class EditorActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     // Data
-    SingletonData singletonData = SingletonData.getInstance(); // Store list of games in memory
-    Game game = singletonData.getCurrentGame();
+    SingletonData singletonData; // Store list of games in memory
+    Game game;
     List<Page> pageList;
     Page currentPage;
 
@@ -41,14 +41,17 @@ public class EditorActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_editor);
 
-        //TODO: REMOVE DEBUG
-        System.out.println("---LOG FROM EditorActivity--- Enter onCreate in EditorActivity ");
+        setContentView(R.layout.activity_editor);
 
         // Get sharedPref file
         gameConfigSharedPref = getSharedPreferences(GAME_CONFIG_SHARED_PREF_FILE, MODE_PRIVATE);
 
+        singletonData = SingletonData.getInstance();
+        //TODO: REMOVE DEBUG
+        System.out.println("---LOG FROM EditorActivity--- Enter onCreate in EditorActivity ");
+
+        game = singletonData.getCurrentGame();
         // Set up current page
         if (game.getCurrentPage() == null) {
             currentPage = game.getStarterPage();
